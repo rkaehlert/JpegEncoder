@@ -4,7 +4,7 @@ import java.util.List;
 
 import exercise_one.exception.NotYetImplementedException;
 
-public class StringToInteger implements Converter<Integer> {
+public class ConverterStringToInteger implements Converter<Integer> {
 	
 	public static Integer convert(List<Character> lstCharacter){
 		 StringBuilder builder = new StringBuilder(lstCharacter.size());
