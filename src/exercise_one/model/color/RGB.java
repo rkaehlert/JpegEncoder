@@ -58,5 +58,17 @@ public class RGB implements Colormodel
     {
         return " RGB [rot = " + red + ", gruen = " + green + ", blau = " + blue + "]";
     }
+    
+    public void increaseRed(int value){
+    	this.red += value;
+    }
+    
+    public void increaseGreen(int value){
+    	this.green += value;
+    }
+    
+    public void increaseBlue(int value){
+    	this.blue += value;
+    }
 
 }

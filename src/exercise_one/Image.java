@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import exercise_one.converter.StringToInteger;
+import exercise_one.converter.ConverterStringToInteger;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.filter.Filter;
@@ -46,7 +46,6 @@ public class Image implements Cloneable
             	boolean isLineBreak = false;
                 int zeichen;
                 int valueCounter = 0;
-                RGB currentPixel = new RGB();
 
                 ArrayList<Character> charList = new ArrayList<>();
 
@@ -68,29 +67,27 @@ public class Image implements Cloneable
                         {
                             if (valueCounter == 0)
                             {
-                                filter.getDimension().setWidth(StringToInteger.convert(charList));
+                                filter.getDimension().setWidth(ConverterStringToInteger.convert(charList));
                             }
                             else if (valueCounter == 1)
                             {
-                            	filter.getDimension().setHeight(StringToInteger.convert(charList));
+                            	filter.getDimension().setHeight(ConverterStringToInteger.convert(charList));
                                 //pixels = new int[height][width][3];
                             }
                             else if (valueCounter == 2)
                             {
-                        		maxColorValue = StringToInteger.convert(charList);
+                        		maxColorValue = ConverterStringToInteger.convert(charList);
                             	new ValidatorMaxColorValue().validate(maxColorValue);
                             }
                             else
                             {
                                 //pixels[rowCounter][columnCounter][currentChannel] = getIntRepresentation(charList);
-                            	currentPixel = filter.filter(charList);
-                            	if(currentPixel != null){
-                            		pixels.put(new Coordinate(filter.getDimension().getColumn(), filter.getDimension().getRow()), currentPixel);
+                            	TreeMap<Coordinate, RGB> filteredPixels = filter.filter(charList);
+                            	if(filteredPixels != null){
+                            		if(filteredPixels.size() > 0){
+                            			this.pixels.putAll(filteredPixels);
+                            		}
                             	}
-                            	if(filter.ready()){
-                                    filter.reset();
-                                    filter.getDimension().increaseColumn();
-                                }
                             	if (filter.getDimension().getColumn() == filter.getDimension().getWidth())
                                 {
                                     filter.getDimension().increaseRow();

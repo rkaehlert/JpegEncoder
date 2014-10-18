@@ -1,49 +1,46 @@
 package exercise_one.filter;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import exercise_one.Image;
-import exercise_one.converter.StringToInteger;
+import exercise_one.converter.ConverterStringToInteger;
 import exercise_one.exception.ImageException;
 import exercise_one.model.color.RGB;
-import exercise_one.validator.ValidatorPixelCount;
-import exercise_one.validator.ValidatorRowCount;
+import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByM extends Filter<RGB> {
 	
-	private static final int OFFSET_ROW = 1;
-	private static final int OFFSET_COL = 1;
+	private static final int OFFSET_ROW = 6;
+	private static final int OFFSET_COL = 4;
 
 	private boolean validRow = false;
 	private boolean validCol = false;
 	
 	@Override
-	public RGB filter(List<Character> lstCorrdinate) {
+	public TreeMap<Coordinate, RGB> filter(List<Character> lstCorrdinate) {
+		TreeMap<Coordinate, RGB> returnValue = new TreeMap<Coordinate, RGB>();
 		this.setValidRow();
 		this.setValidCol();
 		if(this.validRow){
 			if(this.validCol){
-				 if (super.isRedChannel())
-		         {
+				 if (super.isRedChannel()){
 		             super.setCurrentPixel(new RGB());
-		             super.getCurrentPixel().setRed(StringToInteger.convert(lstCorrdinate));
-		             super.setGreenChannel();
+		             super.getCurrentPixel().setRed(ConverterStringToInteger.convert(lstCorrdinate));
+		         }else if (super.isGreenChannel()){
+		        	 super.getCurrentPixel().setGreen(ConverterStringToInteger.convert(lstCorrdinate));
+		         }else if (super.isBlueChannel()){
+		        	 super.getCurrentPixel().setBlue(ConverterStringToInteger.convert(lstCorrdinate));
+					 returnValue.put(new Coordinate(super.getDimension().getColumn(), super.getDimension().getRow()), super.getCurrentPixel());
+					 super.getDimension().increaseColumn();
 		         }
-		         else if (super.isGreenChannel())
-		         {
-		        	 super.getCurrentPixel().setGreen(StringToInteger.convert(lstCorrdinate));
-		             super.setBlueChannel();
-		         }
-		         else if (super.isBlueChannel())
-		         {
-		        	 super.getCurrentPixel().setBlue(StringToInteger.convert(lstCorrdinate));
-		             super.setRedChannel();
-		             super.getDimension().increaseColumn();
-		         }
-				 return super.getCurrentPixel();
 			}
 		}
-		return null;
+		if(super.isBlueChannel()){
+			super.getDimension().increaseColumn();
+		}
+		super.switchChannel();
+		return returnValue;
 	}
 	
 	private void setValidRow(){
@@ -53,7 +50,7 @@ public class FilterReductionByM extends Filter<RGB> {
 	private void setValidCol(){
 		this.validCol = (super.getDimension().getColumn()%OFFSET_COL) == 0;
 	}
-
+	
 	@Override
 	public void reset() {
 		
@@ -61,8 +58,8 @@ public class FilterReductionByM extends Filter<RGB> {
 
 	@Override
 	public void validate(Image image) throws ImageException {
-		new ValidatorPixelCount().validate(super.getDimension(), image);
-		new ValidatorRowCount().validate(super.getDimension());
+//		new ValidatorPixelCount().validate(super.getDimension(), image);
+//		new ValidatorRowCount().validate(super.getDimension());
 	}
 
 	

@@ -1,8 +1,10 @@
 package exercise_one.logger;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 import exercise_one.model.color.Colormodel;
+import exercise_one.model.color.RGB;
 import exercise_one.model.matrix.Coordinate;
 
 public class CoordinateLogger {
@@ -17,18 +19,31 @@ public class CoordinateLogger {
 		this.height = height;
 	}
 	
-	public void log(){
-		for(int row = 0; row < height; row++){
-			for(int col = 0; col < width; col++){
-				Coordinate coor = new Coordinate(col, row);
-				if(this.pixels.containsKey(coor)){
-					System.out.print("X");
-//					System.out.print("(" + coor.getX() + "," + coor.getY() + ")");
-				}else{
+	public void log(boolean isLoggingEnabled){
+		System.out.println("----------------------------------------------------------");
+		System.out.println("Anzahl Einträge: " + pixels.size());
+		System.out.println("Anzahl Zeilen: " + height);
+		System.out.println("Anzahl Spalten: " + width);
+		System.out.println("----------------------------------------------------------");
+		if(isLoggingEnabled){
+			int last_x = 0;
+			for(Map.Entry<Coordinate, Colormodel> entry : pixels.entrySet()){
+				if(!(entry.getKey().getX() >= last_x)){
 					System.out.print(" ");
 				}
+				last_x = entry.getKey().getX();
+				if(entry.getValue() instanceof RGB){
+					//					System.out.print("X");
+					//System.out.print("(" + ((RGB)entry.getValue()).getRed() + "," + ((RGB)entry.getValue()).getGreen() + "," + ((RGB)entry.getValue()).getBlue() + ")");
+					System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
+				}else{
+					System.out.print("X");
+				}
+				if(entry.getKey().getX() >= width){
+					System.out.print("\n");
+					last_x = 0;
+				}
 			}
-			System.out.print("\n");
 		}
 	}
 	

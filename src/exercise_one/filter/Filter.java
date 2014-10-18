@@ -1,10 +1,12 @@
 package exercise_one.filter;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import exercise_one.Image;
 import exercise_one.exception.ImageException;
 import exercise_one.model.color.RGB;
+import exercise_one.model.matrix.Coordinate;
 import exercise_one.model.matrix.Dimension;
 
 public abstract class Filter <T> {
@@ -16,16 +18,11 @@ public abstract class Filter <T> {
     private Dimension dimension = new Dimension();
     private RGB currentPixel = new RGB();
 	private int currentChannel = RED;
-    private Boolean ready = false;
 	
-	public abstract T filter(List<Character> lstCorrdinate);
+	public abstract TreeMap<Coordinate, RGB> filter(List<Character> lstCorrdinate);
 	public abstract void reset();
 	public abstract void validate(Image image) throws ImageException;
-	
-	public boolean ready(){
-		return this.ready;
-	}
-	
+
 	public RGB getCurrentPixel() {
 		return currentPixel;
 	}
@@ -60,17 +57,22 @@ public abstract class Filter <T> {
 	public boolean isGreenChannel(){
 		return this.currentChannel == GREEN;
 	}
-	public Boolean getReady() {
-		return ready;
-	}
-	public void setReady(Boolean ready) {
-		this.ready = ready;
-	}
 	public Dimension getDimension() {
 		return dimension;
 	}
 	public void setDimension(Dimension dimension) {
 		this.dimension = dimension;
+	}
+	public void switchChannel(){
+		 if (this.isRedChannel()){
+             this.setGreenChannel();
+         }
+         else if (this.isGreenChannel()){
+        	 this.setBlueChannel();
+         }
+         else if (this.isBlueChannel()){
+        	 this.setRedChannel();
+         }
 	}
 	
 }
