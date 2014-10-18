@@ -23,11 +23,11 @@ public class FilterReductionByMiddleValue extends Filter<RGB> {
 			sum_rgb.put(startingPointCoordinate, new RGB());
 		}
      	switch(super.getCurrentChannel()){
-        	case RED:  	this.sum_rgb.get(startingPointCoordinate).increaseRed(value/OFFSET);
+        	case RED:  	this.sum_rgb.get(startingPointCoordinate).increaseRed(value/OFFSET*OFFSET);
         				break;
-        	case GREEN: this.sum_rgb.get(startingPointCoordinate).increaseGreen(value/OFFSET);
+        	case GREEN: this.sum_rgb.get(startingPointCoordinate).increaseGreen(value/OFFSET*OFFSET);
         				break;
-        	case BLUE:	this.sum_rgb.get(startingPointCoordinate).increaseBlue(value/OFFSET);
+        	case BLUE:	this.sum_rgb.get(startingPointCoordinate).increaseBlue(value/OFFSET*OFFSET);
         				break;
      	}
 		if(super.isBlueChannel()){
