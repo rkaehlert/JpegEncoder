@@ -5,6 +5,6 @@ public class UnsupportedImageFormatException extends Exception
     @Override
     public String getMessage()
     {
-        return "Das Bildformat wird nicht unterstützt";
+        return "Das Bildformat wird nicht unterstuetzt";
     }
 }

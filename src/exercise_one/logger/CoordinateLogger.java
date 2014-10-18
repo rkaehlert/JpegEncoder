@@ -21,7 +21,7 @@ public class CoordinateLogger {
 	
 	public void log(boolean isLoggingEnabled){
 		System.out.println("----------------------------------------------------------");
-		System.out.println("Anzahl Einträge: " + pixels.size());
+		System.out.println("Anzahl Eintraege: " + pixels.size());
 		System.out.println("Anzahl Zeilen: " + height);
 		System.out.println("Anzahl Spalten: " + width);
 		System.out.println("----------------------------------------------------------");

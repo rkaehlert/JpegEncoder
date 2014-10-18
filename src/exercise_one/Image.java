@@ -122,7 +122,7 @@ public class Image implements Cloneable
             }
             catch (IOException e)
             {
-                System.out.println("Fehler beim Schließen des Streams.");
+                System.out.println("Fehler beim Schliessen des Streams.");
                 throw e;
             }
         }

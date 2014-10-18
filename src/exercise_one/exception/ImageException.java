@@ -13,6 +13,6 @@ public class ImageException extends Exception
     @Override
     public String getMessage()
     {
-    	return super.getMessage() == null ? "Das einzulesende Bild enthält Fehler" : super.getMessage(); 
+    	return super.getMessage() == null ? "Das einzulesende Bild enthaelt Fehler" : super.getMessage(); 
     }
 }
