@@ -31,14 +31,33 @@ public class Coordinate implements Comparable
         this.y = y;
     }
 
-    public int compareTo(Object o)
-    {
-        if(this.y > ((Coordinate)o).y) return 1;
-        else if(this.y <= ((Coordinate)o).y && this.x > ((Coordinate)o).x) return 1;
-        else if(this.y == ((Coordinate)o).y && this.x == ((Coordinate)o).x) return 0;
-        else return -1;
-    }
-    
+//    public int compareTo(Object o)
+//    {
+//        if(this.y > ((Coordinate)o).y) return 1;
+//        else if(this.y <= ((Coordinate)o).y && this.x > ((Coordinate)o).x) return 1;
+//        else if(this.y == ((Coordinate)o).y && this.x == ((Coordinate)o).x) return 0;
+//        else return -1;
+//    }
+
+	public int compareTo(Object o) {
+		Coordinate coordinate = (Coordinate) o;
+		int x, y;
+		if (this.y != coordinate.y) {
+			y = this.y;
+			x = coordinate.y;
+		} else {
+			y = this.x;
+			x = coordinate.x;
+		}
+		if (y < x)
+			return -1;
+		else if (y == x)
+			return 0;
+		else
+			return 1;
+
+	}
+
     @Override
     public int hashCode()
     {

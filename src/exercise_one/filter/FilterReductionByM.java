@@ -12,7 +12,7 @@ import exercise_one.model.matrix.Coordinate;
 public class FilterReductionByM extends Filter<RGB> {
 	
 	private static final int OFFSET_ROW = 1;
-	private static final int OFFSET_COL = 3;
+	private static final int OFFSET_COL = 4;
 
 	private boolean validRow = false;
 	private boolean validCol = false;
@@ -32,7 +32,6 @@ public class FilterReductionByM extends Filter<RGB> {
 		         }else if (super.isBlueChannel()){
 		        	 super.getCurrentPixel().setBlue(ConverterStringToInteger.convert(lstCorrdinate));
 					 returnValue.put(new Coordinate(super.getDimension().getColumn(), super.getDimension().getRow()), super.getCurrentPixel());
-					 super.getDimension().increaseColumn();
 		         }
 			}
 		}

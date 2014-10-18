@@ -5,7 +5,7 @@ import java.io.IOException;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.filter.Filter;
-import exercise_one.filter.FilterReductionByM;
+import exercise_one.filter.FilterReductionByMiddleValue;
 import exercise_one.logger.CoordinateLogger;
 
 public class JpegEncoder
@@ -14,8 +14,8 @@ public class JpegEncoder
     {
         try
         {   
-        	//long start = System.currentTimeMillis();
-        	Filter filter = new FilterReductionByM();
+        	long start = System.currentTimeMillis();
+        	Filter filter = new FilterReductionByMiddleValue();
             Image source = new Image("C:\\Users\\xSmorpheusSx\\Desktop\\16.ppm", filter);
             new CoordinateLogger(source.getPixels(), filter.getDimension().getWidth(), filter.getDimension().getHeight()).log(true);
             //System.out.println(System.currentTimeMillis() - start);
