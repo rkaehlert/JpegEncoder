@@ -11,7 +11,7 @@ import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByMiddleValue extends Filter<RGB> {
 	
-	private static final int OFFSET = 3;
+	private static final int OFFSET = 2;
 	
 	private TreeMap<Coordinate, RGB> sum_rgb = new TreeMap<>();
 	
