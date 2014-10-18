@@ -17,7 +17,7 @@ public class JpegEncoder
         	//long start = System.currentTimeMillis();
         	Filter filter = new FilterReductionByM();
             Image source = new Image("C:\\Users\\xSmorpheusSx\\Desktop\\16.ppm", filter);
-            new CoordinateLogger(source.getPixels(), filter.getDimension().getWidth(), filter.getDimension().getHeight()).log(false);
+            new CoordinateLogger(source.getPixels(), filter.getDimension().getWidth(), filter.getDimension().getHeight()).log(true);
             //System.out.println(System.currentTimeMillis() - start);
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex)

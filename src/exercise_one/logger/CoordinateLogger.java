@@ -26,22 +26,19 @@ public class CoordinateLogger {
 		System.out.println("Anzahl Spalten: " + width);
 		System.out.println("----------------------------------------------------------");
 		if(isLoggingEnabled){
-			int last_x = 0;
+			int last_y = 0;
 			for(Map.Entry<Coordinate, Colormodel> entry : pixels.entrySet()){
-				if(!(entry.getKey().getX() >= last_x)){
-					System.out.print(" ");
+				if(entry.getKey().getY() > last_y){
+					System.out.print("\n");
+					last_y = 0;
 				}
-				last_x = entry.getKey().getX();
+				last_y = entry.getKey().getY();
 				if(entry.getValue() instanceof RGB){
-					//					System.out.print("X");
+					//System.out.print("X");
 					//System.out.print("(" + ((RGB)entry.getValue()).getRed() + "," + ((RGB)entry.getValue()).getGreen() + "," + ((RGB)entry.getValue()).getBlue() + ")");
 					System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
 				}else{
 					System.out.print("X");
-				}
-				if(entry.getKey().getX() >= width){
-					System.out.print("\n");
-					last_x = 0;
 				}
 			}
 		}

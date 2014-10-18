@@ -11,8 +11,8 @@ import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByM extends Filter<RGB> {
 	
-	private static final int OFFSET_ROW = 6;
-	private static final int OFFSET_COL = 4;
+	private static final int OFFSET_ROW = 1;
+	private static final int OFFSET_COL = 3;
 
 	private boolean validRow = false;
 	private boolean validCol = false;
