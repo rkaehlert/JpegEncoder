@@ -13,7 +13,7 @@ public class ValidatorRowCount implements Validator {
 	
 	public void validate(Dimension dimension) throws ImageException {
         if (dimension.getRow() < dimension.getHeight()){
-            throw new ImageException("Die ermittelten Zeilen passen nicht zur Höhe des Bildes");
+            throw new ImageException("Die ermittelten Zeilen passen nicht zur Hoehe des Bildes");
         }
 	}
 

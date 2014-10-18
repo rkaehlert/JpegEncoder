@@ -16,7 +16,7 @@ public class JpegEncoder
         {   
         	long start = System.currentTimeMillis();
         	Filter filter = new FilterDefault();
-            Image source = new Image("C:\\Users\\xSmorpheusSx\\Desktop\\ppm_bild.ppm", filter);
+            Image source = new Image("G:\\Studium\\6. Semester\\MI2\\ppm_bild.ppm", filter);
             new CoordinateLogger(source.getPixels(), filter.getDimension().getWidth(), filter.getDimension().getHeight()).log(true);
             //System.out.println(System.currentTimeMillis() - start);
         }

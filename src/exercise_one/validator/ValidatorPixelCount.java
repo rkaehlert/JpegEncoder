@@ -13,7 +13,7 @@ public class ValidatorPixelCount implements Validator {
 	
 	public void validate(Dimension dimension, Image image) throws ImageException {
 		if((dimension.getWidth() * dimension.getHeight()) != image.getPixels().size()){
-        	throw new ImageException("Die ermittelte Größe passt nicht zu den ausgewerteten Bildpunkten");
+        	throw new ImageException("Die ermittelte Groesse passt nicht zu den ausgewerteten Bildpunkten");
         }
 	}
 	
