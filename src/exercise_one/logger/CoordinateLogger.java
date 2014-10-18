@@ -35,8 +35,8 @@ public class CoordinateLogger {
 				last_y = entry.getKey().getY();
 				if(entry.getValue() instanceof RGB){
 					//System.out.print("X");
-					//System.out.print("(" + ((RGB)entry.getValue()).getRed() + "," + ((RGB)entry.getValue()).getGreen() + "," + ((RGB)entry.getValue()).getBlue() + ")");
-					System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
+					System.out.print("(" + ((RGB)entry.getValue()).getRed() + "," + ((RGB)entry.getValue()).getGreen() + "," + ((RGB)entry.getValue()).getBlue() + ")");
+					//System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
 				}else{
 					System.out.print("X");
 				}
