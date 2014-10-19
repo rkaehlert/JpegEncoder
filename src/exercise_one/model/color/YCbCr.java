@@ -39,7 +39,11 @@ public class YCbCr implements Colormodel {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	public void add(double y, double cb, double cr){
+		this.y += y;
+		this.cb += cb;
+		this.cr += cr;
+	}
 
 }
 
