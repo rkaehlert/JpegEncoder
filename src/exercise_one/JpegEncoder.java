@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import exercise_one.converter.ConverterRGBToYCbCr;
 import exercise_one.exception.ImageException;
+import exercise_one.exception.InvalidParameterException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.file.reader.FileReaderPPM;
 import exercise_one.filter.FilterReductionByMiddleValue;
@@ -38,7 +39,7 @@ public class JpegEncoder{
             timeLogger.stop();
             timeLogger.log();
         }
-        catch (UnsupportedImageFormatException | ImageException | IOException ex){
+        catch (UnsupportedImageFormatException | ImageException | IOException | InvalidParameterException ex){
             System.out.println(ex.getMessage());
         }
     }
