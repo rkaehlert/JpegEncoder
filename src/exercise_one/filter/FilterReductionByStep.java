@@ -8,17 +8,17 @@ import exercise_one.model.color.Colormodel;
 import exercise_one.model.color.YCbCr;
 import exercise_one.model.matrix.Coordinate;
 
-public class FilterReductionByM extends Filter {
+public class FilterReductionByStep extends Filter {
 	
 	private int OFFSET_ROW = 2;
 	private int OFFSET_COL = 2;
 	
-	public FilterReductionByM(int offsetRow, int offsetCol) {
+	public FilterReductionByStep(int offsetRow, int offsetCol) {
 		OFFSET_COL = offsetCol;
 		OFFSET_ROW = offsetRow;
 	}
 	
-	public FilterReductionByM() {
+	public FilterReductionByStep() {
 	}
 	
 	@Override
