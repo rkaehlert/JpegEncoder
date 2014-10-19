@@ -15,7 +15,7 @@ import exercise_one.model.matrix.Coordinate;
 
 public class JpegEncoder{
 	
-	private static final int PARAMETER_IMAGE_PATH = 0;
+	private static final int PARAMETER_INDEX_IMAGE_PATH = 0;
 	
     public static void main(String[] args)
     {
@@ -27,7 +27,7 @@ public class JpegEncoder{
         	
             FileReaderPPM source = new FileReaderPPM();
             
-            TreeMap<Coordinate, Colormodel> pixel = source.read(args[PARAMETER_IMAGE_PATH]);
+            TreeMap<Coordinate, Colormodel> pixel = source.read(args[PARAMETER_INDEX_IMAGE_PATH]);
 
             pixel = ConverterRGBToYCbCr.convert(pixel);
             
