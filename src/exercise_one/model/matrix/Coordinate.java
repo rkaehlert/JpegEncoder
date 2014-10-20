@@ -2,6 +2,7 @@ package exercise_one.model.matrix;
 
 public class Coordinate implements Comparable
 {
+
     private int x;
     private int y;
 
@@ -38,34 +39,44 @@ public class Coordinate implements Comparable
 //        else if(this.y == ((Coordinate)o).y && this.x == ((Coordinate)o).x) return 0;
 //        else return -1;
 //    }
+    @Override
+    public int compareTo(Object o)
+    {
+        Coordinate coordinate = (Coordinate) o;
+        int x, y;
+        if (this.y != coordinate.y)
+        {
+            y = this.y;
+            x = coordinate.y;
+        }
+        else
+        {
+            y = this.x;
+            x = coordinate.x;
+        }
+        if (y < x)
+        {
+            return -1;
+        }
+        else if (y == x)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
 
-	public int compareTo(Object o) {
-		Coordinate coordinate = (Coordinate) o;
-		int x, y;
-		if (this.y != coordinate.y) {
-			y = this.y;
-			x = coordinate.y;
-		} else {
-			y = this.x;
-			x = coordinate.x;
-		}
-		if (y < x)
-			return -1;
-		else if (y == x)
-			return 0;
-		else
-			return 1;
-
-	}
+    }
 
     @Override
     public int hashCode()
     {
-        int hash = 5;
-        hash = 71 * hash + this.x;
-        hash = 71 * hash + this.y;
+        int hash = 7;
+        hash = 37 * hash + this.x;
+        hash = 37 * hash + this.y;
         return hash;
-    }    
+    }
 
     @Override
     public boolean equals(Object o)
@@ -90,7 +101,7 @@ public class Coordinate implements Comparable
         }
         return true;
     }
-    
+
     @Override
     public String toString()
     {

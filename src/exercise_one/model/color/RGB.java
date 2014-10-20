@@ -56,7 +56,7 @@ public class RGB implements Colormodel
     @Override
     public String toString()
     {
-        return " RGB [rot = " + red + ", gruen = " + green + ", blau = " + blue + "]";
+        return String.format("%03d", red) + " " + String.format("%03d", green) + " " + String.format("%03d", blue);
     }
     
     public void increaseRed(int value){
