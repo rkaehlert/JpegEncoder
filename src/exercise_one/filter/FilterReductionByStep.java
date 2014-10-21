@@ -28,15 +28,23 @@ public class FilterReductionByStep extends Filter {
 			YCbCr ycbcr = null;
 			Coordinate coordinate = null;
 			for(Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()){
+				if(!(entry.getValue() instanceof YCbCr)){
+					throw new IllegalArgumentException("es wurde ein falsches farbmodell uebergeben");
+				}
 				coordinate = (Coordinate)entry.getKey();
 				ycbcr = (YCbCr)entry.getValue();
-				if(this.isValidCoordinate(coordinate)){
-					returnValue.put(coordinate, ycbcr);
-				}else{
-					ycbcr.setCb(null);
-					ycbcr.setCr(null);
-					returnValue.put(coordinate, ycbcr);
+				if(!this.isValidCoordinate(coordinate)){
+					if(ycbcr.getYChannel().isReduced() == true){
+						ycbcr.getYChannel().reset();
+					}
+					if(ycbcr.getCbChannel().isReduced() == true){
+						ycbcr.getCbChannel().reset();
+					}
+					if(ycbcr.getCrChannel().isReduced() == true){
+						ycbcr.getCrChannel().reset();
+					}
 				}
+				returnValue.put(coordinate, ycbcr);
 			}
 			return returnValue;
 		}else{

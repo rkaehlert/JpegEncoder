@@ -10,7 +10,7 @@ import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByMiddleValue extends Filter {
 	
-	private static final int OFFSET = 2;
+	private static final int OFFSET = 4;
 	
 	@Override
 	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) throws InvalidParameterException {
@@ -18,8 +18,9 @@ public class FilterReductionByMiddleValue extends Filter {
 		if(pixel != null){
 			Coordinate startingBlockCoordinate = null;
 			YCbCr startingBlockColormodel = null;
-			YCbCr ycbcr = null;
 			Coordinate currentCoordinate = null;
+			YCbCr ycbcr = null;
+			
 			for(Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()){
 				currentCoordinate = entry.getKey();
 				ycbcr = (YCbCr)entry.getValue();
@@ -28,7 +29,11 @@ public class FilterReductionByMiddleValue extends Filter {
 					returnValue.put(startingBlockCoordinate, new YCbCr());
 				}
 				startingBlockColormodel = (YCbCr)returnValue.get(startingBlockCoordinate);
-				startingBlockColormodel.add(ycbcr.getY()/OFFSET*OFFSET, ycbcr.getCb()/OFFSET*OFFSET, ycbcr.getCr()/OFFSET*OFFSET);
+				startingBlockColormodel.add(ycbcr.getY()/(OFFSET*OFFSET), ycbcr.getCb()/(OFFSET*OFFSET), ycbcr.getCr()/(OFFSET*OFFSET));
+				
+				if(!entry.getKey().equals(startingBlockCoordinate)){
+					returnValue.put(entry.getKey(), this.generateReducedColorModel(ycbcr));
+				}
 			}
 		}else{
 			throw new InvalidParameterException("es wurde kein farbmodell uebergeben");
@@ -36,7 +41,23 @@ public class FilterReductionByMiddleValue extends Filter {
 		return returnValue;
 	}
 	
-	private Coordinate getStartingPoint(int row, int column){
+	private Colormodel generateReducedColorModel(YCbCr value) {
+		Double y = value.getY();
+		Double cb = value.getCb();
+		Double cr = value.getCr();
+		if(value.getYChannel().isReduced()){
+			y = null;
+		}
+		if(value.getCbChannel().isReduced()){
+			cb = null;
+		}
+		if(value.getCrChannel().isReduced()){
+			cr = null;
+		}
+		return new YCbCr(y,cb,cr);
+	}
+
+	private Coordinate getStartingPoint(int row, int column) {
 		int x = column-(column%OFFSET);
 		int y = row-(row%OFFSET);
 		if(x < 0){

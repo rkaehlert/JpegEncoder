@@ -3,7 +3,7 @@ package exercise_one.file.image;
 import java.util.TreeMap;
 
 import exercise_one.exception.InvalidParameterException;
-import exercise_one.filter.FilterReductionByStep;
+import exercise_one.filter.Filter;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
 
@@ -23,7 +23,7 @@ public abstract class Image
     }
     
 
-	public TreeMap<Coordinate, Colormodel> filter(FilterReductionByStep filter) {
+	public TreeMap<Coordinate, Colormodel> filter(Filter filter) {
 		try {
 			return filter.filter(this.pixel);
 		} catch (InvalidParameterException e) {
