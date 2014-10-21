@@ -1,12 +1,12 @@
 package exercise_one.file.image;
 
-import exercise_one.JpegEncoder;
-import exercise_one.converter.ConverterRGBToYCbCr;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import exercise_one.JpegEncoder;
+import exercise_one.converter.ConverterRGBToYCbCr;
 import exercise_one.converter.ConverterStringToInteger;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;

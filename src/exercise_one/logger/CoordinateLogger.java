@@ -39,8 +39,9 @@ public class CoordinateLogger implements Logger
                 }
                 else if (entry.getValue() instanceof YCbCr)
                 {
-                    System.out.print("(" + entry.getValue().toString() + ")");
-                    //System.out.print("(" + ((YCbCr)entry.getValue()).getY() + "," + ((YCbCr)entry.getValue()).getCb() + "," + ((YCbCr)entry.getValue()).getCr() + ")");
+//                    System.out.print("(" + entry.getValue().toString() + ")");
+//                	System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
+                    System.out.print("(" + ((YCbCr)entry.getValue()).getY() + "," + ((YCbCr)entry.getValue()).getCb() + "," + ((YCbCr)entry.getValue()).getCr() + ")");
                 }
                 else
                 {

@@ -2,6 +2,8 @@ package exercise_one.file.image;
 
 import java.util.TreeMap;
 
+import exercise_one.exception.InvalidParameterException;
+import exercise_one.filter.FilterReductionByStep;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
 
@@ -19,4 +21,14 @@ public abstract class Image
     {
         return this.pixel;
     }
+    
+
+	public TreeMap<Coordinate, Colormodel> filter(FilterReductionByStep filter) {
+		try {
+			return filter.filter(this.pixel);
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

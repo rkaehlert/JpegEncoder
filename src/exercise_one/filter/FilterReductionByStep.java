@@ -10,7 +10,7 @@ import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByStep extends Filter {
 	
-	private int OFFSET_ROW = 2;
+	private int OFFSET_ROW = 1;
 	private int OFFSET_COL = 2;
 	
 	public FilterReductionByStep(int offsetRow, int offsetCol) {
@@ -30,10 +30,12 @@ public class FilterReductionByStep extends Filter {
 			for(Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()){
 				coordinate = (Coordinate)entry.getKey();
 				ycbcr = (YCbCr)entry.getValue();
-				if(this.isValidRow(coordinate.getY())){
-					if(this.isValidCol(coordinate.getX())){
-						returnValue.put(coordinate, ycbcr);
-					}
+				if(this.isValidCoordinate(coordinate)){
+					returnValue.put(coordinate, ycbcr);
+				}else{
+					ycbcr.setCb(null);
+					ycbcr.setCr(null);
+					returnValue.put(coordinate, ycbcr);
 				}
 			}
 			return returnValue;
@@ -42,6 +44,15 @@ public class FilterReductionByStep extends Filter {
 		}
 	}
 	
+	private boolean isValidCoordinate(Coordinate coordinate) {
+		if(this.isValidRow(coordinate.getY())){
+			if(this.isValidCol(coordinate.getX())){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private boolean isValidRow(int row){
 		return (row%OFFSET_ROW) == 0;
 	}
