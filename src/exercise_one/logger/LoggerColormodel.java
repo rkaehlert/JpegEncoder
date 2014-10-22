@@ -9,8 +9,11 @@ import exercise_one.model.color.RGB;
 import exercise_one.model.color.YCbCr;
 import exercise_one.model.matrix.Coordinate;
 
-public class CoordinateLogger implements Logger
+public class LoggerColormodel implements Logger
 {
+	
+	LoggerRGB loggerRGB = new LoggerRGB();
+	LoggerYCbCr loggerYCbCr = new LoggerYCbCr();
 
     public void log(TreeMap<Coordinate, Colormodel> pixel, String colormodel, int width, int height, boolean isLoggingEnabled)
     {
@@ -33,15 +36,12 @@ public class CoordinateLogger implements Logger
                 last_y = entry.getKey().getY();
                 if (entry.getValue() instanceof RGB)
                 {
-                    //System.out.print("X");
-                    System.out.print("(" + entry.getValue().toString() + ")");
-                    //System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
+                	loggerRGB.log((RGB)entry.getValue());
                 }
                 else if (entry.getValue() instanceof YCbCr)
                 {
-//                  System.out.print("(" + entry.getValue().toString() + ")");
-//                	System.out.print("(" + entry.getKey().getX() + "," + entry.getKey().getY() + ")");
-                  System.out.print("(" + ((YCbCr)entry.getValue()).getY() + "," + ((YCbCr)entry.getValue()).getCb() + "," + ((YCbCr)entry.getValue()).getCr() + ")");
+                	loggerYCbCr.log((YCbCr)entry.getValue());
+            		
                 }
                 else
                 {

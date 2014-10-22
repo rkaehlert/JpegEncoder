@@ -105,6 +105,6 @@ public class Coordinate implements Comparable
     @Override
     public String toString()
     {
-        return "Koordinate [x = " + x + ", y = " + y + "] ";
+        return "(" + x + " " + y + ")";
     }
 }
