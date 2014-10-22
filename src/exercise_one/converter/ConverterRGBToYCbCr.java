@@ -46,7 +46,7 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr>
                     ycbcr.setCb(new ColorChannel<Double>(128 + ((-0.1687 * rgb.getRed()) + (-0.3312 * rgb.getGreen()) + (0.5 * rgb.getBlue()))));
                     ycbcr.setCr(new ColorChannel<Double>(128 + ((0.5 * rgb.getRed()) + (-0.4186 * rgb.getGreen()) + (-0.0813 * rgb.getBlue()))));
                     ycbcr.getYChannel().setReduced(REDUCED_Y_CHANNEL);
-                    ycbcr.getCrChannel().setReduced(REDUCED_CR_CHANNEL);
+                    ycbcr.getCrChannel().setReduced(REDUCED_CR_CHANNEL); 
                     ycbcr.getCbChannel().setReduced(REDUCED_CB_CHANNEL);   
                     returnValue.put(entry.getKey(), ycbcr);
                 }
