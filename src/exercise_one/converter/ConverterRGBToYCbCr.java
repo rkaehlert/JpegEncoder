@@ -15,7 +15,7 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr>
 {
 	public static final boolean REDUCED_Y_CHANNEL = false;
 	public static final boolean REDUCED_CB_CHANNEL = true;
-	public static final boolean REDUCED_CR_CHANNEL = false;
+	public static final boolean REDUCED_CR_CHANNEL = true;
 	
     @Override
     public YCbCr convert()

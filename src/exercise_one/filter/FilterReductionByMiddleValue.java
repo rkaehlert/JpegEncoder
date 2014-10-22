@@ -3,40 +3,53 @@ package exercise_one.filter;
 import java.util.Map;
 import java.util.TreeMap;
 
-import exercise_one.exception.InvalidParameterException;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.color.YCbCr;
 import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByMiddleValue extends Filter {
 	
-	private static final int OFFSET = 4;
+	private static final int OFFSET = 2;
 	
 	@Override
-	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) throws InvalidParameterException {
+	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) {
+		Coordinate startingBlockCoordinate = null;
+		YCbCr startingBlockColormodel = null;
 		TreeMap<Coordinate, Colormodel> returnValue = new TreeMap<Coordinate, Colormodel>();
-		if(pixel != null){
-			Coordinate startingBlockCoordinate = null;
-			YCbCr startingBlockColormodel = null;
-			Coordinate currentCoordinate = null;
-			YCbCr ycbcr = null;
-			
-			for(Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()){
-				currentCoordinate = entry.getKey();
-				ycbcr = (YCbCr)entry.getValue();
-				startingBlockCoordinate = this.getStartingPoint(currentCoordinate.getY(), currentCoordinate.getX());
-				if(!returnValue.containsKey(startingBlockCoordinate)){
-					returnValue.put(startingBlockCoordinate, new YCbCr());
+		YCbCr ycbcr = null;
+		Coordinate currentCoordinate = null;
+		for(Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()){
+			currentCoordinate = entry.getKey();
+			ycbcr = (YCbCr)entry.getValue();
+			startingBlockCoordinate = this.getStartingPoint(currentCoordinate.getY(), currentCoordinate.getX());
+			if(!returnValue.containsKey(startingBlockCoordinate)){
+				YCbCr newColorModel 	= new YCbCr();
+				if(!ycbcr.getYChannel().isReduced()){
+					newColorModel.getYChannel().setValue(ycbcr.getY());
 				}
-				startingBlockColormodel = (YCbCr)returnValue.get(startingBlockCoordinate);
-				startingBlockColormodel.add(ycbcr.getY()/(OFFSET*OFFSET), ycbcr.getCb()/(OFFSET*OFFSET), ycbcr.getCr()/(OFFSET*OFFSET));
-				
-				if(!entry.getKey().equals(startingBlockCoordinate)){
-					returnValue.put(entry.getKey(), this.generateReducedColorModel(ycbcr));
+				if(!ycbcr.getCbChannel().isReduced()){
+					newColorModel.getCbChannel().setValue(ycbcr.getCb());
 				}
+				if(!ycbcr.getCrChannel().isReduced()){
+					newColorModel.getCrChannel().setValue(ycbcr.getCr());
+				}
+				returnValue.put(startingBlockCoordinate, newColorModel);
+					
 			}
-		}else{
-			throw new InvalidParameterException("es wurde kein farbmodell uebergeben");
+			startingBlockColormodel = (YCbCr)returnValue.get(startingBlockCoordinate);
+						
+			if(ycbcr.getYChannel().isReduced()){
+				startingBlockColormodel.add(ycbcr.getY()/(OFFSET*OFFSET), 0.0, 0.0);
+			}
+			if(ycbcr.getCbChannel().isReduced()){
+				startingBlockColormodel.add(0.0, ycbcr.getCb()/(OFFSET*OFFSET), 0.0);
+			}
+			if(ycbcr.getCrChannel().isReduced()){
+				startingBlockColormodel.add(0.0, 0.0, ycbcr.getCr()/(OFFSET*OFFSET));
+			}
+			if(!startingBlockCoordinate.equals(entry.getKey())){
+				returnValue.put(entry.getKey(), this.generateReducedColorModel(ycbcr));
+			}
 		}
 		return returnValue;
 	}
@@ -47,12 +60,18 @@ public class FilterReductionByMiddleValue extends Filter {
 		Double cr = value.getCr();
 		if(value.getYChannel().isReduced()){
 			y = null;
+		}else{
+			y = value.getY();
 		}
 		if(value.getCbChannel().isReduced()){
 			cb = null;
+		}else{
+			cb = value.getCb();
 		}
 		if(value.getCrChannel().isReduced()){
 			cr = null;
+		}else{
+			cr = value.getCr();
 		}
 		return new YCbCr(y,cb,cr);
 	}

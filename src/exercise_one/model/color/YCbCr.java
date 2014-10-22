@@ -11,9 +11,9 @@ public class YCbCr implements Colormodel
     
     public YCbCr(){
     	super();
-   	 	this.y = new ColorChannel<Double>(0.0);
-    	this.cb = new ColorChannel<Double>(0.0);
-    	this.cr = new ColorChannel<Double>(0.0);
+   	 	this.y = new ColorChannel<Double>(null);
+    	this.cb = new ColorChannel<Double>(null);
+    	this.cr = new ColorChannel<Double>(null);
     }
     
     public YCbCr(Double y, Double cb, Double cr){
@@ -26,7 +26,7 @@ public class YCbCr implements Colormodel
     @Override
     public String toString()
     {
-        DecimalFormat format = new DecimalFormat(" ###000.00;-###000.00");
+        DecimalFormat format = new DecimalFormat(" ###.00;-###.00");
         String y = this.y.getValue() == null ? null : format.format(this.y.getValue());
         String cb = this.cb.getValue() == null ? null : format.format(this.cb.getValue());
         String cr = this.cr.getValue() == null ? null : format.format(this.cr.getValue());
@@ -84,15 +84,18 @@ public class YCbCr implements Colormodel
 	
     public void add(Double y, Double cb, Double cr)
     {
-    	if(y != null){
-    		this.y.setValue(this.y.getValue() + y);
+    	if(this.getY() == null){
+    		this.y.setValue(0.0);
     	}
-    	if(cb != null){
-    		this.cb.setValue(this.cb.getValue() + cb);
+    	this.y.setValue(this.y.getValue() + y);
+    	if(this.getCb() == null){
+    		this.cb.setValue(0.0);
     	}
-    	if(cr != null){
-    		this.cr.setValue(this.cr.getValue() + cr);
+    	this.cb.setValue(this.cb.getValue() + cb);
+    	if(this.getCr() == null){
+    		this.cr.setValue(0.0);
     	}
+    	this.cr.setValue(this.cr.getValue() + cr);
     }
 
 }
