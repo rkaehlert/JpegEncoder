@@ -9,7 +9,7 @@ import exercise_one.model.matrix.Coordinate;
 
 public class FilterReductionByMiddleValue extends Filter {
 	
-	private static final int OFFSET = 2;
+	private static final int OFFSET = 4;
 	
 	@Override
 	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) {

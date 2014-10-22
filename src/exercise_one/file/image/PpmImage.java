@@ -149,6 +149,7 @@ public class PpmImage extends Image implements Cloneable
                         }
                         columnCounter++;
                     }
+                    width += randRechts;
                 }
                 if (0 <= (randUnten = schrittweite - (height % schrittweite)) && (height % schrittweite) != 0)
                 {
@@ -182,6 +183,7 @@ public class PpmImage extends Image implements Cloneable
                         }
                         rowCounter++;
                     }
+                    height += randUnten;
                 }
             }
             else

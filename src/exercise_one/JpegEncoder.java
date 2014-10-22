@@ -29,7 +29,7 @@ public class JpegEncoder
             
             timeLogger.start();
 
-            PpmImage image = new PpmImage(args[PARAMETER_INDEX_IMAGE_PATH], 9, FILL_MODE_BORDER);
+            PpmImage image = new PpmImage(args[PARAMETER_INDEX_IMAGE_PATH], 16, FILL_MODE_WHITE);
             image.convertToYCbCr();
             filteredPixel = image.filter(new FilterReductionByMiddleValue());
             
