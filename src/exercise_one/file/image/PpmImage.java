@@ -119,14 +119,14 @@ public class PpmImage extends Image implements Cloneable
                         }
                     }
                 }
-//                if ((width * height) != super.getPixel().size())
-//                {
-//                    throw new ImageException("Unzureichende Anzahl an Spalten");
-//                }
-//                if (rowCounter < height)
-//                {
-//                    throw new ImageException();
-//                }
+                if ((width * height) != super.getPixel().size())
+                {
+                    throw new ImageException("Unzureichende Anzahl an Spalten");
+                }
+                if (rowCounter < height)
+                {
+                    throw new ImageException();
+                }
 
                 columnCounter = 0;
                 rowCounter = 0;

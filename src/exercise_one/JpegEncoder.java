@@ -6,7 +6,6 @@ import java.util.TreeMap;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.file.image.PpmImage;
-import exercise_one.filter.FilterReductionByMiddleValue;
 import exercise_one.logger.LoggerColormodel;
 import exercise_one.logger.LoggerTimer;
 import exercise_one.model.color.Colormodel;
@@ -30,10 +29,10 @@ public class JpegEncoder
             timeLogger.start();
 
             PpmImage image = new PpmImage(args[PARAMETER_INDEX_IMAGE_PATH], 8, FILL_MODE_BORDER);
-            image.convertToYCbCr();
-            filteredPixel = image.filter(new FilterReductionByMiddleValue());
+           // image.convertToYCbCr();
+           // filteredPixel = image.filter(new FilterReductionByMiddleValue());
             
-            coordinateLogger.log(filteredPixel, image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             
             timeLogger.stop();
             timeLogger.log();
