@@ -8,7 +8,7 @@ import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.file.image.PpmImage;
 import exercise_one.filter.FilterReductionByMiddleValue;
 import exercise_one.logger.LoggerColormodel;
-import exercise_one.logger.TimeLogger;
+import exercise_one.logger.LoggerTimer;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
 
@@ -23,7 +23,7 @@ public class JpegEncoder
     {
         try
         {
-            TimeLogger timeLogger = new TimeLogger();
+            LoggerTimer timeLogger = new LoggerTimer();
             LoggerColormodel coordinateLogger = new LoggerColormodel();
             TreeMap<Coordinate, Colormodel> filteredPixel;
             
