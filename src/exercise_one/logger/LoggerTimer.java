@@ -1,6 +1,6 @@
 package exercise_one.logger;
 
-public class TimeLogger implements Logger{
+public class LoggerTimer implements Logger{
 
 	Long time = null;
 	Long duration = null;
