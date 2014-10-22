@@ -155,7 +155,7 @@ public class PpmImage extends Image implements Cloneable
                 {
                     while (rowCounter < randUnten)
                     {
-                        for (int i = 0; i < width + randRechts; i++)
+                        for (int i = 0; i < width; i++)
                         {
                             if (i < width)
                             {

@@ -16,15 +16,15 @@ public class RGB implements Colormodel
     public RGB(int rot, int gruen, int blau)
     {
         super();
-        this.red = new ColorChannel<Integer>(0);
-        this.green = new ColorChannel<Integer>(0);
-        this.blue = new ColorChannel<Integer>(0);
+        this.red = new ColorChannel<Integer>(rot);
+        this.green = new ColorChannel<Integer>(gruen);
+        this.blue = new ColorChannel<Integer>(blau);
     }
        
     @Override
     public String toString()
     {
-        return String.format("%03d", red) + " " + String.format("%03d", green) + " " + String.format("%03d", blue);
+        return String.format("%03d", red.getValue()) + " " + String.format("%03d", green.getValue()) + " " + String.format("%03d", blue.getValue());
     }
 
 	public ColorChannel<Integer> getRedChannel() {

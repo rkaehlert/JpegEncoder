@@ -29,11 +29,11 @@ public class JpegEncoder
             
             timeLogger.start();
 
-            PpmImage image = new PpmImage(args[PARAMETER_INDEX_IMAGE_PATH], 16, FILL_MODE_WHITE);
-            image.convertToYCbCr();
-            filteredPixel = image.filter(new FilterReductionByMiddleValue());
+            PpmImage image = new PpmImage(args[PARAMETER_INDEX_IMAGE_PATH], 9, FILL_MODE_BORDER);
+            //image.convertToYCbCr();
+            //filteredPixel = image.filter(new FilterReductionByMiddleValue());
             
-            coordinateLogger.log(filteredPixel, image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             
             timeLogger.stop();
             timeLogger.log();
