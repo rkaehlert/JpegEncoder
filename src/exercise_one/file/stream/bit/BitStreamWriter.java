@@ -30,10 +30,10 @@ public class BitStreamWriter extends FileOutputStream {
 		this.write();
 	}
 	
-	public void append(byte appendValue[]) throws IOException{
+	/*public void append(byte appendValue[]) throws IOException{
 		buffer = BitUtilityAppend.append(this.buffer, appendValue);
 		this.write();
-	}
+	}*/
 	
 	public int getByte(int startingPositionOfByte){
 		return this.getBit(startingPositionOfByte, Byte.SIZE);
