@@ -24,7 +24,14 @@ public class RGB implements Colormodel
     @Override
     public String toString()
     {
-        return "(" + String.format("%03d", red.getValue()) + " " + String.format("%03d", green.getValue()) + " " + String.format("%03d", blue.getValue()) + ")";
+        if(red.getValue() != null && green.getValue() != null && blue.getValue() != null)
+        {
+            return "(" + String.format("%03d", red.getValue()) + " " + String.format("%03d", green.getValue()) + " " + String.format("%03d", blue.getValue()) + ")";
+        }
+        else
+        {
+            return null;
+        }
     }
 
 	public ColorChannel<Integer> getRedChannel() {
