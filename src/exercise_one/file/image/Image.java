@@ -7,8 +7,7 @@ import exercise_one.filter.Filter;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
 
-public abstract class Image
-{
+public abstract class Image {
 
     protected TreeMap<Coordinate, Colormodel> pixel = new TreeMap<>();
     protected int width;
@@ -16,19 +15,17 @@ public abstract class Image
     protected int maxColorValue = 0;
 
     //public abstract void read();
-
-    public TreeMap<Coordinate, Colormodel> getPixel()
-    {
+    public TreeMap<Coordinate, Colormodel> getPixel() {
         return this.pixel;
     }
-    
 
-	public TreeMap<Coordinate, Colormodel> filter(Filter filter) {
-		try {
-			return filter.filter(this.pixel);
-		} catch (InvalidParameterException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    public TreeMap<Coordinate, Colormodel> filter(Filter filter) {
+        try {
+            this.pixel = filter.filter(this.pixel);
+        }
+        catch (InvalidParameterException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

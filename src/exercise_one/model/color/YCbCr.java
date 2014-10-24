@@ -24,9 +24,9 @@ public class YCbCr implements Colormodel {
     @Override
     public String toString() {
         DecimalFormat format = new DecimalFormat("00.00;-00.00");
-        String y = this.y.getValue() == null ? null : format.format(this.y.getValue());
-        String cb = this.cb.getValue() == null ? null : format.format(this.cb.getValue());
-        String cr = this.cr.getValue() == null ? null : format.format(this.cr.getValue());
+        String y = this.y.getValue() == null ? " null " : format.format(this.y.getValue());
+        String cb = this.cb.getValue() == null ? " null " : format.format(this.cb.getValue());
+        String cr = this.cr.getValue() == null ? " null " : format.format(this.cr.getValue());
         return "(" + y + " " + cb + " " + cr + ")";
     }
 

@@ -15,7 +15,7 @@ public class LoggerRGB implements Logger {
 	}
 	
 	public void log(RGB rgb){
-		rgb.toString();
+		System.out.print(rgb.toString());
 	}
 
 }
