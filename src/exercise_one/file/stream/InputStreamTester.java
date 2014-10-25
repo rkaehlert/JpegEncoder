@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import exercise_one.converter.ConverterToByte;
-import exercise_one.file.stream.bit.BitStreamReader;
-import exercise_one.file.stream.bit.BitStreamWriter;
+import exercise_one.file.stream.bit.StreamReader;
+import exercise_one.file.stream.bit.StreamWriter;
 import exercise_one.file.stream.bit.BufferedInputStream;
 import exercise_one.file.stream.bit.BufferedOutputStream;
 import exercise_one.model.stream.bit.utility.BitUtilityAppend;
@@ -17,9 +17,9 @@ public class InputStreamTester {
 		File fileInput = new File("C:\\Users\\xSmorpheusSx\\Desktop\\1257989_1_DSC_0237-2.jpg");
 		File fileOutputSingleFile = new File("C:\\Users\\xSmorpheusSx\\Desktop\\outputFile");
 		File fileOutputSingleBit = new File("C:\\Users\\xSmorpheusSx\\Desktop\\outputSingleByte");
-		try (BitStreamReader reader = new BitStreamReader(fileInput);
-			 BitStreamWriter writerSingleFile = new BitStreamWriter(fileOutputSingleFile);
-			 BitStreamWriter writerSingleBit = new BitStreamWriter(fileOutputSingleBit)) {
+		try (StreamReader reader = new StreamReader(fileInput);
+			 StreamWriter writerSingleFile = new StreamWriter(fileOutputSingleFile);
+			 StreamWriter writerSingleBit = new StreamWriter(fileOutputSingleBit)) {
 			 BufferedInputStream inputStream = new BufferedInputStream(reader);
 			 BufferedOutputStream streamSingleFile = new BufferedOutputStream(writerSingleFile);
 			 BufferedOutputStream streamSingleByte = new BufferedOutputStream(writerSingleBit);

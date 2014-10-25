@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class BitStreamWriter extends FileOutputStream{
+public class StreamWriter extends FileOutputStream{
 
-	public BitStreamWriter(File file) throws FileNotFoundException {
+	public StreamWriter(File file) throws FileNotFoundException {
 		super(file);
 	}
 	

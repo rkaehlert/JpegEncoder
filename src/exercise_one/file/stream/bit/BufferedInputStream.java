@@ -11,10 +11,10 @@ public class BufferedInputStream {
 	
 	private static final int MAX_BUFFER_BIT_SIZE = 200;
 	
-	private	BitStreamReader reader;
+	private	StreamReader reader;
 	private BigInteger buffer = null;
 	
-	public BufferedInputStream(BitStreamReader reader){
+	public BufferedInputStream(StreamReader reader){
 		this.reader = reader;
 	}
 	

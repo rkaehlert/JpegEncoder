@@ -11,10 +11,10 @@ public class BufferedOutputStream {
 	
 	private static final int MAX_BUFFER_BIT_SIZE = 200;
 	
-	private	BitStreamWriter writer;
+	private	StreamWriter writer;
 	private BigInteger buffer = null;
 	
-	public BufferedOutputStream(BitStreamWriter writer){
+	public BufferedOutputStream(StreamWriter writer){
 		this.writer = writer;
 	}
 	

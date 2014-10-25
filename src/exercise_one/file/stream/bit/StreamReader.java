@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class BitStreamReader extends FileInputStream{
+public class StreamReader extends FileInputStream{
 
-	public BitStreamReader(File file) throws FileNotFoundException {
+	public StreamReader(File file) throws FileNotFoundException {
 		super(file);
 	}
 	
