@@ -45,7 +45,10 @@ public class BufferedOutputStream {
 	
 	public void write() throws IOException{
 		if(buffer.bitCount() > MAX_BUFFER_BIT_SIZE){
-			this.writer.write(ConverterToByte.convert(this.buffer));
+			byte[] byteToWrite = ConverterToByte.convert(this.buffer);
+			//stream has a 0 byte at first position. dont know why so i cut it off ^^
+			System.arraycopy(byteToWrite, 1, byteToWrite, 0, byteToWrite.length-1);
+			this.writer.write(byteToWrite);
 			this.reset();
 		}
 	}
