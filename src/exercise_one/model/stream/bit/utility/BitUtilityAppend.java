@@ -13,11 +13,17 @@ public class BitUtilityAppend {
 	}
 	
 	public static BigInteger append(BigInteger source, BigInteger[] appendValue){
-		BigInteger returnValue = source;
+		BigInteger returnValue = source == null ? BigInteger.valueOf(0) : source;
 		for(int index = 0; index < appendValue.length; index++){
-			BitUtilityAppend.append(source, appendValue[index]);
-			/*source = BitUtilityShiftLeft.shiftByte(source);
-			returnValue = source | appendValue[index];*/
+			returnValue = BitUtilityAppend.append(source, appendValue[index]);
+		}
+		return returnValue;
+	}
+	
+	public static BigInteger append(BigInteger source, byte[] appendValue){
+		BigInteger returnValue = source == null ? BigInteger.valueOf(0) : source;
+		for(int index = 0; index < appendValue.length; index++){
+			returnValue = BitUtilityAppend.append(returnValue, BigInteger.valueOf(appendValue[index]));
 		}
 		return returnValue;
 	}
