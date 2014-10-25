@@ -22,8 +22,4 @@ public class BitUtilityAppend {
 		return returnValue;
 	}
 	
-	public static BigInteger append(BigInteger source, byte[] appendValue){
-		return BitUtilityAppend.append(source, appendValue);
-	}
-	
 }
