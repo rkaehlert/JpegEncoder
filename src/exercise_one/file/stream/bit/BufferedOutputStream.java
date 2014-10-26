@@ -5,6 +5,7 @@ import java.math.BigInteger;
 
 import exercise_one.converter.ConverterToByte;
 import exercise_one.file.stream.EnumBitMask;
+import exercise_one.file.stream.Stream;
 
 public class BufferedOutputStream extends Stream {
 	

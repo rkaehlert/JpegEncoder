@@ -1,9 +1,8 @@
-package exercise_one.file.stream.bit;
+package exercise_one.file.stream;
 
 import java.io.IOException;
 import java.math.BigInteger;
 
-import exercise_one.file.stream.EnumBitMask;
 import exercise_one.model.stream.bit.utility.BitUtilityAppend;
 import exercise_one.model.stream.bit.utility.BitUtilityShiftLeft;
 

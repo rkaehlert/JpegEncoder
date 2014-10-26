@@ -3,6 +3,7 @@ package exercise_one.file.stream.bit;
 import java.io.IOException;
 
 import exercise_one.converter.ConverterBigInteger;
+import exercise_one.file.stream.Stream;
 
 public class BufferedInputStream extends Stream {
 	
