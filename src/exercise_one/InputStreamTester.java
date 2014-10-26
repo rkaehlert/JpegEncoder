@@ -1,15 +1,14 @@
-package exercise_one.file.stream;
+package exercise_one;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 
 import exercise_one.converter.ConverterToByte;
-import exercise_one.file.stream.bit.StreamReader;
-import exercise_one.file.stream.bit.StreamWriter;
+import exercise_one.file.stream.EnumBitMask;
 import exercise_one.file.stream.bit.BufferedInputStream;
 import exercise_one.file.stream.bit.BufferedOutputStream;
-import exercise_one.model.stream.bit.utility.BitUtilityAppend;
+import exercise_one.file.stream.bit.StreamReader;
+import exercise_one.file.stream.bit.StreamWriter;
 
 public class InputStreamTester {
 
@@ -34,11 +33,16 @@ public class InputStreamTester {
 			streamSingleFile.flush();
 			
 			//writing a file
-			byte[] bytes = {97,98};
-			streamSingleByte.setBuffer(BitUtilityAppend.append(BigInteger.valueOf(0), bytes));
-			streamSingleByte.write();
-			streamSingleByte.flush();
+//			byte[] bytes = {97,98};
+//			streamSingleByte.setBuffer(BitUtilityAppend.append(BigInteger.valueOf(0), bytes));
+//			streamSingleByte.write();
+//			streamSingleByte.flush();
 			
+			//writing a single bit
+			streamSingleByte.append(EnumBitMask.ONE);
+			streamSingleByte.append(EnumBitMask.ZERO);
+			streamSingleByte.append(EnumBitMask.ZERO);
+			streamSingleByte.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

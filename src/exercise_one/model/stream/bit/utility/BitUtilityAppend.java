@@ -12,6 +12,14 @@ public class BitUtilityAppend {
 		return returnValue.or(appendValue);
 	}
 	
+	public static BigInteger append(BigInteger source, int offset, int mask){
+		if(source == null){
+			source = BigInteger.valueOf(0);
+		}
+		BigInteger returnValue = BitUtilityShiftLeft.shift(source, offset);
+		return returnValue.or(BigInteger.valueOf(mask));
+	}
+	
 	public static BigInteger append(BigInteger source, BigInteger[] appendValue){
 		BigInteger returnValue = source == null ? BigInteger.valueOf(0) : source;
 		for(int index = 0; index < appendValue.length; index++){
