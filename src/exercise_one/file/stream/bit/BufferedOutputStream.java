@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import exercise_one.converter.ConverterToByte;
 import exercise_one.file.stream.EnumBitMask;
 import exercise_one.file.stream.Stream;
+import exercise_one.model.matrix.utility.ArrayUtilityConcat;
 
 public class BufferedOutputStream extends Stream {
 	
@@ -32,9 +33,8 @@ public class BufferedOutputStream extends Stream {
 	
 	public void write() throws IOException{
 		if(super.getBuffer().bitCount() > Stream.MAX_BUFFER_BIT_SIZE){
-			byte[] byteToWrite = ConverterToByte.convert(super.getBuffer());
 			//stream has a 0 byte at first position. dont know why so i cut it off ^^
-			System.arraycopy(byteToWrite, 1, byteToWrite, 0, byteToWrite.length-1);
+			byte[] byteToWrite = ArrayUtilityConcat.concat(super.getBuffer(), 1);
 			this.writer.write(byteToWrite);
 			super.reset();
 		}
@@ -42,7 +42,9 @@ public class BufferedOutputStream extends Stream {
 	
 	public void flush() throws IOException{
 		if(super.getBuffer() != null){
-			this.writer.write(ConverterToByte.convert(super.getBuffer()));
+			//stream has a 0 byte at first position. dont know why so i cut it off ^^
+			byte[] byteToWrite = ArrayUtilityConcat.concat(super.getBuffer(), 1);
+			this.writer.write(byteToWrite);
 			super.reset();
 		}
 	}
