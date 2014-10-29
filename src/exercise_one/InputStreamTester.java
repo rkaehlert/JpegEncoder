@@ -3,19 +3,16 @@ package exercise_one;
 import java.io.File;
 import java.io.IOException;
 
-import exercise_one.converter.ConverterToByte;
 import exercise_one.file.stream.EnumBitMask;
-import exercise_one.file.stream.bit.BufferedInputStream;
 import exercise_one.file.stream.bit.BufferedOutputStream;
-import exercise_one.file.stream.bit.StreamReader;
 import exercise_one.file.stream.bit.StreamWriter;
 
 public class InputStreamTester {
 
 	public static void main(String[] args){
-		File fileInput = new File("C:\\Users\\robin\\Desktop\\IMG_20140817_132708.jpg");
-		File fileOutputSingleFile = new File("C:\\Users\\robin\\Desktop\\outputFile");
-		File fileOutputSingleBit = new File("C:\\Users\\robin\\Desktop\\outputSingleByte");
+		File fileInput = new File("C:\\Users\\xSmorpheusSx\\Desktop\\IMG_20140817_132708.jpg");
+		File fileOutputSingleFile = new File("C:\\Users\\xSmorpheusSx\\Desktop\\outputFile");
+		File fileOutputSingleBit = new File("C:\\Users\\xSmorpheusSx\\Desktop\\outputSingleByte");
 		try (
                         //StreamReader reader = new StreamReader(fileInput);
 			 StreamWriter writerSingleFile = new StreamWriter(fileOutputSingleFile);
@@ -43,12 +40,18 @@ public class InputStreamTester {
 			streamSingleByte.append(EnumBitMask.ONE);
 			streamSingleByte.append(EnumBitMask.ONE);
 			streamSingleByte.append(EnumBitMask.ONE);
+			streamSingleByte.append(EnumBitMask.ZERO);
 			streamSingleByte.append(EnumBitMask.ONE);
 			streamSingleByte.append(EnumBitMask.ONE);
 			streamSingleByte.append(EnumBitMask.ONE);
 			streamSingleByte.append(EnumBitMask.ONE);
+			
 			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.flush();
+			streamSingleByte.append(EnumBitMask.ONE);
+			streamSingleByte.append(EnumBitMask.ONE);
+			streamSingleByte.append(EnumBitMask.ONE);
+			
+			streamSingleByte.write();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

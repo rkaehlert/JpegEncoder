@@ -8,8 +8,6 @@ import exercise_one.model.stream.bit.utility.BitUtilityShiftLeft;
 
 public class Stream {
 
-	public static final int MAX_BUFFER_BIT_SIZE = 200;
-	
 	private BigInteger buffer = null;
 	
 	public void append(EnumBitMask mask) throws IOException{
