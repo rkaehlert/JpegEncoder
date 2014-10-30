@@ -8,18 +8,31 @@ import exercise_one.model.stream.bit.utility.BitUtilityShiftLeft;
 
 public class Stream {
 
+	private static final Integer BUFFER_MAX_SIZE = 200;
+	
 	private BigInteger buffer = null;
+	private BigInteger value = null;
+	
+	public void append() throws IOException{
+		if(buffer.bitCount() >= BUFFER_MAX_SIZE){
+			value = BitUtilityAppend.append(value, buffer);
+			this.reset();
+		}
+	}
 	
 	public void append(EnumBitMask mask) throws IOException{
 		buffer = BitUtilityAppend.append(this.buffer, 1, mask.getValue());
+		this.append();
 	}
 	
 	public void append(BigInteger appendValue) throws IOException{
 		buffer = BitUtilityAppend.append(this.buffer, appendValue);
+		this.append();
 	}
 	
 	public void append(BigInteger appendValue[]) throws IOException{
 		buffer = BitUtilityAppend.append(this.buffer, appendValue);
+		this.append();
 	}
 	
 	/*public void append(byte appendValue[]) throws IOException{
@@ -47,6 +60,14 @@ public class Stream {
 
 	public void setBuffer(BigInteger buffer) {
 		this.buffer = buffer;
+	}
+
+	public BigInteger getValue() {
+		return value;
+	}
+
+	public void setValue(BigInteger value) {
+		this.value = value;
 	}
 	
 }

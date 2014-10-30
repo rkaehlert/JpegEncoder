@@ -14,9 +14,7 @@ public class ArrayUtilityConcat {
 	
 	public static byte[] concat(BigInteger source, int sourcePos){
 		byte[] byteToWrite = ConverterToByte.convert(source);
-		byte[] returnValue = new byte[byteToWrite.length-1];
-		System.arraycopy(byteToWrite, sourcePos, returnValue, 0, byteToWrite.length-1);
-		return returnValue;
+		return ArrayUtilityConcat.concat(byteToWrite, sourcePos, byteToWrite.length-1);
 	}
 	
 }

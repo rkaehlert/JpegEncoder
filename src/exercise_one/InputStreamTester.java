@@ -6,6 +6,7 @@ import java.io.IOException;
 import exercise_one.file.stream.EnumBitMask;
 import exercise_one.file.stream.bit.BufferedOutputStream;
 import exercise_one.file.stream.bit.StreamWriter;
+import exercise_one.logger.LoggerTimer;
 
 public class InputStreamTester {
 
@@ -37,21 +38,25 @@ public class InputStreamTester {
 //			streamSingleByte.flush();
 			System.out.println("3");
 			//writing a single bit
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ZERO);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
 			
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
-			streamSingleByte.append(EnumBitMask.ONE);
+			LoggerTimer loggerTimer = new LoggerTimer();
+			loggerTimer.start();
+			
+			for(int index = 0; index < 5000000; index++){
+				streamSingleByte.append(EnumBitMask.ONE);
+				streamSingleByte.append(EnumBitMask.ZERO);
+//				if(index % 100000 == 0){
+//					System.out.println(index);
+//				}
+			}				
+			
+			loggerTimer.stop();
+			loggerTimer.log();
 			
 			streamSingleByte.write();
+			
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
