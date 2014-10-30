@@ -35,11 +35,6 @@ public class Stream {
 		this.append();
 	}
 	
-	/*public void append(byte appendValue[]) throws IOException{
-		buffer = BitUtilityAppend.append(this.buffer, appendValue);
-		this.write();
-	}*/
-	
 	public int getByte(int startingPositionOfByte){
 		return this.getBit(startingPositionOfByte, Byte.SIZE);
 	}
