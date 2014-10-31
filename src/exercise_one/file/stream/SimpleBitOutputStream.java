@@ -24,12 +24,10 @@ public final class SimpleBitOutputStream {
         byteBuffer = new int[BUFFER_SIZE];
     }
 
-    public void write(int b) throws IOException {
-        if (!(b == 0 || b == 1)) {
-            throw new IllegalArgumentException("Argument must be 0 or 1");
-        }
-        currentByte = currentByte << 1 | b;
-        currentBitsInCurrentByte++;
+    public void write(int b, int offset) throws IOException {
+
+        currentByte = currentByte << offset | b;
+        currentBitsInCurrentByte+=offset;
         if (currentBitsInCurrentByte == 8) {
             byteBuffer[currentBytesInBuffer] = currentByte;
             currentBytesInBuffer++;
@@ -46,20 +44,37 @@ public final class SimpleBitOutputStream {
         }
     }
 
+    public void writeBit(int b) throws IOException {
+        if (!(b == 0 || b == 1)) {
+            throw new IllegalArgumentException("Argument must be 0 or 1");
+        }
+        write(b, 1);
+    }
+
+    public void writeByte(byte b) throws IOException {
+        write(b, 8);
+    }
+
+    public void writeByteArray(byte[] ba) throws IOException {
+        for (int i = 0; i < ba.length; i++) {
+            writeByte(ba[i]);
+        }
+    }
+
     public void close() throws IOException {
-    	if(currentBytesInBuffer < BUFFER_SIZE-1){
+        if (currentBytesInBuffer < BUFFER_SIZE - 1) {
             for (int i = 0; i < currentBytesInBuffer; i++) {
-            	output.write(byteBuffer[i]);
+                output.write(byteBuffer[i]);
             }
-    	}
-    	if(currentBitsInCurrentByte != 0){
-    		write(byteBuffer[byteBuffer.length-1]);
-        	while (currentBitsInCurrentByte != 0) {
-	            write(0);
-	        }
-	        output.write(byteBuffer[currentBytesInBuffer-1]);
-    	}
+        }
+        if (currentBitsInCurrentByte != 0) {
+            writeBit(byteBuffer[byteBuffer.length - 1]);
+            while (currentBitsInCurrentByte != 0) {
+                writeBit(0);
+            }
+            output.write(byteBuffer[currentBytesInBuffer - 1]);
+        }
         output.close();
-    	
+
     }
 }

@@ -10,8 +10,15 @@ import exercise_one.converter.ConverterRGBToYCbCr;
 import exercise_one.converter.ConverterStringToInteger;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
+import static exercise_one.file.jpeg.marker.EnumMarker.APP0;
+import static exercise_one.file.jpeg.marker.EnumMarker.SOI;
+import exercise_one.file.jpeg.segment.APP0;
+import exercise_one.file.jpeg.segment.EOI;
+import exercise_one.file.jpeg.segment.SOI;
+import exercise_one.file.stream.SimpleBitOutputStream;
 import exercise_one.model.color.RGB;
 import exercise_one.model.matrix.Coordinate;
+import java.io.FileOutputStream;
 
 public class PpmImage extends Image implements Cloneable {
 
@@ -139,7 +146,7 @@ public class PpmImage extends Image implements Cloneable {
         if (0 <= randRechts) {
             while (columnCounter < randRechts) {
                 for (int i = 0; i < height; i++) {
-                    if (fillmode == JpegEncoder.FILL_MODE_BORDER) {
+                    if (fillmode == 1) {
                         pixel.put(new Coordinate(width + columnCounter, i), pixel.get(new Coordinate(width - 1, i)));
                     }
                     else {
@@ -149,13 +156,13 @@ public class PpmImage extends Image implements Cloneable {
                 columnCounter++;
             }
         }
-        
+
         randUnten = ((height % schrittweite) == 0) ? 0 : (schrittweite - (height % schrittweite));
         if (0 <= randUnten) {
             while (rowCounter < randUnten) {
                 for (int i = 0; i < width + randRechts; i++) {
                     if (i < width) {
-                        if (fillmode == JpegEncoder.FILL_MODE_BORDER) {
+                        if (fillmode == 1) {
                             pixel.put(new Coordinate(i, height + rowCounter), pixel.get(new Coordinate(i, height - 1)));
                         }
                         else {
@@ -163,7 +170,7 @@ public class PpmImage extends Image implements Cloneable {
                         }
                     }
                     else {
-                        if (fillmode == JpegEncoder.FILL_MODE_BORDER) {
+                        if (fillmode == 1) {
                             pixel.put(new Coordinate(i, height + rowCounter), bottomRightPixel);
                         }
                         else {
@@ -181,6 +188,18 @@ public class PpmImage extends Image implements Cloneable {
 
     public void convertToYCbCr() {
         pixel = ConverterRGBToYCbCr.convert(pixel);
+    }
+
+    public void writeToFile(SimpleBitOutputStream out) throws IOException {
+        new SOI().write(out);
+        APP0 app0 = new APP0();
+        byte[] b = new byte[] {(byte)0,(byte)16};
+        app0.setLength(b);
+        app0.setDensity_x(b);
+        app0.setDensity_y(b);
+        app0.write(out);
+        new EOI().write(out);
+        out.close();
     }
 
     public String getColormodel() {

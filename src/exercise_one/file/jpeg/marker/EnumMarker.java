@@ -1,26 +1,29 @@
 package exercise_one.file.jpeg.marker;
 
+import java.math.BigInteger;
 
 public enum EnumMarker {
 
-	SOI(0xFFD8),
-	EOI(0xFFD9),
-	APP0(0xFFe0),
-	SOF0(0xFFc0),
-	DHT(0xFFc4);
-	
-	private int value;
-	
-	EnumMarker(int value){
-		this.value = value;
-	}
+    SOI((byte)255,(byte)216),
+    EOI((byte)255,(byte)217),
+    APP0((byte)255,(byte)224),
+    SOF0((byte)255,(byte)192),
+    DHT((byte)255,(byte)194);
 
-	public int getValue() {
-		return value;
-	}
+    private byte[] value;
 
-	public void setValue(int value) {
-		this.value = value;
-	}
-	
+    EnumMarker(byte highByte, byte lowByte) {
+        value = new byte[2];
+        this.value[0] = highByte;
+        this.value[1] = lowByte;
+    }
+
+    public byte[] getValue() {
+        return value;
+    }
+
+    public void setValue(byte[] value) {
+        this.value = value;
+    }
+
 }

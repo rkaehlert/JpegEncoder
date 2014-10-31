@@ -12,16 +12,15 @@ public class SimpleBitStreamTester {
         try {
             SimpleBitOutputStream stream = new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\outputSingleByte"));
             LoggerTimer timer = new LoggerTimer();
-            
+
             timer.start();
-            for(long i=0;i<10000001;i++)
-            {
-                stream.write(1);
+            for (long i = 0; i < 10000001; i++) {
+                stream.writeBit(1);
             }
             timer.stop();
             stream.close();
             timer.log();
-            }
+        }
         catch (IOException ex) {
 
         }

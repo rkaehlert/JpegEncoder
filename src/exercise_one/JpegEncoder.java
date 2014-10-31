@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.file.image.PpmImage;
+import exercise_one.file.stream.SimpleBitOutputStream;
 import exercise_one.filter.FilterReductionByMiddleValue;
 import exercise_one.filter.FilterReductionByStep;
 import exercise_one.logger.LoggerColormodel;
@@ -13,6 +14,7 @@ import exercise_one.logger.LoggerTimer;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
 public class JpegEncoder {
@@ -25,10 +27,8 @@ public class JpegEncoder {
 
     public static void main(String[] args) {
         try {
-            setParams();
+            //setParams();
             
-            System.out.println(fillMode + " " + subsampleMode + " " + subsampleColumn + " " + subsampleRow);
-System.exit(0);
             LoggerTimer timeLogger = new LoggerTimer();
             LoggerColormodel coordinateLogger = new LoggerColormodel();
             TreeMap<Coordinate, Colormodel> filteredPixel;
@@ -44,6 +44,8 @@ System.exit(0);
             timeLogger.stop();
             coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
+            
+            image.writeToFile(new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\robin\\Desktop\\outputSingleByte.jpg")));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());
