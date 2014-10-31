@@ -1,27 +1,27 @@
 package exercise_one;
 
-import exercise_one.file.stream.SimpleBitOutputStream;
-import exercise_one.logger.LoggerTimer;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import exercise_one.file.stream.SimpleBitOutputStream;
+import exercise_one.logger.LoggerTimer;
 
 public class SimpleBitStreamTester {
 
     public static void main(String[] args) {
         try {
-            SimpleBitOutputStream stream = new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\robin\\Desktop\\outputSingleByte"));
+            SimpleBitOutputStream stream = new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\outputSingleByte"));
             LoggerTimer timer = new LoggerTimer();
             
             timer.start();
-            for(long i=0;i<=10000000;i++)
+            for(long i=0;i<10000001;i++)
             {
                 stream.write(1);
             }
             timer.stop();
-            timer.log();
-            
             stream.close();
-        }
+            timer.log();
+            }
         catch (IOException ex) {
 
         }
