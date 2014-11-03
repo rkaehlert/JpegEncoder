@@ -1,7 +1,5 @@
 package exercise_one.file.jpeg.marker;
 
-import java.math.BigInteger;
-
 public enum EnumMarker {
 
     SOI((byte)255,(byte)216),

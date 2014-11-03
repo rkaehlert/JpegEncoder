@@ -2,13 +2,14 @@ package exercise_one.file.stream;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
 
 public final class SimpleBitOutputStream {
 
-    private static final int BUFFER_SIZE = 12500001;
+    private static final int BUFFER_SIZE = 100000000;
     private OutputStream output;
-    private int currentByte;
-    private int[] byteBuffer;
+    private byte currentByte;
+    private byte[] byteBuffer;
 
     private int currentBitsInCurrentByte;
     private int currentBytesInBuffer;
@@ -21,13 +22,13 @@ public final class SimpleBitOutputStream {
         currentByte = 0;
         currentBitsInCurrentByte = 0;
         currentBytesInBuffer = 0;
-        byteBuffer = new int[BUFFER_SIZE];
+        byteBuffer = new byte[BUFFER_SIZE];
     }
 
-    public void write(int b, int offset) throws IOException {
+    public void write(byte b, int offset) throws IOException {
 
-        currentByte = currentByte << offset | b;
-        currentBitsInCurrentByte+=offset;
+        currentByte = (byte) (currentByte << offset | b);
+        currentBitsInCurrentByte += offset;
         if (currentBitsInCurrentByte == 8) {
             byteBuffer[currentBytesInBuffer] = currentByte;
             currentBytesInBuffer++;
@@ -38,7 +39,7 @@ public final class SimpleBitOutputStream {
                 for (int i = 0; i < byteBuffer.length; i++) {
                     output.write(byteBuffer[i]);
                 }
-                byteBuffer = new int[BUFFER_SIZE];
+                byteBuffer = new byte[BUFFER_SIZE];
                 currentBytesInBuffer = 0;
             }
         }
@@ -48,7 +49,7 @@ public final class SimpleBitOutputStream {
         if (!(b == 0 || b == 1)) {
             throw new IllegalArgumentException("Argument must be 0 or 1");
         }
-        write(b, 1);
+        write((byte) b, 1);
     }
 
     public void writeByte(byte b) throws IOException {
@@ -61,6 +62,15 @@ public final class SimpleBitOutputStream {
         }
     }
 
+    public void writeInt(int zahl) throws IOException {
+        byte[] conv = BigInteger.valueOf(zahl).toByteArray();
+        for (int i = 0; i < conv.length; i++) {
+            if (conv[i] != (byte)0x00 || i > 0) {
+                writeByte(conv[i]);
+            }
+        }
+    }
+
     public void close() throws IOException {
         if (currentBytesInBuffer < BUFFER_SIZE - 1) {
             for (int i = 0; i < currentBytesInBuffer; i++) {
@@ -70,7 +80,7 @@ public final class SimpleBitOutputStream {
         if (currentBitsInCurrentByte != 0) {
             writeBit(byteBuffer[byteBuffer.length - 1]);
             while (currentBitsInCurrentByte != 0) {
-                writeBit(0);
+                writeBit((byte) 0);
             }
             output.write(byteBuffer[currentBytesInBuffer - 1]);
         }

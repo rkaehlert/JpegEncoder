@@ -5,20 +5,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import exercise_one.JpegEncoder;
 import exercise_one.converter.ConverterRGBToYCbCr;
 import exercise_one.converter.ConverterStringToInteger;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
-import static exercise_one.file.jpeg.marker.EnumMarker.APP0;
-import static exercise_one.file.jpeg.marker.EnumMarker.SOI;
 import exercise_one.file.jpeg.segment.APP0;
 import exercise_one.file.jpeg.segment.EOI;
+import exercise_one.file.jpeg.segment.SOF0;
 import exercise_one.file.jpeg.segment.SOI;
 import exercise_one.file.stream.SimpleBitOutputStream;
 import exercise_one.model.color.RGB;
 import exercise_one.model.matrix.Coordinate;
-import java.io.FileOutputStream;
 
 public class PpmImage extends Image implements Cloneable {
 
@@ -193,11 +190,9 @@ public class PpmImage extends Image implements Cloneable {
     public void writeToFile(SimpleBitOutputStream out) throws IOException {
         new SOI().write(out);
         APP0 app0 = new APP0();
-        byte[] b = new byte[] {(byte)0,(byte)16};
-        app0.setLength(b);
-        app0.setDensity_x(b);
-        app0.setDensity_y(b);
         app0.write(out);
+        SOF0 sof0 = new SOF0();
+        sof0.write(out);
         new EOI().write(out);
         out.close();
     }

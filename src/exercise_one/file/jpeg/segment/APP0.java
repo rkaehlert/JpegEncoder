@@ -3,7 +3,6 @@ package exercise_one.file.jpeg.segment;
 import exercise_one.file.jpeg.marker.EnumMarker;
 import exercise_one.file.stream.SimpleBitOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
@@ -40,24 +39,31 @@ public class APP0 implements Marker {
         EnumJPEGResolutionUnit(byte value) {
             this.value = value;
         }
-
     }
-    
-    byte[] offset = new byte[2];
-    byte[] length = new byte[2];
-    byte[] identifier = new byte[]{0x4a, 0x46, 0x49, 0x46, 0x00};
-    byte major_revision = 1;
-    byte minor_revision = 2;
+
+    byte[] length;
+    byte[] identifier;
+    byte major_revision;
+    byte minor_revision;
     EnumJPEGResolutionUnit unit;
-    byte[] density_x = new byte[2];
-    byte[] density_y = new byte[2];
-    byte thumbnail_x = 0;
-    byte thumbnail_y = 0;
+    byte[] density_x;
+    byte[] density_y;
+    byte thumbnail_x;
+    byte thumbnail_y;
     byte[] thumbnail_data;
 
     public APP0() {
-        this.unit = EnumJPEGResolutionUnit.DOTS_PER_INCH;
-        thumbnail_data = new byte[calculateThumbnailDimension()];
+        length = new byte[2];
+        identifier = new byte[]{0x4a, 0x46, 0x49, 0x46, 0x00};
+        major_revision = 1;
+        minor_revision = 1;
+        unit = EnumJPEGResolutionUnit.NO_UNIT;
+        density_x = new byte[]{0x00, 0x48};
+        density_y = new byte[]{0x00, 0x48};
+        thumbnail_x = 0;
+        thumbnail_y = 0;
+
+        setLength();
     }
 
     @Override
@@ -72,28 +78,13 @@ public class APP0 implements Marker {
         out.writeByteArray(density_y);
         out.writeByte(thumbnail_x);
         out.writeByte(thumbnail_y);
-        if(thumbnail_data.length != 0) {
+        if (thumbnail_data.length > 0) {
             out.writeByteArray(thumbnail_data);
         }
     }
 
-    public byte[] getOffset() {
-        return offset;
-    }
-
-    public void setOffset(byte[] offset) {
-        this.offset = offset;
-    }
-
     public byte[] getLength() {
         return length;
-    }
-
-    public void setLength(byte[] length) {
-        if (new BigInteger(length).intValue() < 16) {
-            throw new IllegalArgumentException("die laenge muss einen wert groesser oder gleich 16 haben");
-        }
-        this.length = length;
     }
 
     public EnumJPEGResolutionUnit getUnit() {
@@ -132,6 +123,7 @@ public class APP0 implements Marker {
 
     public void setThumbnail_x(byte thumbnail_x) {
         this.thumbnail_x = thumbnail_x;
+        setLength();
     }
 
     public int getThumbnail_y() {
@@ -140,6 +132,7 @@ public class APP0 implements Marker {
 
     public void setThumbnail_y(byte thumbnail_y) {
         this.thumbnail_y = thumbnail_y;
+        setLength();
     }
 
     public int calculateThumbnailDimension() {
@@ -156,5 +149,18 @@ public class APP0 implements Marker {
 
     public double getMajor_revision() {
         return major_revision;
+    }
+
+    private void setLength() {
+        int length_value = 16 + calculateThumbnailDimension();
+        thumbnail_data = new byte[length_value - 16];
+
+        if (length_value <= 256) {
+            length[0] = 0x00;
+            length[1] = BigInteger.valueOf(length_value).toByteArray()[0];
+        }
+        else {
+            length = BigInteger.valueOf(length_value).toByteArray();
+        }
     }
 }

@@ -1,92 +1,135 @@
 package exercise_one.file.jpeg.segment;
 
+import exercise_one.file.jpeg.marker.EnumMarker;
+import exercise_one.file.stream.SimpleBitOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
 
-public class SOF0 implements Marker{
+public class SOF0 implements Marker {
 
-	/*
-		Marker: SOF0 –Start ofFrame 0 –0xff 0xc0
-		Länge (highbyte, lowbyte) 8 + Anzahl Komponenten*3
-		JFIF benutzt entweder 1 Komponente (Y, Grauwertbilder) oder 3 Komponenten (YCbCr, Farbbilder)
-		Genauigkeit Daten (1 Byte) in bits/sample, normalerweise 8 (12 und 16 in meisten Programmen nicht unterstützt)
-		Bildgröße y (2 Byte, Hi-Lo), muss >0 sein
-		Bildgröße x (2 Byte, Hi-Lo), muss >0 sein
-		Anzahl Komponenten (1 Byte),
-		Für jede Komponente 3 Byte
-		ID Komponenten (1 = Y, 2 = Cb, 3 = Cr)
-		Faktoren Unterabtastung (Bit 0-3 vertikal, 4-7 Horizontal) relativ zu größtem Sampling-Faktoren
-		Keine Unterabtastung: 0x22
-		Unterabtastung Faktor 2: 0x11
-		Nummer der benutzten Quantisierungstabelle
-	*/
-	
-	private int frame_header_length;
-	private int precision;
-	private int width;
-	private int height;
-	private int component_count;
-	private Component[] components; 
-	
-	public SOF0(){
-		this.precision = 8;
-		this.component_count = 3;
-		this.components = new Component[component_count];
-	}
+    /*
+     Marker: SOF0 –Start ofFrame 0 –0xff 0xc0
+     Länge (highbyte, lowbyte) 8 + Anzahl Komponenten*3
+     JFIF benutzt entweder 1 Komponente (Y, Grauwertbilder) oder 3 Komponenten (YCbCr, Farbbilder)
+     Genauigkeit Daten (1 Byte) in bits/sample, normalerweise 8 (12 und 16 in meisten Programmen nicht unterstützt)
+     Bildgröße y (2 Byte, Hi-Lo), muss >0 sein
+     Bildgröße x (2 Byte, Hi-Lo), muss >0 sein
+     Anzahl Komponenten (1 Byte),
+     Für jede Komponente 3 Byte
+     ID Komponenten (1 = Y, 2 = Cb, 3 = Cr)
+     Faktoren Unterabtastung (Bit 0-3 vertikal, 4-7 Horizontal) relativ zu größtem Sampling-Faktoren
+     Keine Unterabtastung: 0x22
+     Unterabtastung Faktor 2: 0x11
+     Nummer der benutzten Quantisierungstabelle
+     */
+    private byte[] length;
+    private byte precision;
+    private byte[] width;
+    private byte[] height;
+    private byte component_count;
+    private Component[] components;
 
-	public int getPrecision() {
-		return precision;
-	}
+    public SOF0() {
+        length = new byte[2];
+        precision = 8;
+        height = new byte[]{0x00,0x01};
+        width = new byte[]{0x00,0x01};
+        component_count = 1;
+        components = new Component[component_count];
+        components[0] = new Component();
+        components[0].setIdComponent(Component.EnumId.Y);
+        components[0].setQuantisizeTableNum((byte) 1);
+        components[0].setSubSamplingFactor(Component.EnumSubSampling.NONE);
+        setLength();
+    }
 
-	public void setPrecision(int precision) {
-		this.precision = precision;
-	}
+    @Override
+    public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
+        out.writeByteArray(EnumMarker.SOF0.getValue());
+        out.writeByteArray(length);
+        out.writeByte(precision);
+        out.writeByteArray(height);
+        out.writeByteArray(width);
+        out.writeByte(component_count);
+        for (Component comp : components) {
+            out.writeByte(comp.getIdComponent());
+            out.writeByte(comp.getSubSamplingFactor());
+            out.writeByte(comp.getIdQuantisizeTableNum());
+        }
+    }
 
-	public int getWidth() {
-		return width;
-	}
+    public byte[] getLength() {
+        return length;
+    }
 
-	public void setWidth(int width) {
-		if(width <= 0){
-			throw new IllegalArgumentException("ein wert groesser als 0 muss fuer die laenge definiert sein");
-		}
-		this.width = width;
-	}
+    public int getPrecision() {
+        return precision;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public void setPrecision(byte precision) {
+        this.precision = precision;
+    }
 
-	public void setHeight(int height) {
-		if(height <= 0){
-			throw new IllegalArgumentException("ein wert groesser als 0 muss fuer die hoehe definiert sein");
-		}
-		this.height = height;
-	}
+    public byte[] getWidth() {
+        return width;
+    }
 
-	public int getFrame_header_length() {
-		return frame_header_length;
-	}
+    public void setWidth(byte[] width) {
+        if (new BigInteger(width).intValue() == 0) {
+            throw new IllegalArgumentException("die dichte sollte nicht den wert 0 haben");
+        }
+        this.width = width;
+    }
 
-	public void setFrame_header_length(int frame_header_length) {
-		this.frame_header_length = frame_header_length;
-	}
-	
-	public int calculateLength(){
-		return 8+this.component_count*3;
-	}
+    public byte[] getHeight() {
+        return height;
+    }
 
-	public int getComponent_count() {
-		return component_count;
-	}
+    public void setHeight(byte[] height) {
+        if (new BigInteger(height).intValue() == 0) {
+            throw new IllegalArgumentException("die dichte sollte nicht den wert 0 haben");
+        }
+        this.height = height;
+    }
 
-	public void setComponent_count(int component_count) {
-		this.component_count = component_count;
-	}
+    private void setLength() {
+        int length_value = 8 + component_count * 3;
 
-	public Component[] getComponents() {
-		return components;
-	}
+        if (length_value <= 256) {
+            length[0] = 0x00;
+            length[1] = BigInteger.valueOf(length_value).toByteArray()[0];
+        }
+        else {
+            length = BigInteger.valueOf(length_value).toByteArray();
+        }
+    }
 
-	public void setComponents(Component[] components) {
-		this.components = components;
-	}
+    public int getComponent_count() {
+        return component_count;
+    }
+
+    public void setComponent_count(byte component_count) {
+        this.component_count = component_count;
+    }
+
+    public Component[] getComponents() {
+        return components;
+    }
+
+    public void setComponents(Component[] components) {
+        if (components.length == 1) {
+            this.components = components;
+            component_count = 1;
+            setLength();
+        }
+        else if (components.length == 3) {
+            this.components = components;
+            component_count = 3;
+            setLength();
+        }
+        else {
+            throw new IllegalArgumentException("Nur ein oder drei Kanäle möglich");
+        }
+    }
 }
