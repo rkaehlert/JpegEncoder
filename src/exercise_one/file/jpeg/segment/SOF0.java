@@ -118,14 +118,9 @@ public class SOF0 implements Marker {
     }
 
     public void setComponents(Component[] components) {
-        if (components.length == 1) {
+        if (components.length == 1 || components.length == 3) {
             this.components = components;
-            component_count = 1;
-            setLength();
-        }
-        else if (components.length == 3) {
-            this.components = components;
-            component_count = 3;
+            component_count = (byte)components.length;
             setLength();
         }
         else {
