@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import exercise_one.converter.ConverterRGBToYCbCr;
 import exercise_one.converter.ConverterStringToInteger;
+import exercise_one.converter.ConverterToByte;
 import exercise_one.exception.ImageException;
 import exercise_one.exception.UnsupportedImageFormatException;
 import exercise_one.file.jpeg.segment.APP0;
@@ -192,6 +193,8 @@ public class PpmImage extends Image implements Cloneable {
         APP0 app0 = new APP0();
         app0.write(out);
         SOF0 sof0 = new SOF0();
+        sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height,2));
+        sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width,2));
         sof0.write(out);
         new EOI().write(out);
         out.close();
