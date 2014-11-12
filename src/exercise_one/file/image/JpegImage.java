@@ -18,7 +18,7 @@ import exercise_one.file.stream.SimpleBitOutputStream;
 import exercise_one.model.color.RGB;
 import exercise_one.model.matrix.Coordinate;
 
-public class PpmImage extends Image implements Cloneable {
+public class JpegImage extends Image implements Cloneable {
 
     private static final int ASCII_LINE_FEED = 10;
 
@@ -26,19 +26,19 @@ public class PpmImage extends Image implements Cloneable {
     private static final int GREEN = 1;
     private static final int BLUE = 2;
 
-    public PpmImage() {
+    public JpegImage() {
         width = 0;
         height = 0;
         maxColorValue = 0;
     }
 
-    public PpmImage(String src, int schrittweite, int fillmode) throws UnsupportedImageFormatException, ImageException, IOException {
+    public JpegImage(String src, int schrittweite, int fillmode) throws UnsupportedImageFormatException, ImageException, IOException {
         this();
-        readImagefile(src);
+        readPPMImageFromFile(src);
         addBorderBasedOnStepSize(schrittweite, fillmode);
     }
 
-    private void readImagefile(String sourceFile) throws UnsupportedImageFormatException, ImageException, IOException {
+    private void readPPMImageFromFile(String sourceFile) throws UnsupportedImageFormatException, ImageException, IOException {
         File imageFile = new File(sourceFile);
         FileReader fr = null;
         boolean isLineBreak = false;
