@@ -8,11 +8,11 @@ import exercise_one.model.huffman.tree.Tree;
 
 public class ConverterHuffmanCode implements Converter<String> {
 
-	public String convert(Tree tree, List<Integer> input){
+	public String convert(Tree tree, List<Object> input){
 		String output = "";
-		Map<Integer, String> symbolMapping = new CollectionSymbol().set(tree);
-		for(Integer number : input){
-			output = output + symbolMapping.get(number);
+		Map<Object, String> symbolMapping = new CollectionSymbol().set(tree);
+		for(Object value : input){
+			output = output + symbolMapping.get(value);
 		}
 		return output;
 	}

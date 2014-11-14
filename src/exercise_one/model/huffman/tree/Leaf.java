@@ -2,19 +2,20 @@ package exercise_one.model.huffman.tree;
 
 public class Leaf extends Tree {
 
-	private int number;
+	private Object value;
 	
-	public Leaf(int number, int frequency){
-		this.setNumber(number);
+	public Leaf(Object value, int frequency){
+		this.setValue(value);
 		super.setFrequency(frequency);
 	}
 
-	public int getNumber() {
-		return number;
+	public Object getValue() {
+		return value;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setValue(Object value) {
+		this.value = value;
 	}
+
 	
 }

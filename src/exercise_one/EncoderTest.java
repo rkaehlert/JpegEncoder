@@ -14,11 +14,38 @@ import exercise_one.logger.LoggerText;
 public class EncoderTest {
 
 	public static void main(String[] args){
-		LoggerMap loggerMap = new LoggerMap();
+		LoggerMap<Object, String> loggerMap = new LoggerMap<Object,String>();
 		Decoder decoder = new Decoder();
-		List<Integer> values = new ArrayList<Integer>();
+		List<Object> values = new ArrayList<Object>();
 		Encoder encoder = new Encoder();
 		
+		values.add("a");
+		values.add("b");
+		values.add("c");
+		values.add("d");
+		values.add("a");
+		values.add("b");
+		values.add("e");
+		values.add("f");
+		values.add("f");
+		values.add("c");
+		values.add("c");
+		values.add("a");
+		values.add("z");
+				
+		String encoded = encoder.encode(values);
+		LoggerText.log("---------------codiert-----------------------");
+		LoggerText.log(values.toString() + " wurde umgewandelt in: " + encoded);
+		LoggerText.log("---------------------------------------------");
+		
+		String decoded = decoder.decode(encoder.getTree(), encoded);
+		
+		LoggerText.log("---------------decodiert---------------------");
+		LoggerText.log(encoded + " wurde umgewandelt in: " + decoded);
+		LoggerText.log("---------------------------------------------");
+		
+		values.clear();
+
 		values.add(5);
 		values.add(5);
 		values.add(2);
@@ -33,18 +60,19 @@ public class EncoderTest {
 		values.add(7);
 		values.add(7);
 		
-		String encoded = encoder.encode(values);
+		encoded = encoder.encode(values);
 		LoggerText.log("---------------codiert-----------------------");
 		LoggerText.log(values.toString() + " wurde umgewandelt in: " + encoded);
 		LoggerText.log("---------------------------------------------");
 		
-		String decoded = decoder.decode(encoder.getTree(), encoded);
+		decoded = decoder.decode(encoder.getTree(), encoded);
 		
 		LoggerText.log("---------------decodiert---------------------");
 		LoggerText.log(encoded + " wurde umgewandelt in: " + decoded);
 		LoggerText.log("---------------------------------------------");
 		
-		loggerMap.<Integer,String>log(new CollectionSymbol().set(encoder.getTree()));
+		loggerMap.<Object,String>log(new CollectionSymbol().set(encoder.getTree()));
+		
 	}
 	
 }

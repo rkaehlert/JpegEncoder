@@ -7,7 +7,7 @@ import exercise_one.model.huffman.tree.Leaf;
 import exercise_one.model.huffman.tree.Node;
 import exercise_one.model.huffman.tree.Tree;
 
-public class Decoder {
+public class Decoder{
 	
 	private Map<Integer, String> paths = new HashMap<Integer, String>();
 	
@@ -27,10 +27,9 @@ public class Decoder {
 				}
 			}
 			if(result instanceof Leaf){
-				Integer number = ((Leaf) result).getNumber();
-				decodedValue = decodedValue.concat(String.valueOf(number));
+				Object value = ((Leaf) result).getValue();
+				decodedValue = decodedValue.concat(String.valueOf(value));
 				result = tree;
-				//throw new IllegalArgumentException("der pfad konnte dem baum nicht zugeordnet werden");
 			}
 		}
 		return decodedValue;			

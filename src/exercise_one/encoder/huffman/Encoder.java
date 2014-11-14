@@ -12,8 +12,9 @@ public class Encoder {
 	private CollectionTree values = new CollectionTree();
 	private Tree tree;
 	
-	public String encode(List<Integer> values){
-		this.values.add(values); 
+	public String encode(List<Object> values){
+		this.values.clear();
+		this.values.addAll(values); 
 		this.tree = TreeFactory.create(this.values);
 		return new ConverterHuffmanCode().convert(this.tree, values);
 	}

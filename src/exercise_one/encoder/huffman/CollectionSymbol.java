@@ -7,9 +7,9 @@ import exercise_one.model.huffman.tree.Leaf;
 import exercise_one.model.huffman.tree.Node;
 import exercise_one.model.huffman.tree.Tree;
 
-public class CollectionSymbol extends HashMap<Integer, String> {
+public class CollectionSymbol extends HashMap<Object, String> {
 
-	public Map<Integer, String> set(Tree root){
+	public Map<Object, String> set(Tree root){
 		this.clear();
 		this.set(root, "");
 		return this;
@@ -17,7 +17,7 @@ public class CollectionSymbol extends HashMap<Integer, String> {
 	
 	private void set(Tree tree, String path){
 		if(tree instanceof Leaf){
-			this.put(((Leaf)tree).getNumber(), path);
+			this.put(((Leaf)tree).getValue(), path);
 		}
 		if(tree instanceof Node){
 			this.set(((Node)tree).getLeft(), path + "0");

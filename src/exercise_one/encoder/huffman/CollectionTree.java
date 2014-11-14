@@ -12,30 +12,30 @@ import exercise_one.model.huffman.tree.Tree;
 public class CollectionTree extends ArrayList<Tree> {
 
 	Comparator<Tree> comparatorFrequency = new ComparatorTreeFrequency();
-	
-	public void add(Integer number){
+
+	public void addItem(Object value){
 		Boolean found = false;
 		for(Tree tree : this){
-			if(((Leaf)tree).getNumber() == number){
+			if(((Leaf)tree).getValue() == value){
 				int frequency = tree.getFrequency()+1;
 				tree.setFrequency(frequency);
 				found = true;
-				LoggerText.log("nummer " + number + " existiert bereits. setze die neue haeufigkeit auf " + tree.getFrequency());
+				LoggerText.log("nummer " + value + " existiert bereits. setze die neue haeufigkeit auf " + tree.getFrequency());
 				break;
 			}
 		}
 		
 		if(!found){
-			Leaf leaf = new Leaf(number,1);
+			Leaf leaf = new Leaf(value,1);
 			this.add(leaf);
-			LoggerText.log("fuege neues blatt hinzu " + number);
+			LoggerText.log("fuege neues blatt hinzu " + value);
 		}
 		this.sort(comparatorFrequency);
 	}
 	
-	public void add(List<Integer> values){
-		for(Integer value : values){
-			this.add(value);
+	public void addAll(List<Object> values){
+		for(Object value : values){
+			this.addItem(value);
 		}
 	}
 	
