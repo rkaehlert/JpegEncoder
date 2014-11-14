@@ -20,7 +20,7 @@ public class EncoderTest {
 		Encoder encoder = new Encoder();
 		
 		values.add("a");
-		values.add("b");
+		values.add("d");
 		values.add("c");
 		values.add("d");
 		values.add("a");
@@ -43,6 +43,8 @@ public class EncoderTest {
 		LoggerText.log("---------------decodiert---------------------");
 		LoggerText.log(encoded + " wurde umgewandelt in: " + decoded);
 		LoggerText.log("---------------------------------------------");
+		
+		loggerMap.log(new CollectionSymbol().set(encoder.getTree()));
 		
 		values.clear();
 
@@ -71,7 +73,7 @@ public class EncoderTest {
 		LoggerText.log(encoded + " wurde umgewandelt in: " + decoded);
 		LoggerText.log("---------------------------------------------");
 		
-		loggerMap.<Object,String>log(new CollectionSymbol().set(encoder.getTree()));
+		loggerMap.log(new CollectionSymbol().set(encoder.getTree()));
 		
 	}
 	
