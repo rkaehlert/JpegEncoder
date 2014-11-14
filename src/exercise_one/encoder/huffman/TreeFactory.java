@@ -39,7 +39,8 @@ public class TreeFactory {
 			
 			int frequency = treeOneWithLowestFrequency.getFrequency() + treeTwoWithLowestFrequency.getFrequency();
 			
-			Node node = new Node(treeOneWithLowestFrequency, treeTwoWithLowestFrequency, frequency);
+			//zuerst kommt treeTwo weil sonst der baum nach links wachsen wuerde. in aufgabe b soll er aber nach rechts wachsen
+			Node node = new Node(treeTwoWithLowestFrequency, treeOneWithLowestFrequency, frequency);
 			
 			LoggerText.log("haeufigkeit des neuen knoten welcher durch die beiden knoten mit niedrigsten haeufigkeiten entstanden ist: " + frequency);
 			collection.set(indexOfTreeOne, node);
