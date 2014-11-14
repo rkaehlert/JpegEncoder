@@ -1,6 +1,6 @@
 package exercise_one.validator;
 
-import exercise_one.exception.ImageException;
+import exercise_one.exception.image.ImageException;
 
 public class ValidatorMaxColorValue implements Validator {
 

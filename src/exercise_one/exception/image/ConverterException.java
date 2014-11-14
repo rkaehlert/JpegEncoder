@@ -1,4 +1,4 @@
-package exercise_one.exception;
+package exercise_one.exception.image;
 
 public class ConverterException extends Exception {
 

@@ -2,7 +2,7 @@ package exercise_one.file.image;
 
 import java.util.TreeMap;
 
-import exercise_one.exception.InvalidParameterException;
+import exercise_one.exception.common.InvalidParameterException;
 import exercise_one.filter.Filter;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;

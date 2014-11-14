@@ -24,7 +24,6 @@ public class LoggerTimer implements Logger{
             duration = 0L;
         }
         
-	@Override
 	public void log() {
 		System.out.println(System.lineSeparator() + "-------------------------------------");
 		System.out.println("Gesamtlaufzeit: " + duration + " ms");

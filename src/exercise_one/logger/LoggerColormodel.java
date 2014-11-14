@@ -3,7 +3,6 @@ package exercise_one.logger;
 import java.util.Map;
 import java.util.TreeMap;
 
-import exercise_one.exception.NotYetImplementedException;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.color.RGB;
 import exercise_one.model.color.YCbCr;
@@ -48,19 +47,6 @@ public class LoggerColormodel implements Logger
                     System.out.print("X");
                 }
             }
-        }
-    }
-
-    @Override
-    public void log()
-    {
-        try
-        {
-            throw new NotYetImplementedException();
-        }
-        catch (NotYetImplementedException e)
-        {
-            e.printStackTrace();
         }
     }
 

@@ -3,8 +3,7 @@ package exercise_one.converter;
 import java.util.Map;
 import java.util.TreeMap;
 
-import exercise_one.exception.ConverterException;
-import exercise_one.exception.NotYetImplementedException;
+import exercise_one.exception.image.ConverterException;
 import exercise_one.model.color.ColorChannel;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.color.RGB;
@@ -16,17 +15,6 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr> {
     public static final boolean REDUCED_Y_CHANNEL = false;
     public static final boolean REDUCED_CB_CHANNEL = true;
     public static final boolean REDUCED_CR_CHANNEL = true;
-
-    @Override
-    public YCbCr convert() {
-        try {
-            throw new NotYetImplementedException();
-        }
-        catch (NotYetImplementedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public static TreeMap<Coordinate, Colormodel> convert(TreeMap<Coordinate, Colormodel> pixel) {
         TreeMap<Coordinate, Colormodel> returnValue = new TreeMap<>();

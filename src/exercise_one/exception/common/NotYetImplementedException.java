@@ -1,4 +1,4 @@
-package exercise_one.exception;
+package exercise_one.exception.common;
 
 public class NotYetImplementedException extends Exception {
 

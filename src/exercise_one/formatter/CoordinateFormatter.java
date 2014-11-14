@@ -2,7 +2,7 @@ package exercise_one.formatter;
 
 import java.text.DecimalFormat;
 
-import exercise_one.exception.NotYetImplementedException;
+import exercise_one.exception.common.NotYetImplementedException;
 import exercise_one.model.color.YCbCr;
 
 public class CoordinateFormatter implements Formatter {

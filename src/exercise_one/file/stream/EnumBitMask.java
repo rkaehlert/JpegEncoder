@@ -1,6 +1,6 @@
 package exercise_one.file.stream;
 
-import exercise_one.exception.NotYetImplementedException;
+import exercise_one.exception.common.NotYetImplementedException;
 
 public enum EnumBitMask {
 

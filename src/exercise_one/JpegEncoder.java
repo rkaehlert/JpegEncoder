@@ -3,8 +3,8 @@ package exercise_one;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import exercise_one.exception.ImageException;
-import exercise_one.exception.UnsupportedImageFormatException;
+import exercise_one.exception.image.ImageException;
+import exercise_one.exception.image.UnsupportedImageFormatException;
 import exercise_one.file.image.JpegImage;
 import exercise_one.file.stream.SimpleBitOutputStream;
 import exercise_one.filter.FilterReductionByMiddleValue;
@@ -13,6 +13,7 @@ import exercise_one.logger.LoggerColormodel;
 import exercise_one.logger.LoggerTimer;
 import exercise_one.model.color.Colormodel;
 import exercise_one.model.matrix.Coordinate;
+
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;

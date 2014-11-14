@@ -1,8 +1,6 @@
 package exercise_one.converter;
 
 import java.math.BigInteger;
-
-import exercise_one.exception.NotYetImplementedException;
 import java.util.ArrayList;
 
 public class ConverterToByte implements Converter<Byte> {
@@ -38,17 +36,6 @@ public class ConverterToByte implements Converter<Byte> {
             data[i] = (byte) liste.get(i - leadingZeroeBytes);
         }
         return data;
-    }
-
-    @Override
-    public Byte convert() {
-        try {
-            throw new NotYetImplementedException();
-        }
-        catch (NotYetImplementedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

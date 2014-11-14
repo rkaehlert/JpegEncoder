@@ -1,6 +1,6 @@
 package exercise_one.validator;
 
-import exercise_one.exception.ImageException;
+import exercise_one.exception.image.ImageException;
 import exercise_one.model.matrix.Dimension;
 
 public class ValidatorRowCount implements Validator {
