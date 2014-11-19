@@ -20,17 +20,17 @@ public class EncoderTest {
 		Encoder encoder = new Encoder();
 		
 		values.add("a");
-		values.add("d");
-		values.add("c");
-		values.add("d");
+		values.add("a");
 		values.add("a");
 		values.add("b");
+		values.add("c");
+		values.add("c");
+		values.add("c");
+		values.add("d");
+		values.add("d");
 		values.add("e");
 		values.add("f");
 		values.add("f");
-		values.add("c");
-		values.add("c");
-		values.add("a");
 		values.add("z");
 				
 		String encoded = encoder.encode(values);
