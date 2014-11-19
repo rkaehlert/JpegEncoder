@@ -30,7 +30,6 @@ public class CollectionTree extends ArrayList<Tree> {
 			this.add(leaf);
 			LoggerText.log("fuege neues blatt hinzu " + value);
 		}
-		this.sort(comparatorFrequency);
 	}
 	
 	public void addAll(List<Object> values){
@@ -44,6 +43,7 @@ public class CollectionTree extends ArrayList<Tree> {
 	}
 	
 	public List<Tree> findLowestFrequenciesByMaximum(int max){
+		this.sort(comparatorFrequency);
 		return this.subList(0, max);
 	}
 	
