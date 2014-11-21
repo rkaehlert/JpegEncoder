@@ -40,4 +40,15 @@ public abstract class Tree  {
 		returnValue.sort(new ComparatorTreeDepth());
 		return returnValue;
 	}
+	
+	public static Tree replaceLeafWithMaximumDepth(Tree tree, Tree root){
+		if(tree instanceof Leaf){
+			Node node = new Node(tree, null, tree.getFrequency());
+			((Node)root).setRight(node);
+			return tree;
+		}else if(tree instanceof Node){
+			return Tree.replaceLeafWithMaximumDepth(((Node) tree).getRight(), tree);
+		}
+		return null;
+	}
 }

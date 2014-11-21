@@ -46,12 +46,15 @@ public class TreeFactory {
 			
 			collection.set(indexOfTreeOne, node);
 			collection.remove(indexOfTreeTwo);		
-			
-			
+
 			collection.print();
+			
 			return create(collection);
 		}
 		
+
+		Tree lowestTree = Tree.replaceLeafWithMaximumDepth(collection.get(0), null);
+			
 		collection.print();
 		LoggerText.log("baum ist erstellt");
 		return collection.get(0);

@@ -13,10 +13,15 @@ public class Node extends Tree {
 		List<Tree> trees = Tree.sortByDepth(t1,t2);
 		this.left = trees.get(0);
 		this.right = trees.get(1);
-		if(this.right.getDepth() == 0){
-			super.increaseDepth(1);
+		/*this.left = t1;
+		this.right = t2;*/
+		if(this.right != null){
+			if(this.right.getDepth() == 0){
+				super.increaseDepth(1);
+			}
+			
+			super.increaseDepth(this.right.getDepth());
 		}
-		super.increaseDepth(this.right.getDepth());
 	}
 	
 	public Tree getLeft() {
