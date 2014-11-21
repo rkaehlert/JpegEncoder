@@ -1,5 +1,6 @@
 package exercise_one.filter;
 
+import filter.Filter;
 import static org.junit.Assert.assertEquals;
 
 import java.util.TreeMap;
@@ -8,9 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exercise_one.exception.InvalidParameterException;
-import exercise_one.model.color.Colormodel;
-import exercise_one.model.color.YCbCr;
-import exercise_one.model.matrix.Coordinate;
+import model.color.Colormodel;
+import model.color.YCbCr;
+import model.matrix.Coordinate;
 
 public class TestFilterReductionByM {
 	

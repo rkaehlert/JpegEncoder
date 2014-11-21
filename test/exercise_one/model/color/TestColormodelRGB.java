@@ -1,6 +1,6 @@
 package exercise_one.model.color;
 
-import exercise_one.model.color.RGB;
+import model.color.RGB;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
