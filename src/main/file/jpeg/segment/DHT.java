@@ -9,7 +9,7 @@ import java.util.Map;
 import main.encoder.huffman.CollectionSymbol;
 import main.file.jpeg.marker.EnumMarker;
 import main.file.stream.SimpleBitOutputStream;
-import main.model.huffman.tree.Tree;
+import main.sort.SortCollectionSymbolByPathLength;
 
 public class DHT implements Marker {
 
@@ -18,7 +18,7 @@ public class DHT implements Marker {
 
 	public DHT(){
 		this.length = new byte[2];
-		this.setLstHT(new ArrayList<HT>());
+		this.lstHT = new ArrayList<HT>();
 	}
 
 	public enum EnumHTNumber {
@@ -63,6 +63,8 @@ public class DHT implements Marker {
     @Override
     public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
     	out.writeByteArray(EnumMarker.DHT.getValue());
+    	out.writeByteArray(this.length);
+    	
     	for(HT currentHT : this.lstHT){
     		currentHT.write(out);        	
     	}
@@ -80,22 +82,28 @@ public class DHT implements Marker {
 		return lstHT;
 	}
 
-	public void setLstHT(List<HT> lstHT) {
-		this.lstHT = lstHT;
-	}
-
 	public void addHT(EnumHTNumber number, EnumHTType type, CollectionSymbol collectionSymbol) {
-		CollectionSymbol reducedSymbolCollection = new CollectionSymbol();
-		for(Map.Entry<Tree, String> currentEntry : collectionSymbol.entrySet()){
-			reducedSymbolCollection.put(currentEntry.getKey(), currentEntry.getValue());
-			if(reducedSymbolCollection.size() % 16 == 0){
-				this.lstHT.add(new HT(number,type, reducedSymbolCollection));
-				reducedSymbolCollection.clear();
+		
+		Map<Integer, List<String>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
+		int index = 0;
+		
+		HT ht = null;
+		for(Map.Entry<Integer, List<String>> currentEntry : sortedByPathLength.entrySet()){
+			if(index == 16){
+				this.lstHT.add(ht);
 			}
+			if(index % 16 == 0){
+				ht = new HT();
+				ht.setInformation(number, type);
+			}
+			for(String currentValue : currentEntry.getValue()){
+				ht.addSymbol(currentValue.getBytes());
+			}
+			index++;
 		}
-		if(reducedSymbolCollection.size() > 0){
-			this.lstHT.add(new HT(number,type, reducedSymbolCollection));
+		if(ht.getSymbols().size() > 0){
+			this.lstHT.add(ht);
 		}
 	}
-		
+	
 }
