@@ -1,16 +1,18 @@
 package main.converter;
 
 import java.util.List;
-import java.util.Map;
 
 import main.encoder.huffman.CollectionSymbol;
+import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
 
 public class ConverterHuffmanCode implements Converter<String> {
 
 	public String convert(Tree tree, List<Object> input){
 		String output = "";
-		Map<Object, String> symbolMapping = new CollectionSymbol().set(tree);
+		CollectionSymbol symbolMapping = new CollectionSymbol();
+		symbolMapping.set(tree);
+		new LoggerMap<Tree,String>().log(symbolMapping);
 		for(Object value : input){
 			output = output + symbolMapping.get(value);
 		}

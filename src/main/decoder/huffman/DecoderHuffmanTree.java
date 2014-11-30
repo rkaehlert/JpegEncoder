@@ -7,7 +7,7 @@ import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
 
-public class Decoder{
+public class DecoderHuffmanTree{
 	
 	private Map<Integer, String> paths = new HashMap<Integer, String>();
 	

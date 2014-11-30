@@ -17,5 +17,14 @@ public class Leaf extends Tree {
 		this.value = value;
 	}
 
+	@Override
+	public int compareTo(Tree o) {
+		return 0;
+	}
+
+	@Override
+	public String toString() {
+		return this.value.toString();
+	}
 	
 }

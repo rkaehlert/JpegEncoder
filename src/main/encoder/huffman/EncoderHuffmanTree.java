@@ -7,7 +7,7 @@ import main.exception.huffmann.ExceptionEncoding;
 import main.logger.LoggerError;
 import main.model.huffman.tree.Tree;
 
-public class Encoder {
+public class EncoderHuffmanTree {
 
 	private CollectionTree values = new CollectionTree();
 	private Tree tree;

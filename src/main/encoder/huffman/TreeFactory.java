@@ -53,7 +53,7 @@ public class TreeFactory {
 		}
 		
 
-		Tree lowestTree = Tree.replaceLeafWithMaximumDepth(collection.get(0), null);
+		//Tree.replaceLeafWithMaximumDepth(collection.get(0), null);
 			
 		collection.print();
 		LoggerText.log("baum ist erstellt");

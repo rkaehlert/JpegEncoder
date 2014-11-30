@@ -4,17 +4,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import main.converter.ConverterHuffmanTreeToPath;
 import main.converter.ConverterRGBToYCbCr;
 import main.converter.ConverterStringToInteger;
 import main.converter.ConverterToByte;
 import main.encoder.huffman.CollectionSymbol;
-import main.encoder.huffman.Encoder;
+import main.encoder.huffman.EncoderHuffmanTree;
 import main.exception.image.ImageException;
 import main.exception.image.UnsupportedImageFormatException;
 import main.file.jpeg.segment.APP0;
+import main.file.jpeg.segment.DHT;
+import main.file.jpeg.segment.DHT.EnumHTNumber;
+import main.file.jpeg.segment.DHT.EnumHTType;
 import main.file.jpeg.segment.EOI;
 import main.file.jpeg.segment.SOF0;
 import main.file.jpeg.segment.SOI;
@@ -23,6 +26,7 @@ import main.logger.LoggerMap;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
+import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
 
 public class JpegImage extends Image implements Cloneable {
@@ -205,12 +209,19 @@ public class JpegImage extends Image implements Cloneable {
         sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height, 2));
         sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width, 2));
         sof0.write(out);
+        DHT dht = new DHT();
+        
+        CollectionSymbol collectionSymbol = this.createHuffmanTree();
+        collectionSymbol.sort();
+        dht.addHT(EnumHTNumber.NUMBER_ONE, EnumHTType.DC, collectionSymbol);
+        
+        dht.write(out);
         new EOI().write(out);
         out.close();
     }
 
-    public Map<Object, String> createHuffmanTree() {
-        Encoder encoder = new Encoder();
+    public CollectionSymbol createHuffmanTree() {
+        EncoderHuffmanTree encoder = new EncoderHuffmanTree();
         ArrayList<Object> liste = new ArrayList<>();
         
         for (Map.Entry<Coordinate, Colormodel> entry : pixel.entrySet()) {
@@ -222,9 +233,9 @@ public class JpegImage extends Image implements Cloneable {
         
         encoder.encode(liste);
 
-        LoggerMap<Object,String> loggerMap = new LoggerMap<>();
-        loggerMap.log(new CollectionSymbol().set(encoder.getTree()));
-        return new CollectionSymbol().set(encoder.getTree());
+        LoggerMap<Tree,String> loggerMap = new LoggerMap<Tree,String>();
+        loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
+        return ConverterHuffmanTreeToPath.convert(encoder.getTree());
     }
 
     public String getColormodel() {

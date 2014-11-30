@@ -4,9 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.model.comparator.huffman.ComparatorTreeDepth;
+import main.utility.tree.UtilityTreeManipulation;
 
 
-public abstract class Tree  {
+public abstract class Tree implements Comparable<Tree> {
 
 	private int frequency = 0;
 	private int depth = 0;
@@ -41,14 +42,41 @@ public abstract class Tree  {
 		return returnValue;
 	}
 	
-	public static Tree replaceLeafWithMaximumDepth(Tree tree, Tree root){
-		if(tree instanceof Leaf){
-			Node node = new Node(tree, null, tree.getFrequency());
-			((Node)root).setRight(node);
-			return tree;
-		}else if(tree instanceof Node){
-			return Tree.replaceLeafWithMaximumDepth(((Node) tree).getRight(), tree);
-		}
-		return null;
+	public int getHeight(){
+		return this.getHeight(this, 0);
 	}
+	
+	private int getHeight(Tree currentTree, int currentMaximumHeight){
+		if(currentTree instanceof Node) {
+			Node node = (Node)currentTree;
+			int tempMaximumHeight = currentMaximumHeight+1;
+			if(node.getLeft() instanceof Node){
+				currentMaximumHeight = this.getHeight(node.getLeft(), tempMaximumHeight);
+			}else if(node.getRight() instanceof Node){
+				currentMaximumHeight = this.getHeight(node.getRight(), tempMaximumHeight);
+			}
+		}
+		return currentMaximumHeight;
+	}
+	
+	public void set(Tree toReplaceTree, Tree newValueForTree){
+		Node searchedTree = (Node)UtilityTreeManipulation.getParentOfTree(this, toReplaceTree);
+		if(searchedTree.getLeft().equals(toReplaceTree)){
+			searchedTree.setLeft(newValueForTree);
+		}else if(searchedTree.getRight().equals(toReplaceTree)){
+			searchedTree.setRight(newValueForTree);
+		}
+	}
+	
+	public void removeAll(List<Tree> leafsRemoved) {
+		for(Tree currentTreeToBeRemoved : leafsRemoved){
+			Node tree = (Node)UtilityTreeManipulation.getParentOfTree(this, currentTreeToBeRemoved);
+			if(tree != null && tree.getLeft() != null && tree.getLeft().equals(currentTreeToBeRemoved)){
+				tree.setLeft(null);
+			}else if(tree != null && tree.getRight() != null && tree.getRight().equals(currentTreeToBeRemoved)){
+				tree.setRight(null);
+			}
+		}
+	}
+	
 }

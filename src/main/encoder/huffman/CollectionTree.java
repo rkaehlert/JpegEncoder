@@ -16,7 +16,7 @@ public class CollectionTree extends ArrayList<Tree> {
 	public void addItem(Object value){
 		Boolean found = false;
 		for(Tree tree : this){
-			if(((Leaf)tree).getValue() == value){
+			if(((Leaf)tree).getValue().equals(value)){
 				int frequency = tree.getFrequency()+1;
 				tree.setFrequency(frequency);
 				found = true;
@@ -30,6 +30,10 @@ public class CollectionTree extends ArrayList<Tree> {
 			this.add(leaf);
 			LoggerText.log("fuege neues blatt hinzu " + value);
 		}
+	}
+	
+	public Tree getLastElement(){
+		return (Tree)super.toArray()[super.size()];
 	}
 	
 	public void addAll(List<Object> values){

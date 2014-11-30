@@ -1,4 +1,4 @@
-package main;
+package main.tester;
 
 
 
@@ -8,7 +8,7 @@ import java.io.IOException;
 import main.file.stream.SimpleBitOutputStream;
 import main.logger.LoggerTimer;
 
-public class SimpleBitStreamTester {
+public class TesterSimpleBitStream {
 
     public static void main(String[] args) {
         try {

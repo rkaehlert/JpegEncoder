@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import main.exception.common.NotYetImplementedException;
 import main.model.color.YCbCr;
 
-public class CoordinateFormatter implements Formatter {
+public class FormatterCoordinate implements Formatter {
 
     DecimalFormat format = new DecimalFormat(" ###.00;-###.00");
 	

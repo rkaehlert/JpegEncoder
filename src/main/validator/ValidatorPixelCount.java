@@ -1,5 +1,7 @@
 package main.validator;
 
+import main.datahandler.DataHandler;
+import main.exception.common.NotYetImplementedException;
 import main.exception.image.ImageException;
 import main.file.image.Image;
 import main.model.matrix.Dimension;
@@ -7,14 +9,20 @@ import main.model.matrix.Dimension;
 public class ValidatorPixelCount implements Validator {
 
 	@Override
-	public void validate() throws Exception {
-		
+	public boolean validate(DataHandler datahandler) {
+		try{
+			throw new NotYetImplementedException();
+		}catch(NotYetImplementedException e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
-	public void validate(Dimension dimension, Image image) throws ImageException {
+	public boolean validate(Dimension dimension, Image image) throws ImageException {
 		if((dimension.getWidth() * dimension.getHeight()) != image.getPixel().size()){
         	throw new ImageException("Die ermittelte Groesse passt nicht zu den ausgewerteten Bildpunkten");
         }
+		return true;
 	}
 	
 }

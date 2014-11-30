@@ -1,10 +1,11 @@
 package main.file.jpeg.segment;
 
-import main.file.jpeg.marker.EnumMarker;
-import main.file.stream.SimpleBitOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+
+import main.file.jpeg.marker.EnumMarker;
+import main.file.stream.SimpleBitOutputStream;
 
 public class SOF0 implements Marker {
 
@@ -41,7 +42,7 @@ public class SOF0 implements Marker {
         components[0].setIdComponent(Component.EnumId.Y);
         components[0].setQuantisizeTableNum((byte) 1);
         components[0].setSubSamplingFactor(Component.EnumSubSampling.NONE);
-        setLength();
+        calculateLength();
     }
 
     @Override
@@ -93,7 +94,7 @@ public class SOF0 implements Marker {
         this.height = height;
     }
 
-    private void setLength() {
+    private void calculateLength() {
         int length_value = 8 + component_count * 3;
 
         if (length_value <= 256) {
@@ -121,10 +122,14 @@ public class SOF0 implements Marker {
         if (components.length == 1 || components.length == 3) {
             this.components = components;
             component_count = (byte)components.length;
-            setLength();
+            calculateLength();
         }
         else {
             throw new IllegalArgumentException("Nur ein oder drei Kanäle möglich");
         }
     }
+
+	public void setLength(byte[] length) {
+		this.length = length;
+	}
 }

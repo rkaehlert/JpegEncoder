@@ -1,25 +1,22 @@
-package main;
+package main.tester;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.TreeMap;
 
 import main.exception.image.ImageException;
 import main.exception.image.UnsupportedImageFormatException;
 import main.file.image.JpegImage;
 import main.file.stream.SimpleBitOutputStream;
-import main.filter.FilterReductionByMiddleValue;
 import main.filter.FilterReductionByStep;
 import main.logger.LoggerColormodel;
 import main.logger.LoggerTimer;
 import main.model.color.Colormodel;
 import main.model.matrix.Coordinate;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-
-public class JpegEncoder {
+public class TesterJpegEncoder {
 
     private static final int PARAMETER_INDEX_IMAGE_PATH = 0;
     static int fillMode;
@@ -30,7 +27,7 @@ public class JpegEncoder {
     public static void main(String[] args) {
         try {
             //setParams();
-            JpegEncoder jpe = new JpegEncoder();
+            TesterJpegEncoder jpe = new TesterJpegEncoder();
             
             LoggerTimer timeLogger = new LoggerTimer();
             LoggerColormodel coordinateLogger = new LoggerColormodel();
@@ -48,7 +45,8 @@ public class JpegEncoder {
             coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
-            image.writeToFile(new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\robin\\Desktop\\outputSingleByte.jpg")));
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
+            image.writeToFile(new SimpleBitOutputStream(fileOutputStream));
             image.createHuffmanTree();
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
