@@ -65,7 +65,7 @@ public class HT implements Marker {
     	out.write(this.getInformation()[1], 1);
     	out.write(this.getInformation()[2], 3);
       	
-    	int index = 1;
+    	int index = 0;
 		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
 			int difference = currentEntry.getKey()-index;
 			index += difference;
@@ -82,6 +82,9 @@ public class HT implements Marker {
 		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
     		List<byte[]> value = currentEntry.getValue();
     		for(byte[] currentByte : value){
+    			for(index = 8; index > currentByte.length; index--){
+    				out.writeBit(0);
+    			}
     			for(index = 0; index < currentByte.length; index++){
         			out.write(currentByte[index], 1);
     			}

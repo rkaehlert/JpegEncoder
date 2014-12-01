@@ -18,6 +18,8 @@ public class DHT implements Marker {
 
 	public DHT(){
 		this.length = new byte[2];
+		this.length[0] = 0;
+		this.length[1] = 1;
 		this.lstHT = new ArrayList<HT>();
 	}
 
@@ -99,6 +101,7 @@ public class DHT implements Marker {
 			}
 			for(String currentValue : currentEntry.getValue()){
 				ht.addSymbol(currentValue.getBytes());
+				incrementLength(currentValue.getBytes().length);
 			}
 			first = false;
 			index++;
@@ -106,6 +109,10 @@ public class DHT implements Marker {
 		if(ht.getSymbols().size() > 0){
 			this.lstHT.add(ht);
 		}
+	}
+	
+	public void incrementLength(int amount){
+		this.length[1] = (byte) (this.length[1] + amount);
 	}
 	
 }
