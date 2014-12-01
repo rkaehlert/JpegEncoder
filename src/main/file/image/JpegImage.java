@@ -215,6 +215,10 @@ public class JpegImage extends Image implements Cloneable {
         collectionSymbol.sort();
         dht.addHT(EnumHTNumber.NUMBER_ONE, EnumHTType.DC, collectionSymbol);
         
+        //byte[] length = {(byte)0,(byte)100};
+        
+        dht.setLength(length);
+        
         dht.write(out);
         new EOI().write(out);
         out.close();

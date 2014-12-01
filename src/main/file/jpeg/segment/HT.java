@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class HT implements Marker {
 	
 	public HT(){
 		this.information = new byte[3];
-		this.setSymbols(new HashMap<Integer, List<byte[]>>());
+		this.setSymbols(new LinkedHashMap<Integer, List<byte[]>>());
 	}
 	
 	public void addSymbol(byte[] code){
@@ -29,7 +29,9 @@ public class HT implements Marker {
 				List<byte[]> lstBytes = new ArrayList<byte[]>(Arrays.asList(code));
 				this.getSymbols().put(key, lstBytes);
 			}else{
-				this.getSymbols().get(key).add(code);
+				if(this.getSymbols().get(key).contains(code) == false){
+					this.getSymbols().get(key).add(code);
+				}
 			}
 		}
 	}
@@ -62,18 +64,28 @@ public class HT implements Marker {
     	out.write(this.getInformation()[0], 4);
     	out.write(this.getInformation()[1], 1);
     	out.write(this.getInformation()[2], 3);
-    	
+      	
+    	int index = 1;
+		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
+			int difference = currentEntry.getKey()-index;
+			index += difference;
+			if(difference > 0){
+				out.writeByteArray(new byte[difference-1]);
+			}
+			if(index == currentEntry.getKey()){
+				out.writeByte((byte)currentEntry.getValue().size());
+			}
+    	}
+		
+		out.writeByteArray(new byte[16-index]);
+		
 		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
     		List<byte[]> value = currentEntry.getValue();
     		for(byte[] currentByte : value){
-    			for(int index = 0; index < currentByte.length; index++){
-        			out.write(currentByte[index], 1);	
+    			for(index = 0; index < currentByte.length; index++){
+        			out.write(currentByte[index], 1);
     			}
     		}
-    	}
-		
-		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
-    		out.writeInt(currentEntry.getKey());
     	}
 	}
 
@@ -84,4 +96,5 @@ public class HT implements Marker {
 	public void setInformation(byte[] information) {
 		this.information = information;
 	}
+	
 }

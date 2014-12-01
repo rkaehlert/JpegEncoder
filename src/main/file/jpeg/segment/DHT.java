@@ -66,7 +66,7 @@ public class DHT implements Marker {
     	out.writeByteArray(this.length);
     	
     	for(HT currentHT : this.lstHT){
-    		currentHT.write(out);        	
+    		currentHT.write(out);
     	}
     }
 
@@ -85,20 +85,22 @@ public class DHT implements Marker {
 	public void addHT(EnumHTNumber number, EnumHTType type, CollectionSymbol collectionSymbol) {
 		
 		Map<Integer, List<String>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
+		boolean first = true;
 		int index = 0;
 		
 		HT ht = null;
 		for(Map.Entry<Integer, List<String>> currentEntry : sortedByPathLength.entrySet()){
-			if(index == 16){
-				this.lstHT.add(ht);
-			}
 			if(index % 16 == 0){
 				ht = new HT();
 				ht.setInformation(number, type);
+				if(first == false){
+					this.lstHT.add(ht);
+				}
 			}
 			for(String currentValue : currentEntry.getValue()){
 				ht.addSymbol(currentValue.getBytes());
 			}
+			first = false;
 			index++;
 		}
 		if(ht.getSymbols().size() > 0){
