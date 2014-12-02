@@ -44,7 +44,6 @@ public abstract class Tree implements Comparable<Tree> {
 	
 	public int getHeight(){
 		return getHeightNew(this);
-		//return this.getHeight(this, 0) +1;
 	}
 
 	public int getHeightNew(final Tree node) {
@@ -54,28 +53,6 @@ public abstract class Tree implements Comparable<Tree> {
 			  return (left_height > right_height) ? left_height + 1 : right_height + 1;
 		  }
 		  return 0;
-		}
-	
-	private int getHeight(Tree currentTree, int currentMaximumHeight){
-		int currentMaximumHeightLeft = 0;
-		int currentMaximumHeightRight = 0;
-		if(currentTree instanceof Node) {
-			Node node = (Node)currentTree;
-			currentMaximumHeightLeft = currentMaximumHeight+1;
-			currentMaximumHeightRight = currentMaximumHeight+1;
-			
-			if(node.getLeft() instanceof Node){
-				currentMaximumHeightLeft = this.getHeight(node.getLeft(), currentMaximumHeightLeft);
-			}
-			if(node.getRight() instanceof Node){
-				currentMaximumHeightRight = this.getHeight(node.getRight(), currentMaximumHeightRight);
-			}
-		}
-		if(currentMaximumHeightLeft > currentMaximumHeightRight){
-			return currentMaximumHeightLeft;
-		}else{
-			return currentMaximumHeightRight;
-		}
 	}
 	
 	public void set(Tree toReplaceTree, Tree newValueForTree){

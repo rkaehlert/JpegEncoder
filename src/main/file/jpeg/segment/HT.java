@@ -3,9 +3,9 @@ package main.file.jpeg.segment;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,18 +15,18 @@ import main.file.stream.SimpleBitOutputStream;
 
 public class HT implements Marker {
 	private byte[] information;
-	private Map<Integer, List<byte[]>> symbols;
+	private LinkedHashMap<Integer, LinkedList<byte[]>> symbols;
 	
 	public HT(){
 		this.information = new byte[3];
-		this.setSymbols(new LinkedHashMap<Integer, List<byte[]>>());
+		this.setSymbols(new LinkedHashMap<Integer, LinkedList<byte[]>>());
 	}
 	
 	public void addSymbol(byte[] code){
 		if(this.validateLength(code.length) == true){
 			Integer key = code.length;
 			if(this.getSymbols().containsKey(key) == false){
-				List<byte[]> lstBytes = new ArrayList<byte[]>(Arrays.asList(code));
+				LinkedList<byte[]> lstBytes = new LinkedList<byte[]>(Arrays.asList(code));
 				this.getSymbols().put(key, lstBytes);
 			}else{
 				if(this.getSymbols().get(key).contains(code) == false){
@@ -51,11 +51,11 @@ public class HT implements Marker {
     	this.information = ht;
 	}
 
-	public Map<Integer, List<byte[]>> getSymbols() {
+	public LinkedHashMap<Integer, LinkedList<byte[]>> getSymbols() {
 		return symbols;
 	}
 
-	public void setSymbols(Map<Integer, List<byte[]>> symbols) {
+	public void setSymbols(LinkedHashMap<Integer, LinkedList<byte[]>> symbols) {
 		this.symbols = symbols;
 	}
 
@@ -66,7 +66,7 @@ public class HT implements Marker {
     	out.write(this.getInformation()[2], 3);
       	
     	int index = 0;
-		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
+		for(Map.Entry<Integer, LinkedList<byte[]>> currentEntry : this.getSymbols().entrySet()){
 			int difference = currentEntry.getKey()-index;
 			index += difference;
 			if(difference > 0){
@@ -77,19 +77,25 @@ public class HT implements Marker {
 			}
     	}
 		
-//	out.writeByteArray(new byte[16-index]);
-//		
-//		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
-//    		List<byte[]> value = currentEntry.getValue();
-//    		for(byte[] currentByte : value){
-//    			for(index = 8; index > currentByte.length; index--){
-//    				out.writeBit(0);
-//    			}
-//    			for(index = 0; index < currentByte.length; index++){
-//        			out.write(currentByte[index], 1);
-//    			}
-//    		}
-//    	}
+		out.writeByteArray(new byte[16-index]);
+		
+		for(Map.Entry<Integer, LinkedList<byte[]>> currentEntry : this.getSymbols().entrySet()){
+    		List<byte[]> value = currentEntry.getValue();
+    		for(byte[] currentByte : value){
+    			for(index = 8; index > currentByte.length; index--){
+    				out.writeBit(0);
+				}
+    			for(index = 0; index < currentByte.length; index++){
+    				if(currentByte[index] == 48){
+        				out.writeBit(0);	
+    				}else if(currentByte[index] == 49){
+        				out.writeBit(1);	
+    				}else{
+    					System.out.println("STOIOOOOOOOOOOOP");
+    				}
+    			}
+    		}
+    	}
 	}
 
 	public byte[] getInformation() {
