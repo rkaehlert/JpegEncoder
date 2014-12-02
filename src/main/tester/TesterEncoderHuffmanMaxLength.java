@@ -22,11 +22,11 @@ public class TesterEncoderHuffmanMaxLength {
 		List<Object> numberSymbols = new ArrayList<Object>();
 		EncoderHuffmanTree encoder = new EncoderHuffmanTree();
 		
-		characterSymbols = Arrays.asList("a","a","a","b","c","c","c","d","d","d","d","e","f","f","f","f","f","g","z","z");
+		characterSymbols = Arrays.asList("a","a","a","b","c","c","c","d","d","d","d","e","f","f","f","f","f","g","z","z","a","h","h","b","u","z","o","o","e","n","n","m","e","e","a","a","g","g","z","z");
 		numberSymbols = Arrays.asList(1,1,2,2,2,3,3,5,5,5,6,7,7,7);
 		
 		encoder.encode(characterSymbols);
-		Tree maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 2);
+		Tree maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 5);
 		loggerMap.log(ConverterHuffmanTreeToPath.convert(maxLengthOptimizedTree));
 		
 		encoder.encode(numberSymbols);		

@@ -54,7 +54,7 @@ public class TreeFactory {
 		}
 		
 
-		UtilityTreeManipulation.replaceLeafWithMaximumDepth(collection.get(0), null);
+		//UtilityTreeManipulation.replaceLeafWithMaximumDepth(collection.get(0), null);
 			
 		collection.print();
 		LoggerText.log("baum ist erstellt");
