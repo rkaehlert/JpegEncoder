@@ -77,19 +77,19 @@ public class HT implements Marker {
 			}
     	}
 		
-		out.writeByteArray(new byte[16-index]);
-		
-		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
-    		List<byte[]> value = currentEntry.getValue();
-    		for(byte[] currentByte : value){
-    			for(index = 8; index > currentByte.length; index--){
-    				out.writeBit(0);
-    			}
-    			for(index = 0; index < currentByte.length; index++){
-        			out.write(currentByte[index], 1);
-    			}
-    		}
-    	}
+//	out.writeByteArray(new byte[16-index]);
+//		
+//		for(Map.Entry<Integer, List<byte[]>> currentEntry : this.getSymbols().entrySet()){
+//    		List<byte[]> value = currentEntry.getValue();
+//    		for(byte[] currentByte : value){
+//    			for(index = 8; index > currentByte.length; index--){
+//    				out.writeBit(0);
+//    			}
+//    			for(index = 0; index < currentByte.length; index++){
+//        			out.write(currentByte[index], 1);
+//    			}
+//    		}
+//    	}
 	}
 
 	public byte[] getInformation() {

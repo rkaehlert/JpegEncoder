@@ -9,7 +9,7 @@ import main.model.matrix.Coordinate;
 
 public abstract class Image {
 
-    protected TreeMap<Coordinate, Colormodel> pixel = new TreeMap<>();
+    protected TreeMap<Coordinate, Colormodel> pixel = new TreeMap<Coordinate,Colormodel>();
     protected int width;
     protected int height;
     protected int maxColorValue = 0;

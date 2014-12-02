@@ -22,12 +22,19 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 				symbolsToBeRemoved.add(leaf.getValue());	
 			}
 		}
+		if(nodesToBeRemoved.size() == 0){
+			return tree;
+		}
 		Tree t1 = tree;
 		t1.removeAll(nodesToBeRemoved);
+
+		if(symbolsToBeRemoved.size() == 0){
+			return tree;
+		}
 		
 		EncoderHuffmanTree encoder = new EncoderHuffmanTree();
 		encoder.encode(symbolsToBeRemoved);
-		
+
 		Tree t2 = encoder.getTree();
 		int appendingLevel = limit - t2.getHeight() - 1;
 		if(appendingLevel < 0){
