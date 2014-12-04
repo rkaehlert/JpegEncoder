@@ -3,8 +3,6 @@ package main.file.stream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class SimpleBitOutputStream {
 
@@ -27,6 +25,7 @@ public final class SimpleBitOutputStream {
         byteBuffer = new byte[BUFFER_SIZE];
     }
 
+    //TODO enthält noch einen fehler. schreiben der zeichenfolge 0111111111 ergibt FFC0 anstatt 7FCO. wird stattdessen writeBit verwendet kommt das richtige heraus
     public void write(byte b, int offset) throws IOException {
 
         currentByte = (byte) (currentByte << offset | b);
@@ -55,6 +54,12 @@ public final class SimpleBitOutputStream {
     }
 
     public void writeByte(byte b) throws IOException {
+    	if(currentBitsInCurrentByte % 8 != 0){
+    		int count = currentBitsInCurrentByte;
+    		for(int index = 8; index > count; index--){
+    			this.writeBit(0);
+    		}
+    	}
         write(b, 8);
     }
 
@@ -73,20 +78,6 @@ public final class SimpleBitOutputStream {
         }
     }
     
-    public void writeStringWithBits(String string) {
-        char[] bits = string.toCharArray();
-        for(int i=0;i<bits.length;i++) {
-            if((int)bits[i] == 0 || (int)bits[i] == 1) {
-                try {
-                    writeBit((int)bits[i]);
-                }
-                catch (IOException ex) {
-                    Logger.getLogger(SimpleBitOutputStream.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
     public void close() throws IOException {
         if (currentBytesInBuffer < BUFFER_SIZE - 1) {
             for (int i = 0; i < currentBytesInBuffer; i++) {

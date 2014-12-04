@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import main.encoder.huffman.CollectionSymbol;
+import main.model.huffman.tree.Leaf;
+import main.model.huffman.tree.Tree;
 
 public class SortCollectionSymbolByPathLength {
 
-	public static Map<Integer, List<String>> sort(CollectionSymbol collectionSymbol){
-		Map<Integer, List<String>> returnValue = new HashMap<Integer, List<String>>();
-		for(String currentValue : collectionSymbol.values()){
-			int length = currentValue.length();
+	public static Map<Integer, List<Integer>> sort(CollectionSymbol collectionSymbol){
+		Map<Integer, List<Integer>> returnValue = new HashMap<Integer, List<Integer>>();
+		for(Map.Entry<Tree, String> currentEntry : collectionSymbol.entrySet()){
+			int length = currentEntry.getValue().length();
 			if(returnValue.containsKey(length) == false){
-				returnValue.put(length, new ArrayList<String>());
+				returnValue.put(length, new ArrayList<Integer>());
 			}
-			returnValue.get(length).add(currentValue);
+			Leaf leaf = (Leaf)currentEntry.getKey();
+			returnValue.get(length).add(Double.valueOf(leaf.getValue().toString()).intValue());
 		}
 		return returnValue;
 	}

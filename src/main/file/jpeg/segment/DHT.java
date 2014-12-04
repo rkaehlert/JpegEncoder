@@ -80,27 +80,24 @@ public class DHT implements Marker {
 
 	public void addHT(EnumHTNumber number, EnumHTType type, CollectionSymbol collectionSymbol) {
 		
-		Map<Integer, List<String>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
+		Map<Integer, List<Integer>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
 		boolean first = true;
 		int index = 0;
 		
 		HT ht = null;
-		for(Map.Entry<Integer, List<String>> currentEntry : sortedByPathLength.entrySet()){
+		for(Map.Entry<Integer, List<Integer>> currentEntry : sortedByPathLength.entrySet()){
 			if(index % 16 == 0){
 				ht = new HT();
 				ht.setInformation(number, type);
-				if(first == false){
+				if(first == true){
 					this.lstHT.add(ht);
+					first = false;
 				}
 			}
-			for(String currentValue : currentEntry.getValue()){
-				ht.addSymbol(currentValue.getBytes());
+			for(Integer currentValue : currentEntry.getValue()){
+				ht.addSymbol(currentEntry.getKey(), new byte[]{currentValue.byteValue()});
 			}
-			first = false;
 			index++;
-		}
-		if(ht.getSymbols().size() > 0){
-			this.lstHT.add(ht);
 		}
 		this.setLength();
 	}
@@ -112,7 +109,7 @@ public class DHT implements Marker {
 			int count = 0; 
 			for(int index = 1; index <= 16; index++){
 				if(ht.getSymbols().containsKey(index)){
-					count += ht.getSymbols().get(index).size() * index;
+					count += ht.getSymbols().get(index).size();
 				}
 			}
 			length += 17 + count;

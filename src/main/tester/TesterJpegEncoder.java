@@ -34,7 +34,7 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
-            JpegImage image = new JpegImage(jpe.getFilePath("test_small.ppm"), 20, fillMode);
+            JpegImage image = new JpegImage(jpe.getFilePath("test1.ppm"), 20, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
             coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
@@ -47,7 +47,6 @@ public class TesterJpegEncoder {
 
             FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
             image.writeToFile(new SimpleBitOutputStream(fileOutputStream));
-            image.createHuffmanTree();
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());

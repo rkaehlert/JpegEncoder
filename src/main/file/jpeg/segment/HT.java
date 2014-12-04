@@ -6,7 +6,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import main.file.jpeg.segment.DHT.EnumHTNumber;
@@ -22,9 +21,9 @@ public class HT implements Marker {
 		this.setSymbols(new LinkedHashMap<Integer, LinkedList<byte[]>>());
 	}
 	
-	public void addSymbol(byte[] code){
-		if(this.validateLength(code.length) == true){
-			Integer key = code.length;
+	public void addSymbol(int length, byte[] code){
+		if(this.validateLength(length) == true){
+			Integer key = length;
 			if(this.getSymbols().containsKey(key) == false){
 				LinkedList<byte[]> lstBytes = new LinkedList<byte[]>(Arrays.asList(code));
 				this.getSymbols().put(key, lstBytes);
@@ -78,22 +77,21 @@ public class HT implements Marker {
     	}
 		
 		out.writeByteArray(new byte[16-index]);
-		
 		for(Map.Entry<Integer, LinkedList<byte[]>> currentEntry : this.getSymbols().entrySet()){
-    		List<byte[]> value = currentEntry.getValue();
+    		LinkedList<byte[]> value = currentEntry.getValue();
+			
     		for(byte[] currentByte : value){
-    			for(index = 8; index > currentByte.length; index--){
-    				out.writeBit(0);
-				}
-    			for(index = 0; index < currentByte.length; index++){
-    				if(currentByte[index] == 48){
-        				out.writeBit(0);	
-    				}else if(currentByte[index] == 49){
-        				out.writeBit(1);	
-    				}else{
-    					System.out.println("STOIOOOOOOOOOOOP");
-    				}
-    			}
+    			out.writeByteArray(currentByte);
+//    			String byteAsString = "";
+//    			for(index = 0; index < currentByte.length; index++){
+//    				byteAsString += (char)currentByte[index];
+//    				if(currentByte[index] == 48){
+//        				out.writeBit(0);	
+//    				}else if(currentByte[index] == 49){
+//        				out.writeBit(1);	
+//    				}
+//    			}
+				//System.out.print("schreibe " + byteAsString + "\n");
     		}
     	}
 	}

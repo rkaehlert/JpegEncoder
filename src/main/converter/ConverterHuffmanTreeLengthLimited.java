@@ -44,7 +44,7 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 		// STEP THREE
 		
 		Tree t2 = encoder.getTree();
-		int appendingLevel = limit - t2.getHeight() - 1;
+		int appendingLevel = limit - t2.getHeight() - 2;
 		if(appendingLevel < 0){
 			appendingLevel = 0;
 		}

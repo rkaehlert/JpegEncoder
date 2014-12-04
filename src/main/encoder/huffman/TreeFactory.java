@@ -7,7 +7,6 @@ import main.exception.huffmann.ExceptionInvalidTreeSize;
 import main.logger.LoggerText;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
-import main.utility.tree.UtilityTreeManipulation;
 
 public class TreeFactory {
 	

@@ -210,13 +210,10 @@ public class JpegImage extends Image implements Cloneable {
         sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width, 2));
         sof0.write(out);
         DHT dht = new DHT();
-        
-        CollectionSymbol collectionSymbol = this.createHuffmanTree();
-        collectionSymbol.sort();
+
+       	CollectionSymbol collectionSymbol = this.createHuffmanTree();
         dht.addHT(EnumHTNumber.NUMBER_TWO, EnumHTType.DC, collectionSymbol);
-        
         dht.write(out);
-        //new DQT().write(out);
         new EOI().write(out);
         out.close();
     }
