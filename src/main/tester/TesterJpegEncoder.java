@@ -34,7 +34,7 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
-            JpegImage image = new JpegImage(jpe.getFilePath("test1.ppm"), 20, fillMode);
+            JpegImage image = new JpegImage(jpe.getFilePath("test.ppm"), 20, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
            // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
