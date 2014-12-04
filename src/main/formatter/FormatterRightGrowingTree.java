@@ -1,8 +1,8 @@
 package main.formatter;
 
 import main.encoder.huffman.CollectionSymbol;
-import main.exception.common.InvalidParameterException;
-import main.exception.common.NotYetImplementedException;
+import main.exception.common.ExceptionInvalidParameter;
+import main.exception.common.ExceptionNotYetImplemented;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
 
@@ -11,14 +11,14 @@ public class FormatterRightGrowingTree implements Formatter {
 	@Override
 	public String format() {
 		try{
-			throw new NotYetImplementedException();
-		}catch(NotYetImplementedException e){
+			throw new ExceptionNotYetImplemented();
+		}catch(ExceptionNotYetImplemented e){
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	private Tree format(Tree root, int depth, CollectionSymbol symbol) throws InvalidParameterException {
+	private Tree format(Tree root, int depth, CollectionSymbol symbol) throws ExceptionInvalidParameter {
 		Tree returnValue = root;
 		if(symbol.isEmpty() == false){
 			String pathOfLastElement = symbol.lastEntry().getValue();
@@ -48,7 +48,7 @@ public class FormatterRightGrowingTree implements Formatter {
 		return returnValue;
 	}
 	
-	public Tree format(CollectionSymbol symbol) throws InvalidParameterException {		
+	public Tree format(CollectionSymbol symbol) throws ExceptionInvalidParameter {		
 		return this.format(new Node(), 1, symbol);
 	}
 	

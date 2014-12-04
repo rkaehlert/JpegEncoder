@@ -3,7 +3,7 @@ package main.filter;
 import java.util.Map;
 import java.util.TreeMap;
 
-import main.exception.common.InvalidParameterException;
+import main.exception.common.ExceptionInvalidParameter;
 import main.model.color.Colormodel;
 import main.model.color.YCbCr;
 import main.model.matrix.Coordinate;
@@ -22,7 +22,7 @@ public class FilterReductionByStep extends Filter {
 	}
 	
 	@Override
-	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) throws InvalidParameterException {
+	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) throws ExceptionInvalidParameter {
 		TreeMap<Coordinate, Colormodel> returnValue = new TreeMap<Coordinate, Colormodel>();
 		if(pixel != null){
 			YCbCr ycbcr = null;
@@ -48,7 +48,7 @@ public class FilterReductionByStep extends Filter {
 			}
 			return returnValue;
 		}else{
-			throw new InvalidParameterException("es wurde kein farbmodell uebergeben");
+			throw new ExceptionInvalidParameter("es wurde kein farbmodell uebergeben");
 		}
 	}
 	

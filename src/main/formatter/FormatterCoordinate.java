@@ -2,7 +2,7 @@ package main.formatter;
 
 import java.text.DecimalFormat;
 
-import main.exception.common.NotYetImplementedException;
+import main.exception.common.ExceptionNotYetImplemented;
 import main.model.color.YCbCr;
 
 public class FormatterCoordinate implements Formatter {
@@ -12,8 +12,8 @@ public class FormatterCoordinate implements Formatter {
 	@Override
 	public String format() {
 		try{
-			throw new NotYetImplementedException();
-		}catch(NotYetImplementedException e){
+			throw new ExceptionNotYetImplemented();
+		}catch(ExceptionNotYetImplemented e){
 			e.printStackTrace();
 		}
 		return null;

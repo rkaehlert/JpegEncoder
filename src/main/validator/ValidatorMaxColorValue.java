@@ -1,7 +1,7 @@
 package main.validator;
 
 import main.datahandler.DataHandler;
-import main.exception.common.NotYetImplementedException;
+import main.exception.common.ExceptionNotYetImplemented;
 import main.exception.image.ImageException;
 
 public class ValidatorMaxColorValue implements Validator {
@@ -9,8 +9,8 @@ public class ValidatorMaxColorValue implements Validator {
 	@Override
 	public boolean validate(DataHandler datahandler) {
 		try{
-			throw new NotYetImplementedException();
-		}catch(NotYetImplementedException e){
+			throw new ExceptionNotYetImplemented();
+		}catch(ExceptionNotYetImplemented e){
 			e.printStackTrace();
 		}
 		return false;

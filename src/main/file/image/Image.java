@@ -2,7 +2,7 @@ package main.file.image;
 
 import java.util.TreeMap;
 
-import main.exception.common.InvalidParameterException;
+import main.exception.common.ExceptionInvalidParameter;
 import main.filter.Filter;
 import main.model.color.Colormodel;
 import main.model.matrix.Coordinate;
@@ -23,7 +23,7 @@ public abstract class Image {
         try {
             this.pixel = filter.filter(this.pixel);
         }
-        catch (InvalidParameterException e) {
+        catch (ExceptionInvalidParameter e) {
             e.printStackTrace();
         }
         return null;

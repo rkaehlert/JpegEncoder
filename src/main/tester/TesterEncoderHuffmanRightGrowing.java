@@ -7,7 +7,7 @@ import java.util.List;
 import main.converter.ConverterHuffmanTreeToPath;
 import main.encoder.huffman.CollectionSymbol;
 import main.encoder.huffman.EncoderHuffmanTree;
-import main.exception.common.InvalidParameterException;
+import main.exception.common.ExceptionInvalidParameter;
 import main.formatter.FormatterRightGrowingTree;
 import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
@@ -39,7 +39,7 @@ public class TesterEncoderHuffmanRightGrowing {
 			tree = new FormatterRightGrowingTree().format(collectionSymbol);
 			loggerMap.log(new CollectionSymbol().set(tree)); 
 			
-		} catch (InvalidParameterException e) {
+		} catch (ExceptionInvalidParameter e) {
 			e.printStackTrace();
 		}
 
