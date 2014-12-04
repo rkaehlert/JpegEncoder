@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToPath;
 import main.converter.ConverterRGBToYCbCr;
 import main.converter.ConverterStringToInteger;
@@ -203,16 +204,23 @@ public class JpegImage extends Image implements Cloneable {
 
     public void writeToFile(SimpleBitOutputStream out) throws IOException {
         new SOI().write(out);
+        System.out.println("schreibe app");
         APP0 app0 = new APP0();
         app0.write(out);
         SOF0 sof0 = new SOF0();
+
+        System.out.println("schreibe sofo");
         sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height, 2));
         sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width, 2));
         sof0.write(out);
         DHT dht = new DHT();
 
        	CollectionSymbol collectionSymbol = this.createHuffmanTree();
+
+        System.out.println("fuege ht hinzu");
         dht.addHT(EnumHTNumber.NUMBER_TWO, EnumHTType.DC, collectionSymbol);
+
+        System.out.println("schreibe ht");
         dht.write(out);
         new EOI().write(out);
         out.close();
@@ -233,7 +241,15 @@ public class JpegImage extends Image implements Cloneable {
 
         LoggerMap<Tree,String> loggerMap = new LoggerMap<Tree,String>();
         loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
-        return ConverterHuffmanTreeToPath.convert(encoder.getTree());
+        
+        
+        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 9, 15);
+
+        loggerMap = new LoggerMap<Tree,String>();
+        loggerMap.log(ConverterHuffmanTreeToPath.convert(lengthLimitedTree));
+        
+        
+        return ConverterHuffmanTreeToPath.convert(lengthLimitedTree);
     }
 
     public String getColormodel() {

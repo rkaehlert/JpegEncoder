@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.encoder.huffman.EncoderHuffmanTree;
+import main.logger.LoggerMap;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
@@ -44,7 +45,7 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 		// STEP THREE
 		
 		Tree t2 = encoder.getTree();
-		int appendingLevel = limit - t2.getHeight() - 2;
+		int appendingLevel = limit - t2.getHeight() - 1;
 		if(appendingLevel < 0){
 			appendingLevel = 0;
 		}
@@ -67,6 +68,18 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 			t3 = UtilityTreeManipulation.insertBefore(t3, yp, t2);
 		}
 		return t3;
+	}
+	
+	public static Tree convert(Tree tree, int limit, int maxReputation){
+		while(tree.getHeight() >  limit){
+			if(maxReputation  == 0){
+				break;
+			}
+			tree = ConverterHuffmanTreeLengthLimited.convert(tree,  limit);
+			new LoggerMap().log(ConverterHuffmanTreeToPath.convert(tree));
+			maxReputation--;
+		}
+		return tree;
 	}
 	
 }

@@ -32,10 +32,7 @@ public class TesterEncoderHuffmanMaxLength {
 		encoder.encode(characterSymbols);
 		loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
 		Tree maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), COUNT);
-//		while(maxLengthOptimizedTree.getHeight() >  COUNT){
-//			maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(maxLengthOptimizedTree,  COUNT);
-//			loggerMap.log(ConverterHuffmanTreeToPath.convert(maxLengthOptimizedTree));
-//		}
+		
 				
 		loggerMap.log(ConverterHuffmanTreeToPath.convert(maxLengthOptimizedTree));
 		
