@@ -4,21 +4,21 @@ import java.text.DecimalFormat;
 
 public class YCbCr implements Colormodel {
 
-    private ColorChannel<Double> y;
-    private ColorChannel<Double> cb;
-    private ColorChannel<Double> cr;
+    private ColorChannel<Integer> y;
+    private ColorChannel<Integer> cb;
+    private ColorChannel<Integer> cr;
 
     public YCbCr() {
-        this.y = new ColorChannel<Double>(null);
-        this.cb = new ColorChannel<Double>(null);
-        this.cr = new ColorChannel<Double>(null);
+        this.y = new ColorChannel<Integer>(null);
+        this.cb = new ColorChannel<Integer>(null);
+        this.cr = new ColorChannel<Integer>(null);
     }
 
-    public YCbCr(Double y, Double cb, Double cr) {
+    public YCbCr(Integer y, Integer cb, Integer cr) {
         super();
-        this.y = new ColorChannel<Double>(y);
-        this.cb = new ColorChannel<Double>(cb);
-        this.cr = new ColorChannel<Double>(cr);
+        this.y = new ColorChannel<Integer>(y);
+        this.cb = new ColorChannel<Integer>(cb);
+        this.cr = new ColorChannel<Integer>(cr);
     }
 
     @Override
@@ -30,53 +30,53 @@ public class YCbCr implements Colormodel {
         return "(" + y + " " + cb + " " + cr + ")";
     }
 
-    public ColorChannel<Double> getYChannel() {
+    public ColorChannel<Integer> getYChannel() {
         return y;
     }
 
-    public Double getY() {
+    public Integer getY() {
         return y.getValue();
     }
 
-    public void setY(ColorChannel<Double> y) {
+    public void setY(ColorChannel<Integer> y) {
         this.y = y;
     }
 
-    public ColorChannel<Double> getCbChannel() {
+    public ColorChannel<Integer> getCbChannel() {
         return cb;
     }
 
-    public Double getCb() {
+    public Integer getCb() {
         return cb.getValue();
     }
 
-    public void setCb(ColorChannel<Double> cb) {
+    public void setCb(ColorChannel<Integer> cb) {
         this.cb = cb;
     }
 
-    public ColorChannel<Double> getCrChannel() {
+    public ColorChannel<Integer> getCrChannel() {
         return cr;
     }
 
-    public Double getCr() {
+    public Integer getCr() {
         return cr.getValue();
     }
 
-    public void setCr(ColorChannel<Double> cr) {
+    public void setCr(ColorChannel<Integer> cr) {
         this.cr = cr;
     }
 
-    public void add(Double y, Double cb, Double cr) {
+    public void add(Integer y, Integer cb, Integer cr) {
         if (this.getY() == null) {
-            this.y.setValue(0.0);
+            this.y.setValue(0);
         }
         this.y.setValue(this.y.getValue() + y);
         if (this.getCb() == null) {
-            this.cb.setValue(0.0);
+            this.cb.setValue(0);
         }
         this.cb.setValue(this.cb.getValue() + cb);
         if (this.getCr() == null) {
-            this.cr.setValue(0.0);
+            this.cr.setValue(0);
         }
         this.cr.setValue(this.cr.getValue() + cr);
     }

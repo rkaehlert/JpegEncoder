@@ -37,12 +37,12 @@ public class TesterJpegEncoder {
             JpegImage image = new JpegImage(jpe.getFilePath("test1.ppm"), 20, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
-            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+           // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             System.out.println("\n");
             timeLogger.start();
             image.filter(new FilterReductionByStep(3, 4));
             timeLogger.stop();
-            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
             FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");

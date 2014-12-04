@@ -39,13 +39,13 @@ public class FilterReductionByMiddleValue extends Filter {
 			startingBlockColormodel = (YCbCr)returnValue.get(startingBlockCoordinate);
 						
 			if(ycbcr.getYChannel().isReduced()){
-				startingBlockColormodel.add(ycbcr.getY()/(OFFSET*OFFSET), 0.0, 0.0);
+				startingBlockColormodel.add(ycbcr.getY()/(OFFSET*OFFSET), 0, 0);
 			}
 			if(ycbcr.getCbChannel().isReduced()){
-				startingBlockColormodel.add(0.0, ycbcr.getCb()/(OFFSET*OFFSET), 0.0);
+				startingBlockColormodel.add(0, ycbcr.getCb()/(OFFSET*OFFSET), 0);
 			}
 			if(ycbcr.getCrChannel().isReduced()){
-				startingBlockColormodel.add(0.0, 0.0, ycbcr.getCr()/(OFFSET*OFFSET));
+				startingBlockColormodel.add(0, 0, ycbcr.getCr()/(OFFSET*OFFSET));
 			}
 			if(!startingBlockCoordinate.equals(entry.getKey())){
 				returnValue.put(entry.getKey(), this.generateReducedColorModel(ycbcr));
@@ -55,9 +55,9 @@ public class FilterReductionByMiddleValue extends Filter {
 	}
 	
 	private Colormodel generateReducedColorModel(YCbCr value) {
-		Double y = value.getY();
-		Double cb = value.getCb();
-		Double cr = value.getCr();
+		Integer y = value.getY();
+		Integer cb = value.getCb();
+		Integer cr = value.getCr();
 		if(value.getYChannel().isReduced()){
 			y = null;
 		}else{
