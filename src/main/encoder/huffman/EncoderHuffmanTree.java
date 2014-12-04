@@ -16,7 +16,8 @@ public class EncoderHuffmanTree {
 		this.values.clear();
 		this.values.addAll(values); 
 		this.tree = TreeFactory.create(this.values);
-		return new ConverterHuffmanCode().convert(this.tree, values);
+		//return new ConverterHuffmanCode().convert(this.tree, values);
+		return "";
 	}
 
 	public Tree getTree() {

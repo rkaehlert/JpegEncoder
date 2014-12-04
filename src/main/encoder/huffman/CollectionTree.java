@@ -20,7 +20,7 @@ public class CollectionTree extends ArrayList<Tree> {
 				int frequency = tree.getFrequency()+1;
 				tree.setFrequency(frequency);
 				found = true;
-				LoggerText.log("nummer " + value + " existiert bereits. setze die neue haeufigkeit auf " + tree.getFrequency());
+				//LoggerText.log("nummer " + value + " existiert bereits. setze die neue haeufigkeit auf " + tree.getFrequency());
 				break;
 			}
 		}
@@ -28,7 +28,7 @@ public class CollectionTree extends ArrayList<Tree> {
 		if(!found){
 			Leaf leaf = new Leaf(value,1);
 			this.add(leaf);
-			LoggerText.log("fuege neues blatt hinzu " + value);
+			//LoggerText.log("fuege neues blatt hinzu " + value);
 		}
 	}
 	
