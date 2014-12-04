@@ -14,7 +14,7 @@ public class ConverterToByte implements Converter<Byte> {
     }
 
     public static byte[] convertPositiveIntToByteWithExactByteNumber(int value, int byteLimit) {
-        if (value > Math.pow(byteLimit * 8, 2) || value < 0) {
+        if (value > Math.pow(2, byteLimit * 8) || value < 0) {
             throw new IllegalArgumentException("Wert passt nicht in angegebene Bytes oder ist negativ.");
         }
 
