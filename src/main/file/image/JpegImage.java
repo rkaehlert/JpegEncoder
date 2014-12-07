@@ -243,7 +243,7 @@ public class JpegImage extends Image implements Cloneable {
         loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
         
         
-        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 9, 15);
+        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 11, 15);
 
         loggerMap = new LoggerMap<Tree,String>();
         loggerMap.log(ConverterHuffmanTreeToPath.convert(lengthLimitedTree));

@@ -45,7 +45,7 @@ public class TesterJpegEncoder {
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
-            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\robin\\Desktop\\image.jpeg");
             image.writeToFile(new SimpleBitOutputStream(fileOutputStream));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
