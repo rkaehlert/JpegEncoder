@@ -23,6 +23,7 @@ import main.file.jpeg.segment.EOI;
 import main.file.jpeg.segment.SOF0;
 import main.file.jpeg.segment.SOI;
 import main.file.stream.SimpleBitOutputStream;
+import main.formatter.FormatterRightGrowingTree;
 import main.logger.LoggerMap;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
@@ -248,8 +249,13 @@ public class JPEGImage extends Image implements Cloneable {
         loggerMap = new LoggerMap<Tree,String>();
         loggerMap.log(ConverterHuffmanTreeToPath.convert(lengthLimitedTree));
         
+        CollectionSymbol symbol = ConverterHuffmanTreeToPath.convert(lengthLimitedTree);
+        symbol = symbol.sort();
         
-        return ConverterHuffmanTreeToPath.convert(lengthLimitedTree);
+        Tree tree = new FormatterRightGrowingTree().format(symbol);
+        loggerMap.log(ConverterHuffmanTreeToPath.convert(tree));
+        return ConverterHuffmanTreeToPath.convert(tree);
+        
     }
 
     public String getColormodel() {
