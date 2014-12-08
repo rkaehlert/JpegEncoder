@@ -82,16 +82,6 @@ public class HT implements Marker {
 			
     		for(byte[] currentByte : value){
     			out.writeByteArray(currentByte);
-//    			String byteAsString = "";
-//    			for(index = 0; index < currentByte.length; index++){
-//    				byteAsString += (char)currentByte[index];
-//    				if(currentByte[index] == 48){
-//        				out.writeBit(0);	
-//    				}else if(currentByte[index] == 49){
-//        				out.writeBit(1);	
-//    				}
-//    			}
-				//System.out.print("schreibe " + byteAsString + "\n");
     		}
     	}
 	}

@@ -30,7 +30,7 @@ import main.model.color.YCbCr;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
 
-public class JpegImage extends Image implements Cloneable {
+public class JPEGImage extends Image implements Cloneable {
 
     private static final int ASCII_LINE_FEED = 10;
 
@@ -40,13 +40,13 @@ public class JpegImage extends Image implements Cloneable {
 
     private CollectionSymbol huffmanCodeTable = new CollectionSymbol();
 
-    public JpegImage() {
+    public JPEGImage() {
         width = 0;
         height = 0;
         maxColorValue = 0;
     }
 
-    public JpegImage(String src, int schrittweite, int fillmode) throws UnsupportedImageFormatException, ImageException, IOException {
+    public JPEGImage(String src, int schrittweite, int fillmode) throws UnsupportedImageFormatException, ImageException, IOException {
         this();
         readPPMImageFromFile(src);
         addBorderBasedOnStepSize(schrittweite, fillmode);

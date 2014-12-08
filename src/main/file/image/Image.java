@@ -14,7 +14,6 @@ public abstract class Image {
     protected int height;
     protected int maxColorValue = 0;
 
-    //public abstract void read();
     public TreeMap<Coordinate, Colormodel> getPixel() {
         return this.pixel;
     }
