@@ -2,7 +2,7 @@ package main.converter;
 
 public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
-    public int[][] convert(int[][] image) {
+    public double[][] convert(double[][] image) {
         double[][] y = new double[8][8];
 
         for (int i = 0; i <= 7; i++) {
@@ -42,7 +42,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
             y[7][i] = returnColumn[7];
         }
 
-        int[][] returnValue = new int[8][8];
+        double[][] returnValue = new double[8][8];
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
                 returnValue[i][j] = (int) (y[i][j]);

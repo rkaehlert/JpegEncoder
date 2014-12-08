@@ -1,11 +1,15 @@
 package main.tester;
-import main.converter.ConverterDiscreteCosinusTransformationArai;
+import main.comparator.ComparatorMatrixEquals;
 import main.converter.ConverterDiscreteCosinusTransformation;
+import main.converter.ConverterDiscreteCosinusTransformationArai;
+import main.converter.ConverterInverseCosinusTransformation;
 import main.logger.LoggerTimer;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class TesterDCTArai {
     public static void main(String[] args) throws InterruptedException {
-        int[][] imagePart = new int[8][8];
+        double[][] imagePart = new double[8][8];
         double[][] erg = new double[8][8];
         
         ConverterDiscreteCosinusTransformationArai converter = new ConverterDiscreteCosinusTransformationArai();
@@ -31,7 +35,13 @@ public class TesterDCTArai {
         }
         
         logger.start();
-        erg = converter2.convert(imagePart,8,8);
+        Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(imagePart);
+        erg = converter2.convert(matrix,8,8).getData();
+        logger.stop();
+        logger.log();
+        
+        logger.start();
+        Array2DRowRealMatrix output = new ConverterInverseCosinusTransformation().convert(new Array2DRowRealMatrix(erg),8,8);
         logger.stop();
         logger.log();
         
@@ -41,5 +51,7 @@ public class TesterDCTArai {
             }
             System.out.println();
         }
+        
+        System.out.println(ComparatorMatrixEquals.compare(matrix, output, -0.1));
     }
 }

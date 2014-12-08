@@ -49,13 +49,12 @@ public class TesterDCT {
 								{230, 187, 186,188,201,246,259,206,270, 197, 196,194,292,207,229,244}
 		};
 		
-		size = 16;
-		
-		Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(size,size);
-		matrix.setSubMatrix(input2,0, 0);
+		Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(input);
 
 		Array2DRowRealMatrix output = new ConverterDiscreteCosinusTransformation().convert(matrix,size,size);
 		output = new ConverterInverseCosinusTransformation().convert(output,  size,size);
+		output.setEntry(15, 23, 32.5);
+		output.setEntry(100, 67, 32.5);
 		System.out.println(ComparatorMatrixEquals.compare(output,matrix,0.1));
 	}
 	
