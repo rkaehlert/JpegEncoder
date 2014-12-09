@@ -9,12 +9,12 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         
         
         for (int i = 0; i <= 7; i++) {
-        	   output.setRow(i, this.calculateLine(image.getRow(i)));
+        	output.setRow(i, this.calculateLine(image.getRow(i)));
         }
 
-        for (int i = 0; i <= 7; i++) {
-        	output.setColumn(i, this.calculateLine(image.getColumn(i)));
-     	}
+//        FOR (INT I = 0; I <= 7; I++) {
+//        	OUTPUT.SETCOLUMN(I, THIS.CALCULATELINE(OUTPUT.GETCOLUMN(I)));
+//     	}
 
         return output;
     }
@@ -39,7 +39,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double C6 = Math.cos((6 * Math.PI / 16));
         double C7 = Math.cos((7 * Math.PI / 16));
 
-        double s0 = 1 / 2 * (Math.sqrt(2.0));
+        double s0 = 1 / (2 * Math.sqrt(2.0));
         double s1 = 1 / (4 * C1);
         double s2 = 1 / (4 * C2);
         double s3 = 1 / (4 * C3);
@@ -67,7 +67,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double x12 = x11 + x21;
         double x22 = x11 - x21;
         double x32 = x01 - x31;
-        double x42 = -x41 - x51;
+        double x42 = - x41 - x51;
         double x52 = x51 + x61;
         double x62 = x61 + x71;
         double x72 = x71;
@@ -85,7 +85,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double x14 = x13;
         double x24 = x23 * a1;
         double x34 = x33;
-        double x44 = - (x43 * a2) - x43 * a5;
+        double x44 = - (x43 * a2) - (x43 * a5);
         double x54 = x53 * a3;
         double x64 = x63 * a4 - x63 * a5;
         double x74 = x73;
