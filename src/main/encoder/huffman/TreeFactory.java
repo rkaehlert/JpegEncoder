@@ -7,6 +7,7 @@ import main.exception.huffmann.ExceptionInvalidTreeSize;
 import main.logger.LoggerText;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
+import main.utility.tree.UtilityTreeManipulation;
 
 public class TreeFactory {
 	
@@ -53,7 +54,7 @@ public class TreeFactory {
 		}
 		
 
-		//UtilityTreeManipulation.replaceLeafWithMaximumDepth(collection.get(0), null);
+		UtilityTreeManipulation.replaceLeafWithMaximumDepth(collection.get(0), null);
 			
 		collection.print();
 		LoggerText.log("baum ist erstellt");

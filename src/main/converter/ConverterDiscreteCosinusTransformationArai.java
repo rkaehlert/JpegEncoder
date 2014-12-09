@@ -1,54 +1,22 @@
 package main.converter;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
 public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
-    public double[][] convert(double[][] image) {
-        double[][] y = new double[8][8];
-
+    public Array2DRowRealMatrix convert(Array2DRowRealMatrix image) {
+        Array2DRowRealMatrix output = new Array2DRowRealMatrix(8,8);
+        
+        
         for (int i = 0; i <= 7; i++) {
-            double[] column = new double[8];
-            column[0] = (double) image[i][0];
-            column[1] = (double) image[i][1];
-            column[2] = (double) image[i][2];
-            column[3] = (double) image[i][3];
-            column[4] = (double) image[i][4];
-            column[5] = (double) image[i][5];
-            column[6] = (double) image[i][6];
-            column[7] = (double) image[i][7];
-
-            y[i] = calculateLine(column);
+        	   output.setRow(i, this.calculateLine(image.getRow(i)));
         }
 
         for (int i = 0; i <= 7; i++) {
-            double[] column = new double[8];
-            column[0] = y[0][i];
-            column[1] = y[1][i];
-            column[2] = y[2][i];
-            column[3] = y[3][i];
-            column[4] = y[4][i];
-            column[5] = y[5][i];
-            column[6] = y[6][i];
-            column[7] = y[7][i];
+        	output.setColumn(i, this.calculateLine(image.getColumn(i)));
+     	}
 
-            double[] returnColumn = calculateLine(column);
-
-            y[0][i] = returnColumn[0];
-            y[1][i] = returnColumn[1];
-            y[2][i] = returnColumn[2];
-            y[3][i] = returnColumn[3];
-            y[4][i] = returnColumn[4];
-            y[5][i] = returnColumn[5];
-            y[6][i] = returnColumn[6];
-            y[7][i] = returnColumn[7];
-        }
-
-        double[][] returnValue = new double[8][8];
-        for (int i = 0; i <= 7; i++) {
-            for (int j = 0; j <= 7; j++) {
-                returnValue[i][j] = (int) (y[i][j]);
-            }
-        }
-        return returnValue;
+        return output;
     }
 
     private double[] calculateLine(double[] line) {
@@ -117,15 +85,15 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double x14 = x13;
         double x24 = x23 * a1;
         double x34 = x33;
-        double x44 = x43 * a2 + x43 * a5;
+        double x44 = - (x43 * a2) - x43 * a5;
         double x54 = x53 * a3;
-        double x64 = x63 * a4 + x63 * a5;
+        double x64 = x63 * a4 - x63 * a5;
         double x74 = x73;
 
         double x05 = x04;
         double x15 = x14;
         double x25 = x24 + x34;
-        double x35 = x34 - x24; //möglicher fehler
+        double x35 = x34 - x24;
         double x45 = x44;
         double x55 = x54 + x74;
         double x65 = x64;

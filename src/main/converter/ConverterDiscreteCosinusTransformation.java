@@ -1,9 +1,8 @@
 package main.converter;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-import main.model.matrix.Matrix2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
@@ -33,7 +32,7 @@ public class ConverterDiscreteCosinusTransformation implements Converter {
                  }
                  
                  BigDecimal bd = new BigDecimal(output.getEntry(u,v) * sum);
-                 bd = bd.setScale(2, RoundingMode.HALF_DOWN);
+               // = bd.setScale(2, RoundingMode.HALF_DOWN);
                  output.setEntry(u,v,bd.doubleValue());
              }
 		 }
@@ -41,16 +40,13 @@ public class ConverterDiscreteCosinusTransformation implements Converter {
 		return output;
 	}
 	
-	public Array2DRowRealMatrix convert(Array2DRowRealMatrix matrix, final int rows, final int cols){
-		Matrix2D output = new Matrix2D(rows,cols);
-		for(int i = 0; i < rows; i+=BLOCK_SIZE){
-			for(int j = 0; j < cols; j+=BLOCK_SIZE){
-				Array2DRowRealMatrix input = (Array2DRowRealMatrix) matrix.getSubMatrix(i, i+7, j, j+7);
-				input = this.convert8x8(input);
-				output.setSubMatrix(input.getData(), i, j);
-			}
+	public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix){
+		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
+		for(Array2DRowRealMatrix currentMatrix : ConverterImageTo8x8Block.convert(matrix)){
+				Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
+				output.add(matrix8x8);
 		}
 		return output;
-	}
+	}	
 	
 }

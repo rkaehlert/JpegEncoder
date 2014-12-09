@@ -1,5 +1,7 @@
 package main.comparator;
 
+import java.util.List;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 
@@ -21,6 +23,17 @@ public class ComparatorMatrixEquals {
 					output = false;
 				}
 			}
+		}
+		return output;
+	}
+	
+	public static boolean compare(List<Array2DRowRealMatrix> expected, List<Array2DRowRealMatrix> actual, double tolerance){
+		if(expected.size() != actual.size()){
+			return false;
+		}
+		boolean output = true;
+		for(int index = 0; index < expected.size(); index++){
+			output = ComparatorMatrixEquals.compare(expected.get(index), actual.get(index), tolerance);
 		}
 		return output;
 	}

@@ -2,11 +2,13 @@ package main.converter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 
-public class ConverterInverseCosinusTransformation implements Converter{
+public class ConverterInverseCosinusTransformation implements Converter {
 
 	private static final int BLOCK_SIZE = 8;
 	
@@ -43,16 +45,13 @@ public class ConverterInverseCosinusTransformation implements Converter{
 		return output;
 	}
 	
-	public Array2DRowRealMatrix convert(Array2DRowRealMatrix image, int rows, int cols){
-		Array2DRowRealMatrix output = new Array2DRowRealMatrix(rows,cols);
-		for(int i = 0; i < rows; i+=BLOCK_SIZE){
-			for(int j = 0; j < cols; j+=BLOCK_SIZE){
-				Array2DRowRealMatrix matrix8x8 = (Array2DRowRealMatrix) image.getSubMatrix(i, i+BLOCK_SIZE-1, j, j+BLOCK_SIZE-1);
-				output.setSubMatrix(this.convert8x8(matrix8x8).getData(),i,j);
-			}
+	public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix){
+		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
+		for(Array2DRowRealMatrix currentMatrix : ConverterImageTo8x8Block.convert(matrix)){
+				Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
+				output.add(matrix8x8);
 		}
 		return output;
-	}
-	
+	}	
 	
 }
