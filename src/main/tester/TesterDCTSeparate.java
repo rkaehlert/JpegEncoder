@@ -58,17 +58,17 @@ public class TesterDCTSeparate {
 				{129,131,134,131,133,129,131,131},
 				{129,134,134,136,136,137,134,132},
 				{133,135,136,138,137,140,135,132}
-				};
+		};
 		
 		LoggerTimer loggerTimer = new LoggerTimer();
 		loggerTimer.start();
-		List<Array2DRowRealMatrix> output = new ConverterDiscreteCosinusTransformation().convert(new Array2DRowRealMatrix(input2));
+		List<Array2DRowRealMatrix> output = new ConverterDiscreteCosinusTransformation().convert(imagePart);
 		loggerTimer.stop();
 		loggerTimer.log();
 		LoggerMatrix.log(output);
 		loggerTimer.reset();
 		loggerTimer.start();
-		List<Array2DRowRealMatrix> separate = new ConverterSeparateCosinusTransformation().convert(new Array2DRowRealMatrix(input2));
+		List<Array2DRowRealMatrix> separate = new ConverterSeparateCosinusTransformation().convert(imagePart);
 		loggerTimer.stop();
 		loggerTimer.log();
 		LoggerMatrix.log(separate);

@@ -13,29 +13,38 @@ public class ConverterSeparateCosinusTransformation implements Converter{
 	
 	public Array2DRowRealMatrix convert8x8(Array2DRowRealMatrix X){
 		Array2DRowRealMatrix output = new Array2DRowRealMatrix(X.getRowDimension(), X.getColumnDimension());
-		for (int row = 0; row < BLOCK_SIZE; row++) {
-             for (int k = 0; k < BLOCK_SIZE; k++) {
-            	 double c = (k == 0) ? (1.0 / Math.sqrt(2.0)) : 1.0;
-            	 double value = c * Math.sqrt(2.0 / BLOCK_SIZE);
-            	 double sum = 0.0;
-            	 for(int i = 0; i < BLOCK_SIZE; i++){
-	            	 sum += X.getEntry(row, i) * Math.cos(((2.0*i+1) * k * Math.PI) / (2.0 * BLOCK_SIZE));
-            	 }
-            	 output.setEntry(row, k, sum*value);
-             }
-        }
-		for (int col = 0; col < BLOCK_SIZE; col++) {
-            for (int k = 0; k < BLOCK_SIZE; k++) {
-	           	 double c = (k == 0) ? (1.0 / Math.sqrt(2.0)) : 1.0;
-	           	 double value = c * Math.sqrt(2.0 / BLOCK_SIZE);
-	           	 double sum = 0.0;
-	           	 for(int i = 0; i < BLOCK_SIZE; i++){
-		             sum += output.getEntry(i, col) * Math.cos(((2.0*i+1) * k * Math.PI) / (2.0 * BLOCK_SIZE));
-	           	 }
-	           	 output.setEntry(k, col, sum*value);
-            }
-       }
+		
+		for(int u = 0; u < X.getRowDimension(); u++){
+			output.setRow(u, convert1D(X.getRow(u)));
+		}
+		
+		double[] column = new double[X.getColumnDimension()];
+		
+		for(int col = 0; col < X.getColumnDimension(); col++){
+			column = output.getColumn(col);
+			double[] temp = convert1D(column);
+			for(int row = 0; row < output.getRowDimension(); row++){
+				output.setEntry(row, col, temp[row]);
+			}
+		}
+		
 	   return output;
+	}
+	
+	public double[] convert1D(double[] data){
+		final double const1 = (1 / Math.sqrt(2.0)) * Math.sqrt(2.0 / data.length);
+		final double const2 = Math.sqrt(2.0 / data.length);
+		
+		double[] output = new double[data.length];
+		
+		for(int k = 0; k < data.length; k++){
+			for(int i = 0; i < output.length; i++){
+				output[k] += data[i] * Math.cos(( (2*i+1) * k * Math.PI) / (2 * data.length));
+			}
+			output[k] *= (k == 0 ? const1 : const2);
+		}
+		
+		return output;
 	}
 	
 	public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix){
