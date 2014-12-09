@@ -12,9 +12,9 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         	output.setRow(i, this.calculateLine(image.getRow(i)));
         }
 
-//        FOR (INT I = 0; I <= 7; I++) {
-//        	OUTPUT.SETCOLUMN(I, THIS.CALCULATELINE(OUTPUT.GETCOLUMN(I)));
-//     	}
+        for (int i = 0; i <= 7; i++) {
+        	output.setColumn(i, this.calculateLine(output.getColumn(i)));
+     	}
 
         return output;
     }
