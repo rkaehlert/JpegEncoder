@@ -31,7 +31,7 @@ public class ConverterSeparateCosinusTransformation implements Converter{
 	   return output;
 	}
 	
-	public double[] convert1D(double[] data){
+	private double[] convert1D(double[] data){
 		final double const1 = (1 / Math.sqrt(2.0)) * Math.sqrt(2.0 / data.length);
 		final double const2 = Math.sqrt(2.0 / data.length);
 		
