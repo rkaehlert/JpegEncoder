@@ -17,12 +17,9 @@ public class ConverterSeparateCosinusTransformation implements Converter{
 		for(int u = 0; u < X.getRowDimension(); u++){
 			output.setRow(u, convert1D(X.getRow(u)));
 		}
-		
-		double[] column = new double[X.getColumnDimension()];
-		
+
 		for(int col = 0; col < X.getColumnDimension(); col++){
-			column = output.getColumn(col);
-			double[] temp = convert1D(column);
+			double[] temp = convert1D(output.getColumn(col));
 			for(int row = 0; row < output.getRowDimension(); row++){
 				output.setEntry(row, col, temp[row]);
 			}
