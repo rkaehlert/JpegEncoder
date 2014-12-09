@@ -18,6 +18,55 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
         return output;
     }
+    
+//    public int[][] convert(int[][] image) {
+//        double[][] y = new double[8][8];
+//
+//        for (int i = 0; i <= 7; i++) {
+//            double[] column = new double[8];
+//            column[0] = (double) image[i][0];
+//            column[1] = (double) image[i][1];
+//            column[2] = (double) image[i][2];
+//            column[3] = (double) image[i][3];
+//            column[4] = (double) image[i][4];
+//            column[5] = (double) image[i][5];
+//            column[6] = (double) image[i][6];
+//            column[7] = (double) image[i][7];
+//
+//            y[i] = calculateLine(column);
+//        }
+//
+//        for (int i = 0; i <= 7; i++) {
+//            double[] column = new double[8];
+//            column[0] = y[0][i];
+//            column[1] = y[1][i];
+//            column[2] = y[2][i];
+//            column[3] = y[3][i];
+//            column[4] = y[4][i];
+//            column[5] = y[5][i];
+//            column[6] = y[6][i];
+//            column[7] = y[7][i];
+//
+//            double[] returnColumn = calculateLine(column);
+//
+//            y[0][i] = returnColumn[0];
+//            y[1][i] = returnColumn[1];
+//            y[2][i] = returnColumn[2];
+//            y[3][i] = returnColumn[3];
+//            y[4][i] = returnColumn[4];
+//            y[5][i] = returnColumn[5];
+//            y[6][i] = returnColumn[6];
+//            y[7][i] = returnColumn[7];
+//        }
+//
+//        int[][] returnValue = new int[8][8];
+//        for (int i = 0; i <= 7; i++) {
+//            for (int j = 0; j <= 7; j++) {
+//                returnValue[i][j] = (int) (y[i][j]);
+//            }
+//        }
+//        return returnValue;
+//    }
 
     private double[] calculateLine(double[] line) {
         double[] y = new double[8];
@@ -31,22 +80,22 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double x6 = line[6];
         double x7 = line[7];
 
-        double C1 = Math.cos((1 * Math.PI / 16));
-        double C2 = Math.cos((2 * Math.PI / 16));
-        double C3 = Math.cos((3 * Math.PI / 16));
-        double C4 = Math.cos((4 * Math.PI / 16));
-        double C5 = Math.cos((5 * Math.PI / 16));
-        double C6 = Math.cos((6 * Math.PI / 16));
-        double C7 = Math.cos((7 * Math.PI / 16));
+        double C1 = Math.cos((1.0 * Math.PI / 16.0));
+        double C2 = Math.cos((2.0 * Math.PI / 16.0));
+        double C3 = Math.cos((3.0 * Math.PI / 16.0));
+        double C4 = Math.cos((4.0 * Math.PI / 16.0));
+        double C5 = Math.cos((5.0 * Math.PI / 16.0));
+        double C6 = Math.cos((6.0 * Math.PI / 16.0));
+        double C7 = Math.cos((7.0 * Math.PI / 16.0));
 
-        double s0 = 1 / (2 * Math.sqrt(2.0));
-        double s1 = 1 / (4 * C1);
-        double s2 = 1 / (4 * C2);
-        double s3 = 1 / (4 * C3);
-        double s4 = 1 / (4 * C4);
-        double s5 = 1 / (4 * C5);
-        double s6 = 1 / (4 * C6);
-        double s7 = 1 / (4 * C7);
+        double s0 = 1.0 / (2.0 * Math.sqrt(2.0));
+        double s1 = 1.0 / (4.0 * C1);
+        double s2 = 1.0 / (4.0 * C2);
+        double s3 = 1.0 / (4.0 * C3);
+        double s4 = 1.0 / (4.0 * C4);
+        double s5 = 1.0 / (4.0 * C5);
+        double s6 = 1.0 / (4.0 * C6);
+        double s7 = 1.0 / (4.0 * C7);
 
         double a1 = C4;
         double a2 = C2 - C6;
