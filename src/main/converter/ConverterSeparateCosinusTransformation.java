@@ -12,15 +12,15 @@ public class ConverterSeparateCosinusTransformation implements Converter{
 	private static final int BLOCK_SIZE = 8;
 	
 	public Array2DRowRealMatrix convert8x8(Array2DRowRealMatrix X){
-		Array2DRowRealMatrix output = new Array2DRowRealMatrix(X.getRowDimension(), X.getColumnDimension());
+		Array2DRowRealMatrix output = new Array2DRowRealMatrix(BLOCK_SIZE, BLOCK_SIZE);
 		
-		for(int u = 0; u < X.getRowDimension(); u++){
+		for(int u = 0; u < BLOCK_SIZE; u++){
 			output.setRow(u, convert1D(X.getRow(u)));
 		}
 
-		for(int col = 0; col < X.getColumnDimension(); col++){
+		for(int col = 0; col < BLOCK_SIZE; col++){
 			double[] temp = convert1D(output.getColumn(col));
-			for(int row = 0; row < output.getRowDimension(); row++){
+			for(int row = 0; row < BLOCK_SIZE; row++){
 				output.setEntry(row, col, temp[row]);
 			}
 		}
@@ -47,8 +47,8 @@ public class ConverterSeparateCosinusTransformation implements Converter{
 	public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix){
 		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
 		for(Array2DRowRealMatrix currentMatrix : ConverterImageTo8x8Block.convert(matrix)){
-				Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
-				output.add(matrix8x8);
+			Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
+			output.add(matrix8x8);
 		}
 		return output;
 	}
