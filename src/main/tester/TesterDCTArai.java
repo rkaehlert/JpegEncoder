@@ -36,9 +36,9 @@ public class TesterDCTArai {
         logger.start();
         
        List<Array2DRowRealMatrix> output = new ConverterDiscreteCosinusTransformation().convert(imagePart);
-        System.out.println("------------------------");
+       System.out.println("------------------------");
        LoggerMatrix.log(output);
-        System.out.println(ComparatorMatrixEquals.compare(ConverterImageTo8x8Block.convert(outputArai), output, -0.1));
+       System.out.println(ComparatorMatrixEquals.compare(ConverterImageTo8x8Block.convert(outputArai), output, -0.1));
 //        erg = converter2.convert(matrix,8,8).getData();
 //        logger.stop();
 //        logger.log();
