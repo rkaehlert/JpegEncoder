@@ -3,7 +3,7 @@ package main.model.huffman.tree;
 import java.util.Arrays;
 import java.util.List;
 
-import main.model.comparator.huffman.ComparatorTreeDepth;
+import main.comparator.huffman.ComparatorTreeDepth;
 import main.utility.tree.UtilityTreeManipulation;
 
 

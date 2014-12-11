@@ -1,7 +1,9 @@
-package main.converter;
+package main.converter.datatype;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+
+import main.converter.Converter;
 
 public class ConverterToByte implements Converter<Byte> {
 

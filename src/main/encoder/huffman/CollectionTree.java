@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import main.comparator.huffman.ComparatorTreeFrequency;
 import main.logger.LoggerText;
-import main.model.comparator.huffman.ComparatorTreeFrequency;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Tree;
 

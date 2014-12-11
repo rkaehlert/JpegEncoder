@@ -1,10 +1,10 @@
-package main.model.matrix.utility;
+package main.utility.array;
 
 import java.math.BigInteger;
 
-import main.converter.ConverterToByte;
+import main.converter.datatype.ConverterToByte;
 
-public class ArrayUtilityConcat {
+public class UtilityArrayConcat {
 
 	public static byte[] concat(byte[] source, int sourcePos, int length){
 		byte[] returnValue = new byte[length];
@@ -14,7 +14,7 @@ public class ArrayUtilityConcat {
 	
 	public static byte[] concat(BigInteger source, int sourcePos){
 		byte[] byteToWrite = ConverterToByte.convert(source);
-		return ArrayUtilityConcat.concat(byteToWrite, sourcePos, byteToWrite.length-1);
+		return UtilityArrayConcat.concat(byteToWrite, sourcePos, byteToWrite.length-1);
 	}
 	
 }

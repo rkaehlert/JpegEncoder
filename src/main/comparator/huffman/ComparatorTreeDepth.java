@@ -1,4 +1,4 @@
-package main.model.comparator.huffman;
+package main.comparator.huffman;
 
 import java.util.Comparator;
 

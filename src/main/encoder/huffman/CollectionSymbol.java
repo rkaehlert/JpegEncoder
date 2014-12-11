@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import main.model.comparator.huffman.ComparatorPathLengthAndFrequency;
+import main.comparator.huffman.ComparatorPathLengthAndFrequency;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;

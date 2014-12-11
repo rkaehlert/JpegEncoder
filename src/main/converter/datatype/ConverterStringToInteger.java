@@ -1,6 +1,8 @@
-package main.converter;
+package main.converter.datatype;
 
 import java.util.List;
+
+import main.converter.Converter;
 
 public class ConverterStringToInteger implements Converter<Integer> {
 	
