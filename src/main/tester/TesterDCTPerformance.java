@@ -32,29 +32,29 @@ public class TesterDCTPerformance {
         Long end = System.currentTimeMillis() + 11000;
         Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(m);
         ConverterDiscreteCosinusTransformation dct = new ConverterDiscreteCosinusTransformation();
-//        while (System.currentTimeMillis() < end) {
+        while (System.currentTimeMillis() < end) {
             timer.start();
             transformedDCT = dct.convert(matrix);
             timer.stop();
-  //      }
+       }
         timer.log();
         timer.reset();
         ConverterSeparateCosinusTransformation dctSeparate = new ConverterSeparateCosinusTransformation();
         end = System.currentTimeMillis() + 11000;
-//        while (System.currentTimeMillis() < end) {
+        while (System.currentTimeMillis() < end) {
             timer.start();
             transformedSeparate = dctSeparate.convert(matrix);
             timer.stop();
-//        }
+        }
         timer.log();
         timer.reset();
         ConverterDiscreteCosinusTransformationArai dctArai = new ConverterDiscreteCosinusTransformationArai();
         end = System.currentTimeMillis() + 11000;
-//        while (System.currentTimeMillis() < end) {
+        while (System.currentTimeMillis() < end) {
             timer.start();
             transformedArai = dctArai.convert(matrix);
             timer.stop();
-//        }
+        }
         timer.log();
 
         boolean equal = true;

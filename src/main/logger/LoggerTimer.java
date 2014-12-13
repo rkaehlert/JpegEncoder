@@ -29,7 +29,7 @@ public class LoggerTimer implements Logger{
         
 	public void log() {
 		System.out.println(System.lineSeparator() + "-------------------------------------");
-		System.out.println("Gesamtlaufzeit: " + this.getArithmeticAverage() + " ms mit " + counterInterruption + " unterbrechungen");
+		System.out.println("mittlere zeit: " + this.getArithmeticAverage() + " ms mit " + counterInterruption + " durchlaeufe");
 		System.out.println("-------------------------------------");
 	}
 	
