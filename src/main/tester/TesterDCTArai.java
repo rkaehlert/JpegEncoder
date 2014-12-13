@@ -4,7 +4,6 @@ import java.util.List;
 import main.comparator.ComparatorMatrixEquals;
 import main.converter.ConverterDiscreteCosinusTransformation;
 import main.converter.ConverterDiscreteCosinusTransformationArai;
-import main.converter.ConverterImageTo8x8Block;
 import main.logger.LoggerMatrix;
 import main.logger.LoggerTimer;
 
@@ -27,7 +26,7 @@ public class TesterDCTArai {
         }
         
         logger.start();
-        Array2DRowRealMatrix outputArai = converter.convert(imagePart);
+        List<Array2DRowRealMatrix> outputArai = converter.convert(imagePart);
         logger.stop();
         logger.log();
        
@@ -38,7 +37,7 @@ public class TesterDCTArai {
        List<Array2DRowRealMatrix> output = new ConverterDiscreteCosinusTransformation().convert(imagePart);
        System.out.println("------------------------");
        LoggerMatrix.log(output);
-       System.out.println(ComparatorMatrixEquals.compare(ConverterImageTo8x8Block.convert(outputArai), output, -0.1));
+       System.out.println(ComparatorMatrixEquals.compare(outputArai, output, -0.1));
 //        erg = converter2.convert(matrix,8,8).getData();
 //        logger.stop();
 //        logger.log();

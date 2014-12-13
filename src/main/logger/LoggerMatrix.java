@@ -1,5 +1,7 @@
 package main.logger;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -7,9 +9,10 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 public class LoggerMatrix implements Logger {
 	
 	public static void log(Array2DRowRealMatrix matrix){
+		NumberFormat formatter = new DecimalFormat("0.0000000");
 		for (int i = 0; i < matrix.getRowDimension(); i++) {
             for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                System.out.print(matrix.getEntry(i,j)+" ");
+                System.out.print(formatter.format(matrix.getEntry(i,j))+" ");
             }
             System.out.println();
         }
