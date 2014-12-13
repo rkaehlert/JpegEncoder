@@ -1,19 +1,30 @@
 package main.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
-    public Array2DRowRealMatrix convert(Array2DRowRealMatrix image) {
-        Array2DRowRealMatrix output = new Array2DRowRealMatrix(8,8);
-                
+    public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix) {
+        List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
+        for (Array2DRowRealMatrix currentMatrix : ConverterImageTo8x8Block.convert(matrix)) {
+            Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
+            output.add(matrix8x8);
+        }
+        return output;
+    }
+
+    public Array2DRowRealMatrix convert8x8(Array2DRowRealMatrix image) {
+        Array2DRowRealMatrix output = new Array2DRowRealMatrix(8, 8);
+
         for (int i = 0; i <= 7; i++) {
-        	output.setRow(i, this.calculateLine(image.getRow(i)));
+            output.setRow(i, this.calculateLine(image.getRow(i)));
         }
 
         for (int i = 0; i <= 7; i++) {
-        	output.setColumn(i, this.calculateLine(output.getColumn(i)));
-     	}
+            output.setColumn(i, this.calculateLine(output.getColumn(i)));
+        }
 
         return output;
     }
@@ -66,7 +77,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
         double x12 = x11 + x21;
         double x22 = x11 - x21;
         double x32 = x01 - x31;
-        double x42 = - x41 - x51;
+        double x42 = -x41 - x51;
         double x52 = x51 + x61;
         double x62 = x61 + x71;
         double x72 = x71;
