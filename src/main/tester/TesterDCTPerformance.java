@@ -15,7 +15,8 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 public class TesterDCTPerformance {
 
     public static final int SIZE = 256;
-
+    public static final long BENCHMARK_TIME = 10000;
+    
     public static void main(String[] args) {
         double[][] m = new double[SIZE][SIZE];
         for (int x = 0; x < SIZE; x++) {
@@ -29,7 +30,7 @@ public class TesterDCTPerformance {
         List<Array2DRowRealMatrix> transformedArai = new ArrayList<Array2DRowRealMatrix>();
 
         LoggerTimer timer = new LoggerTimer();
-        Long end = System.currentTimeMillis() + 11000;
+        Long end = System.currentTimeMillis() + BENCHMARK_TIME;
         Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(m);
         ConverterDiscreteCosinusTransformation dct = new ConverterDiscreteCosinusTransformation();
         while (System.currentTimeMillis() < end) {
@@ -40,7 +41,7 @@ public class TesterDCTPerformance {
         timer.log();
         timer.reset();
         ConverterSeparateCosinusTransformation dctSeparate = new ConverterSeparateCosinusTransformation();
-        end = System.currentTimeMillis() + 11000;
+        end = System.currentTimeMillis() + BENCHMARK_TIME;
         while (System.currentTimeMillis() < end) {
             timer.start();
             transformedSeparate = dctSeparate.convert(matrix);
@@ -49,7 +50,7 @@ public class TesterDCTPerformance {
         timer.log();
         timer.reset();
         ConverterDiscreteCosinusTransformationArai dctArai = new ConverterDiscreteCosinusTransformationArai();
-        end = System.currentTimeMillis() + 11000;
+        end = System.currentTimeMillis() + BENCHMARK_TIME;
         while (System.currentTimeMillis() < end) {
             timer.start();
             transformedArai = dctArai.convert(matrix);
@@ -58,13 +59,7 @@ public class TesterDCTPerformance {
         timer.log();
 
         boolean equal = true;
-        LoggerMatrix.log(transformedDCT.get(0));
-        System.out.println("");
-        LoggerMatrix.log(transformedSeparate.get(0));
-        System.out.println("");
-        LoggerMatrix.log(transformedArai.get(0));
-        
-        equal = ComparatorMatrixEquals.compare(transformedDCT, transformedSeparate, 0.00000000001);
+        equal = ComparatorMatrixEquals.compare(transformedDCT, transformedSeparate, 0.01);
         equal = ComparatorMatrixEquals.compare(transformedDCT, transformedArai, 0.01);
         equal = ComparatorMatrixEquals.compare(transformedArai, transformedSeparate, 0.01);
         
