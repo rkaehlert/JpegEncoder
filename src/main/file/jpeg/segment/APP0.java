@@ -1,10 +1,12 @@
 package main.file.jpeg.segment;
 
-import main.file.jpeg.marker.EnumMarker;
-import main.file.stream.SimpleBitOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+
+import main.file.jpeg.marker.EnumMarker;
+import main.file.jpeg.segment.enums.EnumJPEGResolutionUnit;
+import main.file.stream.SimpleBitOutputStream;
 
 public class APP0 implements Marker {
     /*	 
@@ -27,19 +29,6 @@ public class APP0 implements Marker {
      density    = 900 x 900 DPI (dots per inch)
      thumbnail  = 0 x 0
      */
-
-    public enum EnumJPEGResolutionUnit {
-
-        NO_UNIT((byte) 0),
-        DOTS_PER_INCH((byte) 1),
-        DOTS_PER_CM((byte) 2);
-
-        byte value;
-
-        EnumJPEGResolutionUnit(byte value) {
-            this.value = value;
-        }
-    }
 
     byte[] length;
     byte[] identifier;
@@ -73,7 +62,7 @@ public class APP0 implements Marker {
         out.writeByteArray(identifier);
         out.writeByte(major_revision);
         out.writeByte(minor_revision);
-        out.writeByte(EnumJPEGResolutionUnit.NO_UNIT.value);
+        out.writeByte(EnumJPEGResolutionUnit.NO_UNIT.getValue());
         out.writeByteArray(density_x);
         out.writeByteArray(density_y);
         out.writeByte(thumbnail_x);

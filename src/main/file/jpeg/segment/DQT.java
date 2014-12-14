@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.file.jpeg.marker.EnumMarker;
+import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
 import main.file.stream.SimpleBitOutputStream;
 
 public class DQT implements Marker {

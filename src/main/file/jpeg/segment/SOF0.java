@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import main.file.jpeg.marker.EnumMarker;
+import main.file.jpeg.segment.enums.EnumComponentId;
+import main.file.jpeg.segment.enums.EnumSubSampling;
 import main.file.stream.SimpleBitOutputStream;
 
 public class SOF0 implements Marker {
@@ -39,9 +41,9 @@ public class SOF0 implements Marker {
         component_count = 1;
         components = new Component[component_count];
         components[0] = new Component();
-        components[0].setIdComponent(Component.EnumId.Y);
+        components[0].setIdComponent(EnumComponentId.Y);
         components[0].setQuantisizeTableNum((byte) 1);
-        components[0].setSubSamplingFactor(Component.EnumSubSampling.NONE);
+        components[0].setSubSamplingFactor(EnumSubSampling.NONE);
         calculateLength();
     }
 

@@ -1,36 +1,9 @@
 package main.file.jpeg.segment;
 
+import main.file.jpeg.segment.enums.EnumComponentId;
+import main.file.jpeg.segment.enums.EnumSubSampling;
+
 public class Component {
-
-    public enum EnumQuantizationTable {
-
-    }
-
-    public enum EnumSubSampling {
-
-        NONE(0x22),
-        FACTOR_2(0x11);
-
-        private int value;
-
-        EnumSubSampling(int value) {
-            this.value = value;
-        }
-
-    }
-
-    public enum EnumId {
-
-        Y(1),
-        Cb(2),
-        Cr(3);
-
-        int value;
-
-        EnumId(int value) {
-            this.value = value;
-        }
-    }
 
     private byte[] value;
 
@@ -38,12 +11,12 @@ public class Component {
         this.value = new byte[3];
     }
 
-    public void setIdComponent(EnumId id) {
-        value[0] = (byte) id.value;
+    public void setIdComponent(EnumComponentId id) {
+        value[0] = id.getValue().byteValue();
     }
 
     public void setSubSamplingFactor(EnumSubSampling factor) {
-        value[1] = (byte) factor.value;
+        value[1] = (byte) factor.getValue();
     }
     
     public void setQuantisizeTableNum(byte value)

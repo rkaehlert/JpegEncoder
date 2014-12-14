@@ -1,4 +1,4 @@
-package main.file.jpeg.segment;
+package main.file.jpeg.segment.enums;
 
 public enum EnumDestinationIdentifier {
 	Y(0),

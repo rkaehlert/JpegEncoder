@@ -25,7 +25,6 @@ public final class SimpleBitOutputStream {
         byteBuffer = new byte[BUFFER_SIZE];
     }
 
-    //TODO enthält noch einen fehler. schreiben der zeichenfolge 0111111111 ergibt FFC0 anstatt 7FCO. wird stattdessen writeBit verwendet kommt das richtige heraus
     public void write(byte b, int offset) throws IOException {
 
         currentByte = (byte) (currentByte << offset | b);
@@ -72,9 +71,9 @@ public final class SimpleBitOutputStream {
     public void writeInt(int zahl) throws IOException {
         byte[] conv = BigInteger.valueOf(zahl).toByteArray();
         for (int i = 0; i < conv.length; i++) {
-            if (conv[i] != (byte)0x00 || i > 0) {
+//            if (conv[i] != (byte)0x00 || i > 0) {
                 writeByte(conv[i]);
-            }
+  //          }
         }
     }
     

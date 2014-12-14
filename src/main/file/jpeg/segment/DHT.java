@@ -8,7 +8,8 @@ import java.util.Map;
 
 import main.encoder.huffman.CollectionSymbol;
 import main.file.jpeg.marker.EnumMarker;
-import main.file.jpeg.segment.HT.EnumHTType;
+import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
+import main.file.jpeg.segment.enums.EnumHTType;
 import main.file.stream.SimpleBitOutputStream;
 import main.sort.SortCollectionSymbolByPathLength;
 

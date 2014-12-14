@@ -7,7 +7,8 @@ public enum EnumMarker {
     APP0((byte)255,(byte)224),
     SOF0((byte)255,(byte)192),
     DHT((byte)255,(byte)196),
-    DQT((byte)255,(byte)219);
+    DQT((byte)255,(byte)219),
+    SOS((byte)255,(byte)218);
 
     private byte[] value;
 
