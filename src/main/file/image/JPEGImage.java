@@ -23,6 +23,8 @@ import main.file.jpeg.segment.DQT;
 import main.file.jpeg.segment.EOI;
 import main.file.jpeg.segment.SOF0;
 import main.file.jpeg.segment.SOI;
+import main.file.jpeg.segment.SOS;
+import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
 import main.file.jpeg.segment.enums.EnumHTType;
 import main.file.stream.SimpleBitOutputStream;
@@ -215,6 +217,14 @@ public class JPEGImage extends Image implements Cloneable {
 
         APP0 app0 = new APP0();
         app0.write(out);
+
+        DQT dqt = new DQT();
+        
+        double[] quantizationTable  = this.createQuantizationTable();
+        dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(quantizationTable));
+        dqt.write(out);
+        
+        
         SOF0 sof0 = new SOF0();
 
         sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height, 2));
@@ -227,25 +237,10 @@ public class JPEGImage extends Image implements Cloneable {
         dht.addHT(EnumDestinationIdentifier.Y, EnumHTType.DC, collectionSymbol);
 
         dht.write(out);
-        DQT dqt = new DQT();
-        
-        double[] quantizationTable  = this.createQuantizationTable();
-        dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(quantizationTable));
-        dqt.write(out);
-//        
-//        SOS sos = new SOS();
-//        sos.addComponent(EnumComponentId.Y, EnumHTType.AC, EnumHTType.DC);
-//        sos.write(out);
-        
-//        List<byte[]> liste = new ArrayList<byte[]>();
-//        int index = 0;
-//        for (Map.Entry<Tree, String> entry : collectionSymbol.entrySet()) {
-//                liste.add(new BigInteger(entry.getValue()).toByteArray());
-//        }
-//        
-//        for(byte[] currentByte : liste){
-//        	out.writeByteArray(currentByte);
-//        }
+
+        SOS sos = new SOS();
+        sos.addComponent(EnumComponentId.Y, EnumHTType.AC, EnumHTType.DC);
+        sos.write(out);
     
         new EOI().write(out);
         out.close();

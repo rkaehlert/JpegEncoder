@@ -43,7 +43,7 @@ public class SOF0 implements Marker {
         components[0] = new Component();
         components[0].setIdComponent(EnumComponentId.Y);
         components[0].setQuantisizeTableNum((byte) 1);
-        components[0].setSubSamplingFactor(EnumSubSampling.NONE);
+        components[0].setSubSamplingFactor(EnumSubSampling.FACTOR_2);
         calculateLength();
     }
 
