@@ -2,14 +2,14 @@ package main.logger;
 
 public class LoggerTimer implements Logger{
 
-	Long counterInterruption;
+	Long countOfInterrupt;
 	Long time;
 	Long duration;
 	
     public LoggerTimer(){
     	this.time = 0L;
     	this.duration = 0L;
-        this.counterInterruption = 0L;
+        this.countOfInterrupt = 0L;
     }
         
 	public void start(){
@@ -17,19 +17,19 @@ public class LoggerTimer implements Logger{
 	}
 	
 	public void stop(){
-		this.counterInterruption++;
+		this.countOfInterrupt++;
 		this.duration += System.currentTimeMillis() - time;
 	}
 
     public void reset(){
     	this.time = null;
-    	this.counterInterruption = 0L;
+    	this.countOfInterrupt = 0L;
     	this.duration = 0L;
     }
         
 	public void log() {
 		System.out.println(System.lineSeparator() + "-------------------------------------");
-		System.out.println("Mittlere zeit: " + this.getArithmeticAverage() + " ms mit " + counterInterruption + " Durchlaeufen");
+		System.out.println("Mittlere zeit: " + this.getArithmeticAverage() + " ms mit " + countOfInterrupt + " Durchlaeufen");
 		System.out.println("-------------------------------------");
 	}
 	
@@ -41,7 +41,7 @@ public class LoggerTimer implements Logger{
 	}
 	
 	public Long getArithmeticAverage(){
-		return this.duration / this.counterInterruption;
+		return this.duration / this.countOfInterrupt;
 	}
 	
 }

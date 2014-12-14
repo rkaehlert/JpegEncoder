@@ -8,6 +8,7 @@ import java.util.Map;
 
 import main.encoder.huffman.CollectionSymbol;
 import main.file.jpeg.marker.EnumMarker;
+import main.file.jpeg.segment.HT.EnumHTType;
 import main.file.stream.SimpleBitOutputStream;
 import main.sort.SortCollectionSymbolByPathLength;
 
@@ -19,45 +20,6 @@ public class DHT implements Marker {
 	public DHT(){
 		this.length = new byte[2];
 		this.lstHT = new ArrayList<HT>();
-	}
-
-	public enum EnumHTNumber {
-		NUMBER_ONE(0),
-		NUMBER_TWO(1),
-		NUMBER_THREE(2);
-		
-		private Integer value = null;
-		
-		private EnumHTNumber(Integer value){
-			this.setValue(value);
-		}
-
-		public Integer getValue() {
-			return value;
-		}
-
-		public void setValue(Integer value) {
-			this.value = value;
-		}
-	}
-	
-	public enum EnumHTType {
-		AC(1),
-		DC(0);
-		
-		private Integer value = null;
-		
-		private EnumHTType(Integer value){
-			this.setValue(value);
-		}
-
-		public Integer getValue() {
-			return value;
-		}
-
-		public void setValue(Integer value) {
-			this.value = value;
-		}
 	}
 	
     @Override
@@ -78,7 +40,7 @@ public class DHT implements Marker {
 		return lstHT;
 	}
 
-	public void addHT(EnumHTNumber number, EnumHTType type, CollectionSymbol collectionSymbol) {
+	public void addHT(EnumDestinationIdentifier number, EnumHTType type, CollectionSymbol collectionSymbol) {
 		
 		Map<Integer, List<Integer>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
 		boolean first = true;

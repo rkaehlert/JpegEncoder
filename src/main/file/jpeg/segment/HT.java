@@ -8,13 +8,31 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import main.file.jpeg.segment.DHT.EnumHTNumber;
-import main.file.jpeg.segment.DHT.EnumHTType;
 import main.file.stream.SimpleBitOutputStream;
 
 public class HT implements Marker {
+	
 	private byte[] information;
 	private LinkedHashMap<Integer, LinkedList<byte[]>> symbols;
+	
+	public enum EnumHTType {
+		AC(1),
+		DC(0);
+		
+		private Integer value = null;
+		
+		private EnumHTType(Integer value){
+			this.setValue(value);
+		}
+
+		public Integer getValue() {
+			return value;
+		}
+
+		public void setValue(Integer value) {
+			this.value = value;
+		}
+	}
 	
 	public HT(){
 		this.information = new byte[3];
@@ -42,7 +60,7 @@ public class HT implements Marker {
 		return true;
 	}
 
-	public void setInformation(EnumHTNumber numberOfHt, EnumHTType typeOfHt){
+	public void setInformation(EnumDestinationIdentifier numberOfHt, EnumHTType typeOfHt){
     	byte[] ht = new byte[3];
     	ht[0] = BigInteger.valueOf(numberOfHt.getValue()).toByteArray()[0];
     	ht[1] = BigInteger.valueOf(typeOfHt.getValue()).toByteArray()[0];

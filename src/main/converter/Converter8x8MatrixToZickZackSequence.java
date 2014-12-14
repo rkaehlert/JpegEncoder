@@ -20,7 +20,7 @@ public class Converter8x8MatrixToZickZackSequence implements Converter {
 		int rows = matrix.getRowDimension();
 		int cols = matrix.getColumnDimension();
 		double[] output = new double[64];
-		if(rows != 8 || cols != 8){
+		if(rows == 8 && cols == 8){
 			for(int i = 0; i < 64; i++){
 				output[i] =  matrix.getEntry(pattern[i][0], pattern[i][1]);
 			}

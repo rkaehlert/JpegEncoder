@@ -15,6 +15,7 @@ public class ConverterDiscreteCosinusTransformation implements Converter {
 		
 		Array2DRowRealMatrix output = new Array2DRowRealMatrix(BLOCK_SIZE,BLOCK_SIZE);
 		
+		if(image.getColumnDimension() == BLOCK_SIZE && image.getRowDimension() == BLOCK_SIZE)
 		 for (int u = 0; u < BLOCK_SIZE; u++) {
              for (int v = 0; v < BLOCK_SIZE; v++) {
              	double Cu = u == 0 ? 1 / Math.sqrt(2.0) : 1;

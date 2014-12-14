@@ -6,20 +6,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import main.converter.Converter8x8MatrixToZickZackSequence;
 import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToPath;
 import main.converter.ConverterRGBToYCbCr;
 import main.converter.datatype.ConverterStringToInteger;
 import main.converter.datatype.ConverterToByte;
+import main.converter.datatype.ConverterToDouble;
 import main.encoder.huffman.CollectionSymbol;
 import main.encoder.huffman.EncoderHuffmanTree;
 import main.exception.image.ImageException;
 import main.exception.image.UnsupportedImageFormatException;
 import main.file.jpeg.segment.APP0;
 import main.file.jpeg.segment.DHT;
-import main.file.jpeg.segment.DHT.EnumHTNumber;
-import main.file.jpeg.segment.DHT.EnumHTType;
+import main.file.jpeg.segment.DQT;
 import main.file.jpeg.segment.EOI;
+import main.file.jpeg.segment.EnumDestinationIdentifier;
+import main.file.jpeg.segment.HT.EnumHTType;
 import main.file.jpeg.segment.SOF0;
 import main.file.jpeg.segment.SOI;
 import main.file.stream.SimpleBitOutputStream;
@@ -30,6 +33,9 @@ import main.model.color.RGB;
 import main.model.color.YCbCr;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
+import main.model.quantization.JPEGQuantizationTable;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class JPEGImage extends Image implements Cloneable {
 
@@ -204,13 +210,13 @@ public class JPEGImage extends Image implements Cloneable {
     }
 
     public void writeToFile(SimpleBitOutputStream out) throws IOException {
+    	
         new SOI().write(out);
-        System.out.println("schreibe app");
+
         APP0 app0 = new APP0();
         app0.write(out);
         SOF0 sof0 = new SOF0();
 
-        System.out.println("schreibe sofo");
         sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height, 2));
         sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width, 2));
         sof0.write(out);
@@ -218,13 +224,24 @@ public class JPEGImage extends Image implements Cloneable {
 
        	CollectionSymbol collectionSymbol = this.createHuffmanTree();
 
-        System.out.println("fuege ht hinzu");
-        dht.addHT(EnumHTNumber.NUMBER_TWO, EnumHTType.DC, collectionSymbol);
+        dht.addHT(EnumDestinationIdentifier.Y, EnumHTType.DC, collectionSymbol);
 
-        System.out.println("schreibe ht");
         dht.write(out);
+        DQT dqt = new DQT();
+        
+        double[] quantizationTable  = this.createQuantizationTable();
+        dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(quantizationTable));
+        dqt.write(out);
         new EOI().write(out);
         out.close();
+    }
+    
+    public double[] createQuantizationTable(){
+
+        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.JpegStdChrominance);
+		Array2DRowRealMatrix quantizationMatrix = new Array2DRowRealMatrix(jpegStdChrominance);
+        
+		return new Converter8x8MatrixToZickZackSequence().convert(quantizationMatrix);	
     }
 
     public CollectionSymbol createHuffmanTree() {

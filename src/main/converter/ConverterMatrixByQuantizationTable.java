@@ -22,6 +22,4 @@ public class ConverterMatrixByQuantizationTable implements Converter {
 		return output;
 	}
 	
-
-	
 }

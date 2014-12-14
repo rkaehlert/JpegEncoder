@@ -13,7 +13,12 @@ public class ConverterImageTo8x8Block implements Converter {
 			List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
 			for(int i = 0; i < matrix.getRowDimension(); i+=BLOCK_SIZE){
 				for(int j = 0; j < matrix.getColumnDimension(); j+=BLOCK_SIZE){
-					output.add((Array2DRowRealMatrix)matrix.getSubMatrix(i, i+BLOCK_SIZE-1, j, j+BLOCK_SIZE-1));
+					if((i+BLOCK_SIZE) <= matrix.getRowDimension() && (j+BLOCK_SIZE) <= matrix.getColumnDimension()){
+						output.add((Array2DRowRealMatrix)matrix.getSubMatrix(i, i+BLOCK_SIZE-1, j, j+BLOCK_SIZE-1));
+					}else{
+						System.out.println("dei groesse des bildes ist nicht durch 8 teilbar. die restlichen pixel werden entfernt");
+						return output;
+					}
 				}
 			}
 			return output;
