@@ -2,8 +2,11 @@ package main.encoder.huffman;
 
 import java.util.List;
 
+import main.converter.ConverterHuffmanTreeLengthLimited;
+import main.converter.ConverterHuffmanTreeToPath;
 import main.exception.huffmann.ExceptionEqualIndexPosition;
 import main.exception.huffmann.ExceptionInvalidTreeSize;
+import main.formatter.FormatterRightGrowingTree;
 import main.logger.LoggerText;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
@@ -53,12 +56,18 @@ public class TreeFactory {
 			return create(collection);
 		}
 		
-
-		UtilityTreeManipulation.replaceLeafWithMaximumDepth(collection.get(0), null);
-			
-		collection.print();
-		LoggerText.log("baum ist erstellt");
-		return collection.get(0);
+		Tree output = collection.get(0);			
+		 
+        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(output, 11, 15);
+        
+        CollectionSymbol symbol = ConverterHuffmanTreeToPath.convert(lengthLimitedTree);
+        symbol = symbol.sort();
+        
+        output = new FormatterRightGrowingTree().format(symbol);
+		
+		UtilityTreeManipulation.replaceLeafWithMaximumDepth(output, null);
+        
+		return output;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package main.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.exception.common.ExceptionInvalidParameter;
 import main.utility.array.UtilityArrayDivision;
 
@@ -7,7 +10,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class ConverterMatrixByQuantizationTable implements Converter {
 
-	public Array2DRowRealMatrix convert(Array2DRowRealMatrix quantizationTable, Array2DRowRealMatrix matrix){
+	public static Array2DRowRealMatrix convert(Array2DRowRealMatrix quantizationTable, Array2DRowRealMatrix matrix){
 		Array2DRowRealMatrix output = null;
 		if(quantizationTable.getColumnDimension() == matrix.getColumnDimension() && quantizationTable.getRowDimension() == matrix.getRowDimension()){
 			output = new Array2DRowRealMatrix(quantizationTable.getRowDimension(), quantizationTable.getColumnDimension());
@@ -18,6 +21,14 @@ public class ConverterMatrixByQuantizationTable implements Converter {
 			}
 		}else{
 			throw new ExceptionInvalidParameter("falsche groesse der matrizen. es koennen nur matrizen gleicher groesse verarbeitet werden");
+		}
+		return output;
+	}
+	
+	public static List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix quantizationTable, List<Array2DRowRealMatrix> matrix){
+		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
+		for(Array2DRowRealMatrix currentMatrix : matrix){
+			output.add(ConverterMatrixByQuantizationTable.convert(quantizationTable, currentMatrix));
 		}
 		return output;
 	}
