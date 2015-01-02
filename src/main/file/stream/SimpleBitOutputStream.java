@@ -45,6 +45,17 @@ public final class SimpleBitOutputStream {
         }
     }
 
+    public void writeBit(String b) throws IOException {
+    	char[] bitString = b.toCharArray();
+    	for(int i = 0; i < bitString.length; i++){
+    		char bit = bitString[i];
+	        if ((bit == '0' || bit == '1') == false) {
+	            throw new IllegalArgumentException("Argument must be 0 or 1");
+	        }
+	        write((byte) bit, 1);
+    	}
+    }
+    
     public void writeBit(int b) throws IOException {
         if (!(b == 0 || b == 1)) {
             throw new IllegalArgumentException("Argument must be 0 or 1");
@@ -84,10 +95,16 @@ public final class SimpleBitOutputStream {
             }
         }
         if (currentBitsInCurrentByte != 0) {
-            writeBit(byteBuffer[byteBuffer.length - 1]);
-            while (currentBitsInCurrentByte != 0) {
-                writeBit((byte) 0);
-            }
+          while ((currentBitsInCurrentByte % 8) != 0) {
+        	  writeBit((byte) 0);
+          }
+//        	byte lastByte = byteBuffer[byteBuffer.length - 1];
+//        	output.write
+//        	
+//            //writeBit(byteBuffer[byteBuffer.length - 1]);
+//            while (currentBitsInCurrentByte != 0) {
+//                writeBit((byte) 0);
+//            }
             output.write(byteBuffer[currentBytesInBuffer - 1]);
         }
         output.close();

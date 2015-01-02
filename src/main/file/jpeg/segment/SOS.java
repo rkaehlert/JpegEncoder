@@ -8,7 +8,7 @@ import java.util.List;
 import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumHTType;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class SOS implements Marker {
 	
@@ -16,18 +16,18 @@ public class SOS implements Marker {
 	List<byte[]> componentDetail = new ArrayList<byte[]>();
 	
 	@Override
-	public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-		out.writeByteArray(EnumMarker.SOS.getValue());
-		out.writeByteArray(this.length);
-		out.writeInt(this.componentDetail.size());
+	public void write(BitStream out) throws FileNotFoundException, IOException {
+		out.write(EnumMarker.SOS.getValue());
+		out.write(this.length);
+		out.write(this.componentDetail.size());
 		for(byte[] component : this.componentDetail){
-			out.writeByte(component[0]);
-			out.write((byte)0, 4);
-			out.write((byte)0, 4);
+			out.write(component[0]);
+			out.writeValue(4, 0);
+			out.writeValue(4, 0);
 		}
-		out.writeInt(0);
-		out.writeInt(63);
-		out.writeInt(0);
+		out.write(0);
+		out.write(63);
+		out.write(0);
 	}
 
 	public void addComponent(EnumComponentId componentId, EnumHTType enumHTTypeAc, EnumHTType enumHTTypeDc){

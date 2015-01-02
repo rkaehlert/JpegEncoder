@@ -43,7 +43,7 @@ public class ConverterDiscreteCosinusTransformation implements Converter {
 	
 	public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix){
 		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
-		for(Array2DRowRealMatrix currentMatrix : ConverterImageTo8x8Block.convert(matrix)){
+		for(Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, BLOCK_SIZE)){
 				Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
 				output.add(matrix8x8);
 		}

@@ -8,25 +8,25 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
+import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumHTType;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class HT implements Marker {
 	
 	private byte[] information;
-	private LinkedHashMap<Integer, LinkedList<byte[]>> symbols;
+	private LinkedHashMap<Integer, LinkedList<String>> symbols;
 	
 	public HT(){
 		this.information = new byte[3];
-		this.setSymbols(new LinkedHashMap<Integer, LinkedList<byte[]>>());
+		this.setSymbols(new LinkedHashMap<Integer, LinkedList<String>>());
 	}
 	
-	public void addSymbol(int length, byte[] code){
+	public void addSymbol(int length, String code){
 		if(this.validateLength(length) == true){
 			Integer key = length;
 			if(this.getSymbols().containsKey(key) == false){
-				LinkedList<byte[]> lstBytes = new LinkedList<byte[]>(Arrays.asList(code));
+				LinkedList<String> lstBytes = new LinkedList<String>(Arrays.asList(code));
 				this.getSymbols().put(key, lstBytes);
 			}else{
 				if(this.getSymbols().get(key).contains(code) == false){
@@ -43,46 +43,44 @@ public class HT implements Marker {
 		return true;
 	}
 
-	public void setInformation(EnumDestinationIdentifier numberOfHt, EnumHTType typeOfHt){
+	public void setInformation(EnumComponentId numberOfHt, EnumHTType typeOfHt){
     	byte[] ht = new byte[3];
-    	ht[0] = BigInteger.valueOf(numberOfHt.getValue()).toByteArray()[0];
-    	ht[1] = BigInteger.valueOf(typeOfHt.getValue()).toByteArray()[0];
+    	ht[0] = BigInteger.valueOf(typeOfHt.getValue()).toByteArray()[0];
+    	ht[1] = BigInteger.valueOf(numberOfHt.getValue()).toByteArray()[0];
     	ht[2] = 0x00;
     	this.information = ht;
 	}
 
-	public LinkedHashMap<Integer, LinkedList<byte[]>> getSymbols() {
+	public LinkedHashMap<Integer, LinkedList<String>> getSymbols() {
 		return symbols;
 	}
 
-	public void setSymbols(LinkedHashMap<Integer, LinkedList<byte[]>> symbols) {
+	public void setSymbols(LinkedHashMap<Integer, LinkedList<String>> symbols) {
 		this.symbols = symbols;
 	}
 
 	@Override
-	public void write(SimpleBitOutputStream out) throws FileNotFoundException,	IOException {
-    	out.write(this.getInformation()[0], 4);
-    	out.write(this.getInformation()[1], 1);
-    	out.write(this.getInformation()[2], 3);
-      	
+	public void write(BitStream out) throws FileNotFoundException,	IOException {
+    	out.writeValue(4, this.getInformation()[0]);
+    	out.writeValue(1, this.getInformation()[1]);
+    	out.writeValue(3, this.getInformation()[2]);
     	int index = 0;
-		for(Map.Entry<Integer, LinkedList<byte[]>> currentEntry : this.getSymbols().entrySet()){
+		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
 			int difference = currentEntry.getKey()-index;
 			index += difference;
 			if(difference > 0){
-				out.writeByteArray(new byte[difference-1]);
+				out.write(new byte[difference-1]);
 			}
 			if(index == currentEntry.getKey()){
-				out.writeByte((byte)currentEntry.getValue().size());
+				out.write((byte)currentEntry.getValue().size());
 			}
-    	}
-		
-		out.writeByteArray(new byte[16-index]);
-		for(Map.Entry<Integer, LinkedList<byte[]>> currentEntry : this.getSymbols().entrySet()){
-    		LinkedList<byte[]> value = currentEntry.getValue();
 			
-    		for(byte[] currentByte : value){
-    			out.writeByteArray(currentByte);
+    	}
+		out.write(new byte[16-index]);
+		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
+    		LinkedList<String> value = currentEntry.getValue();
+    		for(String currentByte : value){
+    			out.write(currentByte);
     		}
     	}
 	}

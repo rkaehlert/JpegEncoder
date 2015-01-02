@@ -1,6 +1,6 @@
 package main.converter;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -32,7 +32,7 @@ public class ConverterMatrixToZickZackSequence implements Converter {
 	}
 	
 	public static List<Integer[]> convert(List<Array2DRowRealMatrix> lstMatrix){
-		List<Integer[]> output = new ArrayList<Integer[]>();
+		List<Integer[]> output = new LinkedList<Integer[]>();
 		for(Array2DRowRealMatrix matrix : lstMatrix){
 			output.add(ConverterMatrixToZickZackSequence.convert(matrix));
 		}

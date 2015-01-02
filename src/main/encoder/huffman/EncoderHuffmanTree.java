@@ -1,10 +1,9 @@
 package main.encoder.huffman;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import main.converter.ConverterHuffmanTreeToPath;
+import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.exception.huffmann.ExceptionEncoding;
 import main.logger.LoggerError;
 import main.logger.LoggerMap;
@@ -20,13 +19,17 @@ public class EncoderHuffmanTree {
 		this.values.addAll(values); 
 		this.tree = TreeFactory.create(this.values);
 	    LoggerMap<Tree,String> loggerMap = new LoggerMap<Tree,String>();
-	    loggerMap.log(ConverterHuffmanTreeToPath.convert(this.tree));
+	    loggerMap.log(this.getPathCollection());
+	}
+	
+	public CollectionSymbol getPathCollection(){
+		return ConverterHuffmanTreeToCollectionSymbol.convert(this.tree);
 	}
 	
 	public void encodeJPEG(List<Integer[]> values){
 		List<Object> input = new ArrayList<Object>();
 		for(int i = 0; i < values.size(); i++){
-			input.addAll(Arrays.asList(values.get(i)));
+			input.add(values.get(i));
 		}
 		this.encode(input);
 	}

@@ -1,6 +1,6 @@
 package main.converter;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import main.exception.common.ExceptionInvalidParameter;
@@ -26,7 +26,7 @@ public class ConverterMatrixByQuantizationTable implements Converter {
 	}
 	
 	public static List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix quantizationTable, List<Array2DRowRealMatrix> matrix){
-		List<Array2DRowRealMatrix> output = new ArrayList<Array2DRowRealMatrix>();
+		List<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
 		for(Array2DRowRealMatrix currentMatrix : matrix){
 			output.add(ConverterMatrixByQuantizationTable.convert(quantizationTable, currentMatrix));
 		}

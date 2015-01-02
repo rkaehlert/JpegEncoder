@@ -27,4 +27,25 @@ public abstract class Image {
         }
         return null;
     }
+
+	public void setPixel(TreeMap<Coordinate, Colormodel> pixel) {
+		this.pixel = pixel;
+	}
+	
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

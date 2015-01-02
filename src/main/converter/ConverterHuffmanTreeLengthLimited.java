@@ -76,7 +76,7 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 				break;
 			}
 			tree = ConverterHuffmanTreeLengthLimited.convert(tree,  limit);
-			new LoggerMap().log(ConverterHuffmanTreeToPath.convert(tree));
+			new LoggerMap().log(ConverterHuffmanTreeToCollectionSymbol.convert(tree));
 			maxReputation--;
 		}
 		return tree;

@@ -3,11 +3,13 @@ package main.file.jpeg.segment;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumSubSampling;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class SOF0 implements Marker {
 
@@ -31,34 +33,37 @@ public class SOF0 implements Marker {
     private byte[] width;
     private byte[] height;
     private byte component_count;
-    private Component[] components;
+    private List<Component> components;
 
     public SOF0() {
         length = new byte[2];
         precision = 8;
         height = new byte[]{0x00,0x01};
         width = new byte[]{0x00,0x01};
-        component_count = 1;
-        components = new Component[component_count];
-        components[0] = new Component();
-        components[0].setIdComponent(EnumComponentId.Y);
-        components[0].setQuantisizeTableNum((byte) 1);
-        components[0].setSubSamplingFactor(EnumSubSampling.FACTOR_2);
+        this.components = new ArrayList<Component>();
         calculateLength();
     }
-
+    
+    public void addComponent(EnumComponentId componentId, int quantizationTableNum, EnumSubSampling subSamplingFactor){
+        Component component = new Component();
+        component.setIdComponent(componentId);
+        component.setQuantisizeTableNum((byte) quantizationTableNum);
+        component.setSubSamplingFactor(subSamplingFactor);
+        this.components.add(component);
+        this.calculateLength();
+        component_count = (byte)this.components.size();
+    }
+    
     @Override
-    public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-        out.writeByteArray(EnumMarker.SOF0.getValue());
-        out.writeByteArray(length);
-        out.writeByte(precision);
-        out.writeByteArray(height);
-        out.writeByteArray(width);
-        out.writeByte(component_count);
+    public void write(BitStream out) throws FileNotFoundException, IOException {
+        out.write(EnumMarker.SOF0.getValue());
+        out.write(length);
+        out.write(precision);
+        out.write(height);
+        out.write(width);
+        out.write(component_count);
         for (Component comp : components) {
-            out.writeByte(comp.getIdComponent());
-            out.writeByte(comp.getSubSamplingFactor());
-            out.writeByte(comp.getIdQuantisizeTableNum());
+            comp.write(out);
         }
     }
 
@@ -115,23 +120,8 @@ public class SOF0 implements Marker {
     public void setComponent_count(byte component_count) {
         this.component_count = component_count;
     }
-
-    public Component[] getComponents() {
-        return components;
-    }
-
-    public void setComponents(Component[] components) {
-        if (components.length == 1 || components.length == 3) {
-            this.components = components;
-            component_count = (byte)components.length;
-            calculateLength();
-        }
-        else {
-            throw new IllegalArgumentException("Nur ein oder drei Kanäle möglich");
-        }
-    }
-
-	public void setLength(byte[] length) {
+    
+    public void setLength(byte[] length) {
 		this.length = length;
 	}
 }

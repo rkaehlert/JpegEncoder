@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.converter.ConverterHuffmanTreeToPath;
+import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.encoder.huffman.CollectionSymbol;
 import main.encoder.huffman.EncoderHuffmanTree;
 import main.exception.common.ExceptionInvalidParameter;
@@ -26,7 +26,7 @@ public class TesterEncoderHuffmanRightGrowing {
 			numberSymbols = Arrays.asList(1,1,2,2,2,3,3,5,5,5,6,7,7,7);
 			
 			encoder.encode(characterSymbols);
-			CollectionSymbol collectionSymbol = ConverterHuffmanTreeToPath.convert(encoder.getTree());
+			CollectionSymbol collectionSymbol = ConverterHuffmanTreeToCollectionSymbol.convert(encoder.getTree());
 			collectionSymbol = collectionSymbol.sort();
 			
 			Tree tree = new FormatterRightGrowingTree().format(collectionSymbol);

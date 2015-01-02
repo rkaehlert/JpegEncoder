@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.converter.ConverterHuffmanTreeLengthLimited;
-import main.converter.ConverterHuffmanTreeToPath;
+import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.encoder.huffman.EncoderHuffmanTree;
 import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
@@ -30,15 +30,15 @@ public class TesterEncoderHuffmanMaxLength {
 		numberSymbols = Arrays.asList(1,1,2,2,2,3,3,5,5,5,6,7,7,7);
 		
 		encoder.encode(characterSymbols);
-		loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
+		loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(encoder.getTree()));
 		Tree maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), COUNT);
 		
 				
-		loggerMap.log(ConverterHuffmanTreeToPath.convert(maxLengthOptimizedTree));
+		loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(maxLengthOptimizedTree));
 		
 		encoder.encode(numberSymbols);		
 		maxLengthOptimizedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 2);
-		loggerMap.log(ConverterHuffmanTreeToPath.convert(maxLengthOptimizedTree));
+		loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(maxLengthOptimizedTree));
 	}
 	
 }

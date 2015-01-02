@@ -1,15 +1,15 @@
 package main.converter;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConverterRunLengthEncoding {
 
 	public static List<Integer[]> convert(List<Integer[]> lstZickZackSequenceY) {
-		List<Integer[]> output = new ArrayList<Integer[]>();
+		List<Integer[]> output = new LinkedList<Integer[]>();
 		for(Integer[] current8x8Block : lstZickZackSequenceY){
 			int counter = 0;
-			List<Integer> runLengthEncodedBlock = new ArrayList<Integer>();
+			List<Integer> runLengthEncodedBlock = new LinkedList<Integer>();
 			for(int index = 1; index < current8x8Block.length; index++){
 				if(current8x8Block[index] == 0){
 					if(counter == 15){

@@ -1,9 +1,9 @@
 package main.file.jpeg.segment.enums;
 public enum EnumComponentId {
 
-        Y(1),
-        Cb(2),
-        Cr(3);
+        Y(0),
+        Cb(1),
+        Cr(2);
 
         private Integer value;
 

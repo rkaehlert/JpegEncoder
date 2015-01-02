@@ -1,9 +1,10 @@
 package main.file.jpeg.segment;
 
-import main.file.stream.SimpleBitOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import main.file.stream.BitStream;
+
 public interface Marker {
-    public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException;
+    public void write(BitStream out) throws FileNotFoundException, IOException;
 }

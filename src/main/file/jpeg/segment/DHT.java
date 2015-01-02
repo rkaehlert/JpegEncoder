@@ -2,15 +2,15 @@ package main.file.jpeg.segment;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import main.encoder.huffman.CollectionSymbol;
 import main.file.jpeg.marker.EnumMarker;
-import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
+import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumHTType;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 import main.sort.SortCollectionSymbolByPathLength;
 
 public class DHT implements Marker {
@@ -20,13 +20,13 @@ public class DHT implements Marker {
 
 	public DHT(){
 		this.length = new byte[2];
-		this.lstHT = new ArrayList<HT>();
+		this.lstHT = new LinkedList<HT>();
 	}
 	
     @Override
-    public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-    	out.writeByteArray(EnumMarker.DHT.getValue());
-    	out.writeByteArray(this.length);
+    public void write(BitStream out) throws FileNotFoundException, IOException {
+    	out.write(EnumMarker.DHT.getValue());
+    	out.write(this.length);
     	
     	for(HT currentHT : this.lstHT){
     		currentHT.write(out);
@@ -41,14 +41,14 @@ public class DHT implements Marker {
 		return lstHT;
 	}
 
-	public void addHT(EnumDestinationIdentifier number, EnumHTType type, CollectionSymbol collectionSymbol) {
+	public void addHT(EnumComponentId number, EnumHTType type, CollectionSymbol collectionSymbol) {
 		
-		Map<Integer, List<Integer>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
+		Map<Integer, List<String>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
 		boolean first = true;
 		int index = 0;
 		
 		HT ht = null;
-		for(Map.Entry<Integer, List<Integer>> currentEntry : sortedByPathLength.entrySet()){
+		for(Map.Entry<Integer, List<String>> currentEntry : sortedByPathLength.entrySet()){
 			if(index % 16 == 0){
 				ht = new HT();
 				ht.setInformation(number, type);
@@ -57,8 +57,8 @@ public class DHT implements Marker {
 					first = false;
 				}
 			}
-			for(Integer currentValue : currentEntry.getValue()){
-				ht.addSymbol(currentEntry.getKey(), new byte[]{currentValue.byteValue()});
+			for(String currentValue : currentEntry.getValue()){
+				ht.addSymbol(currentEntry.getKey(), currentValue);
 			}
 			index++;
 		}

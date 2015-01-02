@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
 import main.file.jpeg.segment.enums.EnumHTPrecision;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class QT implements Marker {
 	
@@ -21,10 +21,10 @@ public class QT implements Marker {
 	}
 	
 	@Override
-	public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-		out.write(this.getPq().getValue().byteValue(), 4);
-		out.write(this.getTq().getValue().byteValue(), 4);
-		out.writeByteArray(this.q);
+	public void write(BitStream out) throws FileNotFoundException, IOException {
+		out.writeValue(4, this.getPq().getValue().byteValue());
+		out.writeValue(4, this.getTq().getValue().byteValue());
+		out.write(this.q);
 	}
 
 	public EnumDestinationIdentifier getTq() {

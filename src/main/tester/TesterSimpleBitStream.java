@@ -2,26 +2,42 @@ package main.tester;
 
 
 
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
 
-import main.file.stream.SimpleBitOutputStream;
-import main.logger.LoggerTimer;
+import main.file.stream.SimpleBitWriter;
 
 public class TesterSimpleBitStream {
 
     public static void main(String[] args) {
         try {
-            SimpleBitOutputStream stream = new SimpleBitOutputStream(new FileOutputStream("C:\\Users\\robin\\Desktop\\outputSingleByte.jpg"));
-            LoggerTimer timer = new LoggerTimer();
-
-            timer.start();
-            for (long i = 0; i < 10000; i++) {
-                stream.writeInt(128);
-            }
-            timer.stop();
+            SimpleBitWriter stream = new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\outputSingleByte.jpg"));
+            stream.write(100);
+            stream.writeBit(1);
+            stream.writeBit(1);
+            stream.writeBit(0);
+            stream.writeBit(0);
+            stream.writeBit(1);
+            stream.writeBit(0);
+            stream.writeBit(0);
+            stream.writeFillBits();
+            stream.writeBit(0);
+            stream.writeBit(0);
+            stream.writeBit(0);
+            stream.writeBit(0);
+            stream.writeBit(1);
+            stream.writeBit(1);
+            stream.write(100);
             stream.close();
-            timer.log();
+//            LoggerTimer timer = new LoggerTimer();
+
+//            timer.start();
+//            for (long i = 0; i < 10000; i++) {
+//                stream.writeInt(128);
+//            }
+//            timer.stop();
+//            stream.close();
+//            timer.log();
         }
         catch (IOException ex) {
 

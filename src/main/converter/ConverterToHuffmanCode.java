@@ -6,7 +6,7 @@ import main.encoder.huffman.CollectionSymbol;
 import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
 
-public class ConverterHuffmanCode implements Converter<String> {
+public class ConverterToHuffmanCode implements Converter<String> {
 
 	public String convert(Tree tree, List<Object> input){
 		String output = "";

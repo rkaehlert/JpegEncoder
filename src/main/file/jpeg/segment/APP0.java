@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumJPEGResolutionUnit;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class APP0 implements Marker {
     /*	 
@@ -56,19 +56,19 @@ public class APP0 implements Marker {
     }
 
     @Override
-    public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-        out.writeByteArray(EnumMarker.APP0.getValue());
-        out.writeByteArray(length);
-        out.writeByteArray(identifier);
-        out.writeByte(major_revision);
-        out.writeByte(minor_revision);
-        out.writeByte(EnumJPEGResolutionUnit.NO_UNIT.getValue());
-        out.writeByteArray(density_x);
-        out.writeByteArray(density_y);
-        out.writeByte(thumbnail_x);
-        out.writeByte(thumbnail_y);
+    public void write(BitStream out) throws FileNotFoundException, IOException {
+        out.write(EnumMarker.APP0.getValue());
+        out.write(length);
+        out.write(identifier);
+        out.write(major_revision);
+        out.write(minor_revision);
+        out.write(EnumJPEGResolutionUnit.NO_UNIT.getValue());
+        out.write(density_x);
+        out.write(density_y);
+        out.write(thumbnail_x);
+        out.write(thumbnail_y);
         if (thumbnail_data.length > 0) {
-            out.writeByteArray(thumbnail_data);
+            out.write(thumbnail_data);
         }
     }
 

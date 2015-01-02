@@ -1,6 +1,7 @@
 package main.encoder.huffman;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,11 +17,15 @@ public class CollectionTree extends ArrayList<Tree> {
 	public void addItem(Object value){
 		Boolean found = false;
 		for(Tree tree : this){
-			if(((Leaf)tree).getValue().equals(value)){
+			Leaf leaf = ((Leaf)tree);
+			boolean isLeafEqual = leaf.getValue().equals(value);
+			if(value.getClass().isArray() == true){
+				isLeafEqual = Arrays.equals((Object[])leaf.getValue(), (Object[])value);
+			}
+			if(isLeafEqual == true){
 				int frequency = tree.getFrequency()+1;
 				tree.setFrequency(frequency);
 				found = true;
-				//LoggerText.log("nummer " + value + " existiert bereits. setze die neue haeufigkeit auf " + tree.getFrequency());
 				break;
 			}
 		}
@@ -28,7 +33,6 @@ public class CollectionTree extends ArrayList<Tree> {
 		if(!found){
 			Leaf leaf = new Leaf(value,1);
 			this.add(leaf);
-			//LoggerText.log("fuege neues blatt hinzu " + value);
 		}
 	}
 	

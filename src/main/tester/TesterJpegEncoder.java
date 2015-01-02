@@ -1,7 +1,7 @@
 package main.tester;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.TreeMap;
@@ -9,7 +9,8 @@ import java.util.TreeMap;
 import main.exception.image.ImageException;
 import main.exception.image.UnsupportedImageFormatException;
 import main.file.image.JPEGImage;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.resource.UtilityResourcePath;
+import main.file.stream.SimpleBitWriter;
 import main.filter.FilterReductionByStep;
 import main.logger.LoggerColormodel;
 import main.logger.LoggerTimer;
@@ -28,13 +29,13 @@ public class TesterJpegEncoder {
         try {
             //setParams();
             TesterJpegEncoder jpe = new TesterJpegEncoder();
-            
+
             LoggerTimer timeLogger = new LoggerTimer();
             LoggerColormodel coordinateLogger = new LoggerColormodel();
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
-            JPEGImage image = new JPEGImage(jpe.getFilePath("test.ppm"), 20, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue.ppm"), 8, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
            // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
@@ -45,8 +46,8 @@ public class TesterJpegEncoder {
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
-            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
-            image.writeToFile(new SimpleBitOutputStream(fileOutputStream));
+            //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());
@@ -132,8 +133,4 @@ public class TesterJpegEncoder {
         return true;
     }
 
-    private String getFilePath(String name) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return classLoader.getResource("main/resources/"+name).getPath();
-    }
 }

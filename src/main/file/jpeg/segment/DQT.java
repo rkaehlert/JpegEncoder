@@ -7,7 +7,7 @@ import java.util.List;
 
 import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
-import main.file.stream.SimpleBitOutputStream;
+import main.file.stream.BitStream;
 
 public class DQT implements Marker {
 
@@ -20,9 +20,9 @@ public class DQT implements Marker {
 	}
 	
 	@Override
-	public void write(SimpleBitOutputStream out) throws FileNotFoundException, IOException {
-    	out.writeByteArray(EnumMarker.DQT.getValue());
-    	out.writeByteArray(this.length);
+	public void write(BitStream out) throws FileNotFoundException, IOException {
+    	out.write(EnumMarker.DQT.getValue());
+    	out.write(this.length);
     	for(QT qt : this.lstQT){
     		qt.write(out);
     	}

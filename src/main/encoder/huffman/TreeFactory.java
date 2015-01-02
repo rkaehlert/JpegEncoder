@@ -3,11 +3,12 @@ package main.encoder.huffman;
 import java.util.List;
 
 import main.converter.ConverterHuffmanTreeLengthLimited;
-import main.converter.ConverterHuffmanTreeToPath;
+import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.exception.huffmann.ExceptionEqualIndexPosition;
 import main.exception.huffmann.ExceptionInvalidTreeSize;
 import main.formatter.FormatterRightGrowingTree;
 import main.logger.LoggerText;
+import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
 import main.utility.tree.UtilityTreeManipulation;
@@ -43,7 +44,6 @@ public class TreeFactory {
 			
 			int frequency = treeOneWithLowestFrequency.getFrequency() + treeTwoWithLowestFrequency.getFrequency();
 			
-			//baum soll nach rechts wachsen. also wird der groessere baum in den rechten baum eingefuegt
 			Node node = new Node(treeOneWithLowestFrequency, treeTwoWithLowestFrequency, frequency);
 			
 			LoggerText.log("haeufigkeit des neuen knoten welcher durch die beiden knoten mit niedrigsten haeufigkeiten entstanden ist: " + frequency);
@@ -56,17 +56,24 @@ public class TreeFactory {
 			return create(collection);
 		}
 		
-		Tree output = collection.get(0);			
+		Tree output = collection.get(0);
 		 
-        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(output, 11, 15);
-        
-        CollectionSymbol symbol = ConverterHuffmanTreeToPath.convert(lengthLimitedTree);
-        symbol = symbol.sort();
-        
-        output = new FormatterRightGrowingTree().format(symbol);
+		if(collection.get(0) instanceof Leaf){
+			output = new Node(null, collection.get(0), collection.get(0).getFrequency());
+		}
 		
-		UtilityTreeManipulation.replaceLeafWithMaximumDepth(output, null);
-        
+		if(collection.size() == 1){
+	        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(output, 11, 15);
+	        
+	        CollectionSymbol symbol = ConverterHuffmanTreeToCollectionSymbol.convert(lengthLimitedTree);
+	        symbol = symbol.sort();
+	        
+	        output = new FormatterRightGrowingTree().format(symbol);
+			
+			UtilityTreeManipulation.replaceLeafWithMaximumDepth(output, null);
+		}		
+       
+		
 		return output;
 	}
 	

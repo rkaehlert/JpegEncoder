@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.converter.ConverterHuffmanTreeToPath;
+import main.converter.ConverterHuffmanTreeToCollectionSymbol;
+import main.converter.ConverterToHuffmanCode;
 import main.decoder.huffman.DecoderHuffmanTree;
 import main.encoder.huffman.EncoderHuffmanTree;
 import main.logger.LoggerMap;
@@ -22,15 +23,18 @@ public class TesterDecoderHuffman {
 		characterSymbols = Arrays.asList("a","a","a","b","c","c","c","d","d","d","d","e","f","f","f","f","f","g","z","z","a","h","h","b","u","z","o","o","e","n","n","m","e","e","a","a","g","g","z","z");
 		numberSymbols = Arrays.asList(1,1,2,2,2,3,3,5,5,5,6,7,7,7);
 		
-		String encoded = encoder.encode(characterSymbols);
-		loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
+		encoder.encode(characterSymbols);
+		String encoded = new ConverterToHuffmanCode().convert(encoder.getTree(), characterSymbols);
+
+		loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(encoder.getTree()));
 		TesterEncoderHuffmanOriginal.logSymbols(characterSymbols, encoded);
 		
 		String decoded = decoder.decode(encoder.getTree(), encoded);
 		TesterEncoderHuffmanOriginal.logSymbols(encoded, decoded);
 		
-		encoded = encoder.encode(numberSymbols);
-		loggerMap.log(ConverterHuffmanTreeToPath.convert(encoder.getTree()));
+		encoder.encode(numberSymbols);
+		encoded = new ConverterToHuffmanCode().convert(encoder.getTree(), numberSymbols);
+		loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(encoder.getTree()));
 		TesterEncoderHuffmanOriginal.logSymbols(characterSymbols, encoded);
 		
 		decoded = decoder.decode(encoder.getTree(), encoded);

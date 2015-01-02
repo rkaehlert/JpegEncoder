@@ -1,5 +1,6 @@
 package main.encoder.huffman;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
 
-public class CollectionSymbol extends LinkedHashMap<Tree, String> {
+public class CollectionSymbol extends LinkedHashMap<Tree, String> implements Cloneable {
 
 	public CollectionSymbol(){
 		super();
@@ -52,14 +53,46 @@ public class CollectionSymbol extends LinkedHashMap<Tree, String> {
 		return returnValue;
 	}
 	 
+	@Override
 	public String get(Object obj){
 		for(Map.Entry<Tree, String> currentEntry : super.entrySet()){
 			Leaf leaf = (Leaf)currentEntry.getKey();
-			if(leaf.getValue().equals(obj)){
-				return currentEntry.getValue();
+			if(obj.getClass().isArray()){
+				if(Arrays.equals((Object[])leaf.getValue(), (Object[])obj)){
+					return currentEntry.getValue();
+				};
+			}else{
+				if(leaf.getValue().equals(obj)){
+					return currentEntry.getValue();
+				}
 			}
 		}
 		return null;
 	}
 	
+	public void setTreeValue(Object valueOfTree, Object valueToSet){
+		for(Map.Entry<Tree, String> currentEntry : super.entrySet()){
+			Leaf leaf = (Leaf)currentEntry.getKey();
+			if(valueOfTree.getClass().isArray()){
+				if(leaf.getValue().getClass().isArray()){
+					if(Arrays.equals((Object[])leaf.getValue(), (Object[])valueOfTree)){
+						leaf.setValue(valueToSet);
+					};
+				}
+			}else{
+				if(leaf.getValue().equals(valueOfTree)){
+					leaf.setValue(valueToSet);
+				}
+			}
+		}
+	}
+	
+	public boolean containsKey(Object obj){
+		if(this.get(obj) == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 }

@@ -11,15 +11,15 @@ import main.model.huffman.tree.Tree;
 
 public class SortCollectionSymbolByPathLength {
 
-	public static Map<Integer, List<Integer>> sort(CollectionSymbol collectionSymbol){
-		Map<Integer, List<Integer>> returnValue = new HashMap<Integer, List<Integer>>();
+	public static Map<Integer, List<String>> sort(CollectionSymbol collectionSymbol){
+		Map<Integer, List<String>> returnValue = new HashMap<Integer, List<String>>();
 		for(Map.Entry<Tree, String> currentEntry : collectionSymbol.entrySet()){
 			int length = currentEntry.getValue().length();
 			if(returnValue.containsKey(length) == false){
-				returnValue.put(length, new ArrayList<Integer>());
+				returnValue.put(length, new ArrayList<String>());
 			}
 			Leaf leaf = (Leaf)currentEntry.getKey();
-			returnValue.get(length).add(Double.valueOf(leaf.getValue().toString()).intValue());
+			returnValue.get(length).add(leaf.getValue().toString());
 		}
 		return returnValue;
 	}

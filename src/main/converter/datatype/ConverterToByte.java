@@ -40,10 +40,18 @@ public class ConverterToByte implements Converter<Byte> {
         return data;
     }
     
-    public static byte[] convert(double[] value){
+    public static byte[] convert(Double[] value){
     	byte[] output = new byte[value.length];
     	for(int index = 0; index < value.length; index++){
     		output[index] = Double.valueOf(value[index]).byteValue();
+    	}
+    	return output;
+    }
+    
+    public static byte[] convert(Integer[] value){
+    	byte[] output = new byte[value.length];
+    	for(int index = 0; index < value.length; index++){
+    		output[index] = Integer.valueOf(value[index]).byteValue();
     	}
     	return output;
     }

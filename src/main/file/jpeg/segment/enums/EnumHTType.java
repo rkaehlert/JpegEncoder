@@ -1,7 +1,8 @@
 package main.file.jpeg.segment.enums;
 public enum EnumHTType {
-		AC(1),
-		DC(0);
+	
+		DC(0),
+		AC(1);
 		
 		private Integer value = null;
 		

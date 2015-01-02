@@ -6,8 +6,8 @@ import java.util.Map;
 
 import main.comparator.ComparatorMatrixEquals;
 import main.converter.ConverterDiscreteCosinusTransformation;
-import main.converter.ConverterImageTo8x8Block;
 import main.converter.ConverterInverseCosinusTransformation;
+import main.converter.ConverterMatrixToBlock;
 import main.file.image.JPEGImage;
 import main.file.image.resource.ImageResourceReader;
 import main.logger.LoggerMatrix;
@@ -77,7 +77,7 @@ public class TesterDCT {
 			inverse.addAll(new ConverterInverseCosinusTransformation().convert(currentDCT));	
 		}
 		
-		List<Array2DRowRealMatrix> temp = ConverterImageTo8x8Block.convert(matrix);
+		List<Array2DRowRealMatrix> temp = ConverterMatrixToBlock.convert(matrix, 8);
 	
 		System.out.println(ComparatorMatrixEquals.compare(inverse,temp,0.1));
 	}

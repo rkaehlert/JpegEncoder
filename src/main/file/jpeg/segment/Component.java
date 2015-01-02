@@ -1,9 +1,13 @@
 package main.file.jpeg.segment;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumSubSampling;
+import main.file.stream.BitStream;
 
-public class Component {
+public class Component implements Marker {
 
     private byte[] value;
 
@@ -38,4 +42,11 @@ public class Component {
     {
         return value[2];
     }
+
+	@Override
+	public void write(BitStream out) throws FileNotFoundException,	IOException {
+		out.write(this.getIdComponent());
+        out.write(this.getSubSamplingFactor());
+        out.write(this.getIdQuantisizeTableNum());
+	}
 }
