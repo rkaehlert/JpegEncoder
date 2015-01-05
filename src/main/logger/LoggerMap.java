@@ -9,33 +9,37 @@ import main.model.huffman.tree.Tree;
 public class LoggerMap <T,V> implements Logger {
 
 	public void log(Map<T,V> map){
-		String returnValue = "\ninhalt der map: \n\n";
+		StringBuffer returnValue = new StringBuffer();
+		returnValue.append("\n---------------------  inhalt der map: ---------------- \n\n");
 		for(Map.Entry<T, V> entry : map.entrySet()) {
 			if(entry.getKey() instanceof Leaf){
 				Leaf leaf = (Leaf)entry.getKey();
 				if(leaf.getValue().getClass().isArray()){
 					Object[] temp = (Object[])leaf.getValue();
-					returnValue = returnValue.concat("[");
+					returnValue = returnValue.append("[");
 					for(int index = 0; index < temp.length; index++){
-						returnValue = returnValue.concat(temp[index].toString() + ",");
+						returnValue = returnValue.append(temp[index].toString() + ",");
 					}
-					returnValue = returnValue.substring(0, returnValue.length()-1);
-					returnValue = returnValue.concat("]");
-					returnValue = returnValue.concat(": " + entry.getValue().toString());	
+					returnValue = new StringBuffer(returnValue.substring(0, returnValue.length()-1));
+					returnValue = returnValue.append("]");
+					returnValue = returnValue.append(": " + entry.getValue().toString());	
 				}else{
-					returnValue = returnValue.concat(String.format(entry.getKey().toString()) + ": " + entry.getValue().toString());
+					returnValue = returnValue.append(String.format(entry.getKey().toString()) + ": " + entry.getValue().toString());
 				}
 			}
-			returnValue = returnValue.concat(" laenge: " + entry.getValue().toString().length() + "\n");
+			returnValue = returnValue.append(" laenge: " + entry.getValue().toString().length() + "\n");
 		}
-		LoggerText.log(returnValue);
+		returnValue.append("\n------------------------------------- \n\n");
+		LoggerText.log(returnValue.toString());
 	}
 
 	public void log(CollectionSymbol collectionSymbol) {
+		System.out.println("\n-------------------BEGINN--------------------------------- \n\n");
 		for(Map.Entry<Tree, String> entry : collectionSymbol.entrySet()){
 			Leaf leaf = (Leaf)entry.getKey();
 			System.out.println(leaf.getValue() + ":" + entry.getValue());
 		}
+		System.out.println("\n-------------------ENDE--------------------------------- \n\n");
 	}
 	
 }
