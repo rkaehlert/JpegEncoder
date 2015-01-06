@@ -47,7 +47,7 @@ public class TesterJpegEncoder {
             timeLogger.log();
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());
