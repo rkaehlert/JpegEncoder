@@ -78,9 +78,25 @@ public class HT implements Marker {
     	}
 		out.write(new byte[16-index]);
 		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
-    		LinkedList<String> value = currentEntry.getValue();
+     		LinkedList<String> value = currentEntry.getValue();
     		for(String currentByte : value){
-    			out.write(currentByte);
+    			char[] bits = currentByte.toCharArray();
+//				if(bits.length % 8 != 0){
+//					int bitsToFill = 8 - bits.length % 8;
+//					for(int j = 0; j < bitsToFill; j++){
+//    					out.writeBit(0);
+//    				}
+//				}
+    			for(int i = 0; i < bits.length; i++){
+    				if(bits[i] == '0'){
+    					out.writeBit(0);
+    				}else if(bits[i] == '1'){
+    					out.writeBit(1);
+    				}else{
+    					System.out.println("fehler");
+    				}
+    			}
+    			out.writeFillBits();
     		}
     	}
 	}

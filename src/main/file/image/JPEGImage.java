@@ -49,6 +49,7 @@ import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
 import main.model.encoder.ModelEncoder;
+import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
 import main.model.quantization.JPEGQuantizationTable;
@@ -231,7 +232,7 @@ public class JPEGImage extends Image implements Cloneable {
     
     public void writeToFile(SimpleBitWriter out) throws IOException {
     	   	
-    	this.writeData(out);
+    	this.writeData();
     	
         new SOI().write(out);
 
@@ -260,11 +261,12 @@ public class JPEGImage extends Image implements Cloneable {
         sof0.write(out);
         DHT dht = new DHT();
 
-       	//CollectionSymbol collectionSymbol = this.createHuffmanTree();
-
-        dht.addHT(EnumComponentId.Y, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(0));
-        dht.addHT(EnumComponentId.Y, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(1));
-        dht.addHT(EnumComponentId.Cb, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(2));
+        dht.addHT(EnumComponentId.Y, EnumHTType.DC, this.getModelEncoder().getLstHuffmanSymbol().get(0));
+        dht.addHT(EnumComponentId.Y, EnumHTType.AC, this.getModelEncoder().getLstHuffmanSymbol().get(1));
+        
+        new LoggerMap<Leaf, String>().log(this.getModelEncoder().getLstHuffmanSymbol().get(0));
+        new LoggerMap<Leaf, String>().log(this.getModelEncoder().getLstHuffmanSymbol().get(1)); 
+//        dht.addHT(EnumComponentId.Cb, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(2));
 //        dht.addHT(EnumComponentId.Cb, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(4));
 //        
 //        dht.addHT(EnumComponentId.Cr, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(3));
@@ -281,7 +283,7 @@ public class JPEGImage extends Image implements Cloneable {
 
     }
     
-    private void writeData(SimpleBitWriter out) {
+    public void writeData() {
        	
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	Map<ColorChannel<Integer>, List<Array2DRowRealMatrix>> collectionDCT = new HashMap<ColorChannel<Integer>, List<Array2DRowRealMatrix>>(); 
@@ -356,12 +358,12 @@ public class JPEGImage extends Image implements Cloneable {
     	CollectionSymbol collectionSymbolOfACTreeCr = encoder.getPathCollection();
     	encoder.getTree();
   
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeY, lstDeltaDCCoefficientY));
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeY, lstRunLengthEncodedZickZackY));
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeCb, lstDeltaDCCoefficientCb));
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeCb, lstRunLengthEncodedZickZackCb));
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeCr, lstDeltaDCCoefficientCr));
-    	this.modelEncoder.getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeCr, lstRunLengthEncodedZickZackCr));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeY, lstDeltaDCCoefficientY));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeY, lstRunLengthEncodedZickZackY));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeCb, lstDeltaDCCoefficientCb));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeCb, lstRunLengthEncodedZickZackCb));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfDC(collectionSymbolOfDCTreeCr, lstDeltaDCCoefficientCr));
+    	this.getModelEncoder().getLstHuffmanSymbol().add(this.calculateBitsOfAC(collectionSymbolOfACTreeCr, lstRunLengthEncodedZickZackCr));
     	
 //    	StringBuffer bits = new StringBuffer();
 //    	
@@ -456,22 +458,14 @@ public class JPEGImage extends Image implements Cloneable {
             }
         }
         
-        encoder.encode(liste);
-
-        LoggerMap<Tree,String> loggerMap = new LoggerMap<Tree,String>();
-        loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(encoder.getTree()));
-        
+        encoder.encode(liste);       
         
         Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 11, 15);
-
-        loggerMap = new LoggerMap<Tree,String>();
-        loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(lengthLimitedTree));
         
         CollectionSymbol symbol = ConverterHuffmanTreeToCollectionSymbol.convert(lengthLimitedTree);
         symbol = symbol.sort();
         
         Tree tree = new FormatterRightGrowingTree().format(symbol);
-        loggerMap.log(ConverterHuffmanTreeToCollectionSymbol.convert(tree));
         return ConverterHuffmanTreeToCollectionSymbol.convert(tree);
         
     }
@@ -480,4 +474,12 @@ public class JPEGImage extends Image implements Cloneable {
         String colormodel = pixel.get(new Coordinate(0, 0)).getClass().getName();
         return colormodel.substring(colormodel.lastIndexOf(".") + 1, colormodel.length());
     }
+
+	public ModelEncoder getModelEncoder() {
+		return modelEncoder;
+	}
+
+	public void setModelEncoder(ModelEncoder modelEncoder) {
+		this.modelEncoder = modelEncoder;
+	}
 }
