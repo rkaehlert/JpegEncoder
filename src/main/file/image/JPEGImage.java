@@ -35,6 +35,7 @@ import main.file.jpeg.segment.DQT;
 import main.file.jpeg.segment.EOI;
 import main.file.jpeg.segment.SOF0;
 import main.file.jpeg.segment.SOI;
+import main.file.jpeg.segment.SOS;
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumDestinationIdentifier;
 import main.file.jpeg.segment.enums.EnumHTType;
@@ -43,13 +44,11 @@ import main.file.stream.SimpleBitWriter;
 import main.filter.FilterMatrixByFirstElementOf8x8Block;
 import main.formatter.FormatterRightGrowingTree;
 import main.formatter.FormatterRunLengthEncodingByCategory;
-import main.logger.LoggerMap;
 import main.model.color.ColorChannel;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
 import main.model.encoder.ModelEncoder;
-import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
 import main.model.quantization.JPEGQuantizationTable;
@@ -264,19 +263,18 @@ public class JPEGImage extends Image implements Cloneable {
         dht.addHT(EnumComponentId.Y, EnumHTType.DC, this.getModelEncoder().getLstHuffmanSymbol().get(0));
         dht.addHT(EnumComponentId.Y, EnumHTType.AC, this.getModelEncoder().getLstHuffmanSymbol().get(1));
         
-        new LoggerMap<Leaf, String>().log(this.getModelEncoder().getLstHuffmanSymbol().get(0));
-        new LoggerMap<Leaf, String>().log(this.getModelEncoder().getLstHuffmanSymbol().get(1)); 
-//        dht.addHT(EnumComponentId.Cb, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(2));
-//        dht.addHT(EnumComponentId.Cb, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(4));
-//        
-//        dht.addHT(EnumComponentId.Cr, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(3));
-//        dht.addHT(EnumComponentId.Cr, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(5));
+        dht.addHT(EnumComponentId.Cb, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(2));
+        dht.addHT(EnumComponentId.Cb, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(4));
+        
+        dht.addHT(EnumComponentId.Cr, EnumHTType.DC, this.modelEncoder.getLstHuffmanSymbol().get(3));
+       dht.addHT(EnumComponentId.Cr, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(5));
         dht.write(out);
 //
-//    	SOS sos = new SOS();
-//        sos.addComponent(EnumComponentId.Y, EnumHTType.AC, EnumHTType.DC);
-//
-//        sos.write(out);
+    	SOS sos = new SOS();
+        sos.addComponent(EnumComponentId.Y, 0, 0);
+        sos.addComponent(EnumComponentId.Cb, 1, 1);
+        sos.addComponent(EnumComponentId.Cr, 2, 2);
+        sos.write(out);
 //        
         new EOI().write(out);
         out.close();

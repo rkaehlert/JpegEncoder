@@ -35,7 +35,7 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue.ppm"), 8, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_8.ppm"), 8, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
            // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
@@ -47,7 +47,7 @@ public class TesterJpegEncoder {
             timeLogger.log();
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());

@@ -19,7 +19,8 @@ public class SortCollectionSymbolByPathLength {
 				returnValue.put(length, new ArrayList<String>());
 			}
 			Leaf leaf = (Leaf)currentEntry.getKey();
-			returnValue.get(length).add(leaf.getValue().toString());
+			returnValue.get(length).add(currentEntry.getValue());
+			//returnValue.get(length).add(leaf.getValue().toString());
 		}
 		return returnValue;
 	}
