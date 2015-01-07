@@ -7,7 +7,6 @@ import java.util.List;
 
 import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumComponentId;
-import main.file.jpeg.segment.enums.EnumHTType;
 import main.file.stream.BitStream;
 
 public class SOS implements Marker {
@@ -22,19 +21,19 @@ public class SOS implements Marker {
 		out.write(this.componentDetail.size());
 		for(byte[] component : this.componentDetail){
 			out.write(component[0]);
-			out.writeValue(4, 0);
-			out.writeValue(4, 0);
+			out.writeValue(4, component[1]);
+			out.writeValue(4, component[2]);
 		}
 		out.write(0);
 		out.write(63);
 		out.write(0);
 	}
 
-	public void addComponent(EnumComponentId componentId, EnumHTType enumHTTypeAc, EnumHTType enumHTTypeDc){
+	public void addComponent(EnumComponentId componentId, Integer numberHTAc, Integer numberHTDc){
 		byte[] component = new byte[3];
 		component[0] = componentId.getValue().byteValue();
-		component[1] = enumHTTypeAc.getValue().byteValue();
-		component[2] = enumHTTypeDc.getValue().byteValue();
+		component[1] = numberHTAc.byteValue();
+		component[2] = numberHTDc.byteValue();
 		this.componentDetail.add(component);
 		this.setLength();
 	}
