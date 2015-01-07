@@ -61,9 +61,9 @@ public class HT implements Marker {
 
 	@Override
 	public void write(BitStream out) throws FileNotFoundException,	IOException {
-    	out.writeValue(4, this.getInformation()[0]);
-    	out.writeValue(1, this.getInformation()[1]);
     	out.writeValue(3, this.getInformation()[2]);
+    	out.writeValue(1, this.getInformation()[0]);
+		out.writeValue(4, this.getInformation()[1]);
     	int index = 0;
 		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
 			int difference = currentEntry.getKey()-index;
@@ -80,23 +80,20 @@ public class HT implements Marker {
 		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
      		LinkedList<String> value = currentEntry.getValue();
     		for(String currentByte : value){
-    			char[] bits = currentByte.toCharArray();
-//				if(bits.length % 8 != 0){
-//					int bitsToFill = 8 - bits.length % 8;
-//					for(int j = 0; j < bitsToFill; j++){
+    			
+    			out.write(Integer.parseInt(currentByte, 2));
+    			
+//    			char[] bits = currentByte.toCharArray();
+//    			for(int i = 0; i < bits.length; i++){
+//    				if(bits[i] == '0'){
 //    					out.writeBit(0);
+//    				}else if(bits[i] == '1'){
+//    					out.writeBit(1);
+//    				}else{
+//    					System.out.println("fehler");
 //    				}
-//				}
-    			for(int i = 0; i < bits.length; i++){
-    				if(bits[i] == '0'){
-    					out.writeBit(0);
-    				}else if(bits[i] == '1'){
-    					out.writeBit(1);
-    				}else{
-    					System.out.println("fehler");
-    				}
-    			}
-    			out.writeFillBits();
+//    			}
+//    			out.writeFillBits();
     		}
     	}
 	}
