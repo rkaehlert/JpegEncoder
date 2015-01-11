@@ -78,11 +78,13 @@ public class HT implements Marker {
     	}
 		out.write(new byte[16-index]);
 		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
-     		LinkedList<String> value = currentEntry.getValue();
+			LinkedList<String> value = currentEntry.getValue();
     		for(String currentByte : value){
     			
-    			out.write(Integer.parseInt(currentByte, 2));
+    			//out.write(Integer.parseInt(currentByte, 2));
     			
+    			
+    			out.writeValue(8, Integer.valueOf(currentByte));
 //    			char[] bits = currentByte.toCharArray();
 //    			for(int i = 0; i < bits.length; i++){
 //    				if(bits[i] == '0'){
