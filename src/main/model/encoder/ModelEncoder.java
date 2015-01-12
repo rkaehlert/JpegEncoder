@@ -12,6 +12,10 @@ public class ModelEncoder {
 	public List<Integer> lstDeltaDCCoefficientY;
 	public List<Integer> lstDeltaDCCoefficientCb;
 	public List<Integer> lstDeltaDCCoefficientCr;
+        
+        public List<Integer> lstDeltaDCCoefficientYCategory;
+	public List<Integer> lstDeltaDCCoefficientCbCategory;
+	public List<Integer> lstDeltaDCCoefficientCrCategory;
   	
 	public List<Integer[]> lstRunLengthEncodedZickZackY;
 	public List<Integer[]> lstRunLengthEncodedZickZackCb;

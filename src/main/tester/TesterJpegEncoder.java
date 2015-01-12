@@ -25,6 +25,8 @@ public class TesterJpegEncoder {
     static int subsampleRow;
     static int subsampleColumn;
 
+    public static int subsample = 2;
+    
     public static void main(String[] args) {
         try {
             //setParams();
@@ -35,19 +37,19 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_8.ppm"), 8, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_red_8.ppm"), 16, fillMode);
             image.convertToYCbCr();
             timeLogger.stop();
            // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             System.out.println("\n");
             timeLogger.start();
-            image.filter(new FilterReductionByStep(3, 4));
+            image.filter(new FilterReductionByStep(4, 4));
             timeLogger.stop();
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());
