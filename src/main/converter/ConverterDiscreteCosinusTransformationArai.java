@@ -21,7 +21,7 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
             for (Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
                 Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
 
-                for (Array2DRowRealMatrix newmatrix : ConverterMatrixToBlock.convert(matrix, 8 / TesterJpegEncoder.subsample)) {
+                for (Array2DRowRealMatrix newmatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
                     output.add(newmatrix);
                 }
             }

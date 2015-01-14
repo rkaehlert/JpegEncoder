@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import main.calculator.CalculatorDelta;
 
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
@@ -301,9 +302,13 @@ public class JPEGImage extends Image implements Cloneable {
        	
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
-    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Y));
-    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Cb));
-    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Cr));
+    	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.height, this.width);
+    	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel, this.height, this.width);
+    	Array2DRowRealMatrix pixelCrChannel = ConverterYCbCrToMatrixByColorchannel.convertCr(this.pixel, this.height, this.width);
+    	
+    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel,"Y");
+    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel,"Cb");
+    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel,"Cr");
     	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.JpegStdLuminance);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.JpegStdChrominance);
@@ -314,7 +319,6 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer[]> lstZickZackSequenceCr = ConverterMatrixToZickZackSequence.convert(quantizedCrChannel);
     	
     	//ermitteln aller DC Koeffizienten
-    	
     	List<Integer> lstDCCoefficientY = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceY);
     	List<Integer> lstDCCoefficientCb = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceCb);
     	List<Integer> lstDCCoefficientCr = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceCr);
@@ -328,6 +332,7 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer> lstDeltaDCCoeffizientCrByCategory = CalculatorCategoryByDelta.calculate(lstDeltaDCCoefficientCr);
     	
     	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientYByCategory));
+
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeY = encoder.getPathCollection();
     	encoder = new EncoderHuffmanTree();
@@ -386,7 +391,6 @@ public class JPEGImage extends Image implements Cloneable {
     	
     	this.fillModelOfAC(collectionSymbolOfACTreeY, collectionSymbolOfACTreeCb, collectionSymbolOfACTreeCr, lstRunLengthEncodedZickZackY, lstRunLengthEncodedZickZackCb, lstRunLengthEncodedZickZackCr);
   
-
     	this.modelEncoder.getLstHuffmanSymbol().add(0,collectionSymbolOfDCTreeY);
     	this.modelEncoder.getLstHuffmanSymbol().add(1,collectionSymbolOfACTreeY);
     	this.modelEncoder.getLstHuffmanSymbol().add(2,collectionSymbolOfDCTreeCb);
@@ -395,7 +399,6 @@ public class JPEGImage extends Image implements Cloneable {
     	this.modelEncoder.getLstHuffmanSymbol().add(5,collectionSymbolOfACTreeCr);
     
     }
-
     
 	private void fillModelOfAC(CollectionSymbol collectionSymbolOfACTreeY,
 			CollectionSymbol collectionSymbolOfACTreeCb,
@@ -473,58 +476,6 @@ public class JPEGImage extends Image implements Cloneable {
 		}
 		
 	}
-
-	private CollectionSymbol calculateBitsOfDC(CollectionSymbol collectionSymbolOfDCTree, List<Integer> delta){
-		Map<Integer, String> buffer = new LinkedHashMap<Integer,String>();
-		for(Integer currentDelta : delta){
-	    	if(collectionSymbolOfDCTree.containsKey(currentDelta) == false){
-				throw new ExceptionInvalidParameter("der delta " + currentDelta + " ist nicht in der symboltabelle");
-			}	    	
-	    	String bitValue = collectionSymbolOfDCTree.get(currentDelta) + ConverterToBit.convert(currentDelta); 
-	    	buffer.put(currentDelta, bitValue);
-		}
-		for(Map.Entry<Integer,String> currentEntry : buffer.entrySet()){
-			collectionSymbolOfDCTree.setTreeValue(currentEntry.getKey(), currentEntry.getValue());
-		}
-		return collectionSymbolOfDCTree;
-    }
-    
-	private CollectionSymbol calculateBitsOfAC(CollectionSymbol collectionSymbolOfACTree, List<Integer[]> lstRunLengthEncodedZickZack){
-		Map<Integer[], String> buffer = new LinkedHashMap<Integer[],String>();
-    	Integer[] currentRunLengthPair = new Integer[2];
-    	for(Integer[] currentRunLengthEncodedZickZack : lstRunLengthEncodedZickZack){
-	    	for(int i = 0; i < currentRunLengthEncodedZickZack.length; i+=2){
-	    		int category = UtilityCalculateBitLength.calculate(currentRunLengthEncodedZickZack[i+1]);
-	    		currentRunLengthPair = new Integer[]{currentRunLengthEncodedZickZack[i], category};
-				if(collectionSymbolOfACTree.containsKey(currentRunLengthPair) == false){
-					throw new ExceptionInvalidParameter("der delta " + currentRunLengthPair + " ist nicht in der symboltabelle");
-				}
-				Integer[] key = new Integer[]{currentRunLengthPair[0],currentRunLengthPair[1]};
-				String bitValue = collectionSymbolOfACTree.get(key) + ConverterToBit.convert(currentRunLengthEncodedZickZack[i+1]);
-				buffer.put(key, bitValue);
-	    	}
-    	}
-    	for(Map.Entry<Integer[],String> currentEntry : buffer.entrySet()){
-    		collectionSymbolOfACTree.setTreeValue(currentEntry.getKey(), currentEntry.getValue());
-		}
-		return collectionSymbolOfACTree;
-    }
-	
-//    private StringBuffer calculateBitsOfACBlock(CollectionSymbol collectionSymbolOfACTree, Integer[] lstRunLengthEncodedZickZack){
-//    	StringBuffer output = new StringBuffer();
-//    	Integer[] currentRunLengthPair = new Integer[2];
-//    	for(int i = 0; i < lstRunLengthEncodedZickZack.length; i+=2){
-//    		int category = UtilityCalculateBitLength.calculate(lstRunLengthEncodedZickZack[i+1]);
-//    		currentRunLengthPair = new Integer[]{lstRunLengthEncodedZickZack[i], category};
-//			if(collectionSymbolOfACTree.containsKey(currentRunLengthPair) == false){
-//				throw new ExceptionInvalidParameter("der delta " + currentRunLengthPair + " ist nicht in der symboltabelle");
-//			}
-//			Integer[] key = new Integer[]{currentRunLengthPair[0],currentRunLengthPair[1]};
-//			output.append(collectionSymbolOfACTree.get(key));
-//			output.append(ConverterToBit.convert(lstRunLengthEncodedZickZack[i+1]));
-//    	}
-//		return output;
-//    }
     
     public List<Array2DRowRealMatrix> createQuantizationTable(List<Array2DRowRealMatrix> dct8x8Matrix, int[][] quantizationTable){
 
