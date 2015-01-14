@@ -29,6 +29,8 @@ public class TesterJpegEncoder {
     static int subsampleRow;
     static int subsampleColumn;
 
+    public static int subsample = 2;
+    
     public static void main(String[] args) {
         try {
             //setParams();
@@ -39,19 +41,31 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
             timeLogger.start();
+<<<<<<< HEAD
             JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_32.ppm"), 16, fillMode);
+=======
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_red_8.ppm"), 16, fillMode);
+>>>>>>> refs/remotes/origin/master
             image.convertToYCbCr();
             timeLogger.stop();
            // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             System.out.println("\n");
             timeLogger.start();
+<<<<<<< HEAD
             image.setReducedPixel(image.filter(new FilterReductionByStep(2, 2)));
+=======
+            image.filter(new FilterReductionByStep(4, 4));
+>>>>>>> refs/remotes/origin/master
             timeLogger.stop();
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
+<<<<<<< HEAD
             image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\Robin\\Desktop\\image.jpeg")));
+=======
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
+>>>>>>> refs/remotes/origin/master
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
             System.out.println(ex.getMessage());

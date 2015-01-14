@@ -53,7 +53,7 @@ public class TesterDCTPerformance {
         end = System.currentTimeMillis() + BENCHMARK_TIME;
         while (System.currentTimeMillis() < end) {
             timer.start();
-            transformedArai = dctArai.convert(matrix);
+            transformedArai = dctArai.convert(matrix,"Y");
             timer.stop();
         }
         timer.log();
