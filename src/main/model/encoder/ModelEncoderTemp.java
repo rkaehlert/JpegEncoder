@@ -1,6 +1,5 @@
 package main.model.encoder;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,19 +7,9 @@ import main.encoder.huffman.CollectionSymbol;
 import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
 
-public class ModelEncoder {
-
+public class ModelEncoderTemp {
+  	
 	private List<CollectionSymbol> lstHuffmanSymbol = new LinkedList<CollectionSymbol>();
-	
-	private List<ModelGroupedBlock> lstModelGroupedBlock = new ArrayList<ModelGroupedBlock>();
-
-	public List<ModelGroupedBlock> getLstModelGroupedBlock() {
-		return lstModelGroupedBlock;
-	}
-
-	public void setLstModelGroupedBlock(List<ModelGroupedBlock> lstModelGroupedBlock) {
-		this.lstModelGroupedBlock = lstModelGroupedBlock;
-	}
 
 	public List<CollectionSymbol> getLstHuffmanSymbol() {
 		return lstHuffmanSymbol;
@@ -29,6 +18,10 @@ public class ModelEncoder {
 	public void setLstHuffmanSymbol(List<CollectionSymbol> lstHuffmanSymbol) {
 		this.lstHuffmanSymbol = lstHuffmanSymbol;
 	}
+	
+	public List<List<Integer[]>> rleHuffmanCodesY;
+	public List<List<Integer[]>> rleHuffmanCodesCb;
+	public List<List<Integer[]>> rleHuffmanCodesCr;
 	
 	public void printHuffmanTable(){
 		int index = 0;		
@@ -39,5 +32,5 @@ public class ModelEncoder {
 			index++;
 		}
 	}
-
+	
 }

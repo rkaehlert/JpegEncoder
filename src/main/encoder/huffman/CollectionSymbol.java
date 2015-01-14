@@ -67,7 +67,7 @@ public class CollectionSymbol extends LinkedHashMap<Tree, String> implements Clo
 				}
 			}
 		}
-		return null;
+		throw new IllegalArgumentException("es wurde kein symbol gefunden");
 	}
 	
 	public void setTreeValue(Object valueOfTree, Object valueToSet){

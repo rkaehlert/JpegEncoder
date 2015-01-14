@@ -4,6 +4,12 @@ import java.text.DecimalFormat;
 
 public class YCbCr implements Colormodel {
 
+	public enum ColorChannelYCbCr {
+		Y,
+		Cb,
+		Cr;
+	}
+	
     private ColorChannel<Integer> y;
     private ColorChannel<Integer> cb;
     private ColorChannel<Integer> cr;

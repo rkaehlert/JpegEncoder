@@ -1,7 +1,10 @@
 package main.filter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 import main.exception.common.ExceptionInvalidParameter;
 import main.model.color.Colormodel;
@@ -22,8 +25,11 @@ public class FilterReductionByStep extends Filter {
 	}
 	
 	@Override
-	public TreeMap<Coordinate, Colormodel> filter(TreeMap<Coordinate, Colormodel> pixel) throws ExceptionInvalidParameter {
-		TreeMap<Coordinate, Colormodel> returnValue = new TreeMap<Coordinate, Colormodel>();
+	public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> filter(TreeMap<Coordinate, Colormodel> pixel, int size_x, int size_y) throws ExceptionInvalidParameter {
+		HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> returnValue = new HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix>();
+		returnValue.put(YCbCr.ColorChannelYCbCr.Y, new Array2DRowRealMatrix(size_x, size_y));
+		returnValue.put(YCbCr.ColorChannelYCbCr.Cb, new Array2DRowRealMatrix(size_x/2, size_y/2));
+		returnValue.put(YCbCr.ColorChannelYCbCr.Cr, new Array2DRowRealMatrix(size_x/2, size_y/2));
 		if(pixel != null){
 			YCbCr ycbcr = null;
 			Coordinate coordinate = null;
@@ -33,18 +39,23 @@ public class FilterReductionByStep extends Filter {
 				}
 				coordinate = (Coordinate)entry.getKey();
 				ycbcr = (YCbCr)entry.getValue();
+				
+				returnValue.get(YCbCr.ColorChannelYCbCr.Y).setEntry(coordinate.getX(), coordinate.getY(), ycbcr.getY());
+				ycbcr.getYChannel().reset();
+				
 				if(!this.isValidCoordinate(coordinate)){
-					if(ycbcr.getYChannel().isReduced() == true){
-						ycbcr.getYChannel().reset();
-					}
+					int col = (int)Math.floor(coordinate.getX() / 2);
+					int row = (int)Math.floor(coordinate.getY() / 2);
+					
 					if(ycbcr.getCbChannel().isReduced() == true){
+						returnValue.get(YCbCr.ColorChannelYCbCr.Cb).setEntry(row, col, ycbcr.getCb());
 						ycbcr.getCbChannel().reset();
 					}
 					if(ycbcr.getCrChannel().isReduced() == true){
+						returnValue.get(YCbCr.ColorChannelYCbCr.Cr).setEntry(row, col, ycbcr.getCr());
 						ycbcr.getCrChannel().reset();
-					}
+					}	
 				}
-				returnValue.put(coordinate, ycbcr);
 			}
 			return returnValue;
 		}else{

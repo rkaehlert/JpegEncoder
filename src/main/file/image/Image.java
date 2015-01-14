@@ -1,15 +1,20 @@
 package main.file.image;
 
+import java.util.HashMap;
 import java.util.TreeMap;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 import main.exception.common.ExceptionInvalidParameter;
 import main.filter.Filter;
 import main.model.color.Colormodel;
+import main.model.color.YCbCr;
 import main.model.matrix.Coordinate;
 
 public abstract class Image {
 
     protected TreeMap<Coordinate, Colormodel> pixel = new TreeMap<Coordinate,Colormodel>();
+    private HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> reducedPixel = new HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix>();
     protected int width;
     protected int height;
     protected int maxColorValue = 0;
@@ -18,9 +23,9 @@ public abstract class Image {
         return this.pixel;
     }
 
-    public TreeMap<Coordinate, Colormodel> filter(Filter filter) {
+    public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> filter(Filter filter) {
         try {
-            this.pixel = filter.filter(this.pixel);
+            return filter.filter(this.pixel, width, height);
         }
         catch (ExceptionInvalidParameter e) {
             e.printStackTrace();
@@ -48,4 +53,12 @@ public abstract class Image {
     public void setHeight(int height) {
         this.height = height;
     }
+
+	public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> getReducedPixel() {
+		return reducedPixel;
+	}
+
+	public void setReducedPixel(HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> reducedPixel) {
+		this.reducedPixel = reducedPixel;
+	}
 }

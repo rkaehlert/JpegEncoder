@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import main.calculator.CalculatorDeltaCategory;
+import main.calculator.CalculatorCategoryByDelta;
+import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
 import main.converter.ConverterDiscreteCosinusTransformationArai;
 import main.converter.ConverterHuffmanTreeLengthLimited;
@@ -46,7 +47,12 @@ import main.formatter.FormatterRunLengthEncodingByCategory;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
+import main.model.encoder.ModelAC;
+import main.model.encoder.ModelBlock;
+import main.model.encoder.ModelDC;
 import main.model.encoder.ModelEncoder;
+import main.model.encoder.ModelEncoderTemp;
+import main.model.encoder.ModelGroupedBlock;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
@@ -64,7 +70,7 @@ public class JPEGImage extends Image implements Cloneable {
 
     private CollectionSymbol huffmanCodeTable = new CollectionSymbol();
     private ModelEncoder modelEncoder = new ModelEncoder();
-
+    
     public JPEGImage() {
         width = 0;
         height = 0;
@@ -278,110 +284,12 @@ public class JPEGImage extends Image implements Cloneable {
         sos.addComponent(EnumComponentId.Cr, 2, 2);
         sos.write(out);   
         
-        //this.calculateBitsOfDC(this.modelEncoder.getLstHuffmanSymbol().get(0), this.modelEncoder.getLstDeltaDCCoefficientY());
-    	this.calculateBitsOfAC(this.modelEncoder.getLstHuffmanSymbol().get(1), this.modelEncoder.getLstRunLengthEncodedZickZackY());
-    	//this.calculateBitsOfDC(this.modelEncoder.getLstHuffmanSymbol().get(2), this.modelEncoder.getLstDeltaDCCoefficientCb());
-    	this.calculateBitsOfAC(this.modelEncoder.getLstHuffmanSymbol().get(3), this.modelEncoder.getLstRunLengthEncodedZickZackCb());
-    	//this.calculateBitsOfDC(this.modelEncoder.getLstHuffmanSymbol().get(4), this.modelEncoder.getLstDeltaDCCoefficientCr());
-    	this.calculateBitsOfAC(this.modelEncoder.getLstHuffmanSymbol().get(5), this.modelEncoder.getLstRunLengthEncodedZickZackCr());
-    	
-//        out.write(255);
-//
-//        out.write(255);
-    	
-    	for(Integer index = 0; index < this.modelEncoder.lstDeltaDCCoefficientY.size(); index++){
-        	Integer currentYDC = this.modelEncoder.getLstDeltaDCCoefficientY().get(index);
-        	Integer category = UtilityCalculateBitLength.calculate(currentYDC);
-    		List<Integer[]> currentYAC = this.modelEncoder.rleHuffmanCodesY.get(index);
-    		String currentYDCCode = this.modelEncoder.getLstHuffmanSymbol().get(0).get(currentYDC);
-    		out.writeValue(8,Integer.valueOf(currentYDCCode));
-    		out.write(Integer.valueOf(currentYDC));
-    		for(Integer[] ac : currentYAC){
-    			for(int acIndex = 0; acIndex < ac.length; acIndex+=2){
-    				Integer[] currentKey = new Integer[]{
-    						ac[acIndex],
-    						ac[acIndex+1]
-    				};
-    				String currentYACCode = this.modelEncoder.getLstHuffmanSymbol().get(1).get(currentKey);
-    				out.write(currentYACCode);
-    				out.write(ac[acIndex+1]);
-    			}
-    		}
-            if(index != 0 && index % 4 == 0){
-	            Integer currentCb = this.modelEncoder.lstDeltaDCCoefficientCb.get(0);
-	            category = UtilityCalculateBitLength.calculate(currentCb);
-	            String currentCBCode = this.modelEncoder.getLstHuffmanSymbol().get(2).get(category);
-	            this.modelEncoder.lstDeltaDCCoefficientCb.remove(currentCb);
-	            out.writeValue(8, Integer.valueOf(currentCBCode));
-	            out.write(currentCb);
-	            
-	            Integer[] currentCbAC = this.modelEncoder.rleHuffmanCodesCb.get(index).get(0);
-	            this.modelEncoder.rleHuffmanCodesCb.remove(0);
-	            for(int acIndex = 0; acIndex < currentCbAC.length; acIndex+=2){
-	            	Integer[] currentKey = new Integer[]{
-	            			currentCbAC[acIndex],
-	            			currentCbAC[acIndex+1]
-    				};
-    				String currentCbACCode = this.modelEncoder.getLstHuffmanSymbol().get(4).get(currentKey);
-    				out.write(currentCbACCode);
-    				out.write(currentCbAC[acIndex+1]);
-	            }
-	            
-	            
-	            Integer currentCr = this.modelEncoder.lstDeltaDCCoefficientCr.get(0);
-	            category = UtilityCalculateBitLength.calculate(currentCr);
-	            String currentCrCode = this.modelEncoder.getLstHuffmanSymbol().get(5).get(category);
-	            this.modelEncoder.lstDeltaDCCoefficientCr.remove(currentCr);
-	            out.writeValue(8, Integer.valueOf(currentCrCode));
-	            out.write(currentCr);
-	            
-	            Integer[] currentCrAC = this.modelEncoder.rleHuffmanCodesCr.get(index).get(0);
-	            this.modelEncoder.rleHuffmanCodesCr.remove(0);
-	            for(int acIndex = 0; acIndex < currentCrAC.length; acIndex+=2){
-	            	Integer[] currentKey = new Integer[]{
-	            			currentCrAC[acIndex],
-	            			currentCrAC[acIndex+1]
-    				};
-    				String currentCrACCode = this.modelEncoder.getLstHuffmanSymbol().get(6).get(currentKey);
-    				out.write(currentCrACCode);
-    				out.write(currentCrAC[acIndex+1]);
-	            }
-	            
-	            
-//	        	
-	        }
-            
-            
-//            if(index != 0 && index % 4 == 0){
-//	            CollectionSymbol collectionSymbolCbDc = 
-//	            
-//	            for(Map.Entry<Tree, String> currentEntry : ){
-//	            	Leaf leaf1 = (Leaf)currentEntry.getKey();
-//	            	out.write(leaf1.getValue().toString());
-//	            }
-//            }
-            index++;
-        }
-    	 for(Map.Entry<Tree, String> currentEntryOfYAC : this.modelEncoder.getLstHuffmanSymbol().get(0).entrySet()){
-         	Leaf leaf = (Leaf)currentEntryOfYAC.getKey();
-         	out.write(leaf.getValue().toString());
-         }
-        for(Map.Entry<Tree, String> currentEntry : this.modelEncoder.getLstHuffmanSymbol().get(1).entrySet()){
-        	out.write(currentEntry.getValue());
-        }
-        for(Map.Entry<Tree, String> currentEntry : this.modelEncoder.getLstHuffmanSymbol().get(2).entrySet()){
-        	Leaf leaf = (Leaf)currentEntry.getKey();
-        	out.write(leaf.getValue().toString());
-        }
-        for(Map.Entry<Tree, String> currentEntry : this.modelEncoder.getLstHuffmanSymbol().get(3).entrySet()){
-        	out.write(currentEntry.getValue());
-        }
-        for(Map.Entry<Tree, String> currentEntry : this.modelEncoder.getLstHuffmanSymbol().get(4).entrySet()){
-        	Leaf leaf = (Leaf)currentEntry.getKey();
-        	out.write(leaf.getValue().toString());
-        }
-        for(Map.Entry<Tree, String> currentEntry : this.modelEncoder.getLstHuffmanSymbol().get(5).entrySet()){
-        	out.write(currentEntry.getValue());
+        for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
+        	 for(ModelBlock blockY : modelGroupedBlock.getLstModelY()){
+        		 out.write(blockY.toString());
+        	 }
+        	 out.write(modelGroupedBlock.getModelCb().toString());
+        	 out.write(modelGroupedBlock.getModelCr().toString());
         }
         
         new EOI().write(out);
@@ -393,13 +301,9 @@ public class JPEGImage extends Image implements Cloneable {
        	
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
-    	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel);
-    	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel);
-    	Array2DRowRealMatrix pixelCrChannel = ConverterYCbCrToMatrixByColorchannel.convertCr(this.pixel);
-    	
-    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel);
-    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel);
-    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel);
+    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Y));
+    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Cb));
+    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(super.getReducedPixel().get(YCbCr.ColorChannelYCbCr.Cr));
     	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.JpegStdLuminance);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.JpegStdChrominance);
@@ -414,40 +318,43 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer> lstDCCoefficientY = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceY);
     	List<Integer> lstDCCoefficientCb = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceCb);
     	List<Integer> lstDCCoefficientCr = FilterMatrixByFirstElementOf8x8Block.filter(lstZickZackSequenceCr);
+  
+    	List<Integer> lstDeltaDCCoefficientY = CalculatorDelta.calculate(lstDCCoefficientY);
+    	List<Integer> lstDeltaDCCoefficientCb = CalculatorDelta.calculate(lstDCCoefficientCb);
+    	List<Integer> lstDeltaDCCoefficientCr = CalculatorDelta.calculate(lstDCCoefficientCr);
     	
-    	this.modelEncoder.lstDeltaDCCoefficientY = CalculatorDeltaCategory.calculate(lstDCCoefficientY);
-    	this.modelEncoder.lstDeltaDCCoefficientCb = CalculatorDeltaCategory.calculate(lstDCCoefficientCb);
-    	this.modelEncoder.lstDeltaDCCoefficientCr = CalculatorDeltaCategory.calculate(lstDCCoefficientCr);
+    	List<Integer> lstDeltaDCCoeffizientYByCategory = CalculatorCategoryByDelta.calculate(lstDeltaDCCoefficientY);
+    	List<Integer> lstDeltaDCCoeffizientCbByCategory = CalculatorCategoryByDelta.calculate(lstDeltaDCCoefficientCb);
+    	List<Integer> lstDeltaDCCoeffizientCrByCategory = CalculatorCategoryByDelta.calculate(lstDeltaDCCoefficientCr);
     	
-    	if(this.modelEncoder.lstDeltaDCCoefficientY.size() != lstDCCoefficientY.size()){
-    		throw new ExceptionInvalidParameter("die groesse der delta liste der dc koeffizienten muss gleich der groesse der dc koeffizienten sein");
-    	}
-    	
-    	encoder.encode(new LinkedList<Object>(this.modelEncoder.lstDeltaDCCoefficientY));
+    	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientYByCategory));
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeY = encoder.getPathCollection();
     	encoder = new EncoderHuffmanTree();
-    	encoder.encode(new LinkedList<Object>(this.modelEncoder.lstDeltaDCCoefficientCb));
+    	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientCbByCategory));
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeCb = encoder.getPathCollection();
     	encoder = new EncoderHuffmanTree();
-    	encoder.encode(new LinkedList<Object>(this.modelEncoder.lstDeltaDCCoefficientCr));
+    	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientCrByCategory));
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeCr = encoder.getPathCollection();
-    
+   
+    	this.fillModelOfDC(collectionSymbolOfDCTreeY, collectionSymbolOfDCTreeCb, collectionSymbolOfDCTreeCr, lstDeltaDCCoefficientY, lstDeltaDCCoefficientCb, lstDeltaDCCoefficientCr);
+    	
+    	
     	//ermitteln aller AC Koeffizienten
     	
-    	this.modelEncoder.lstRunLengthEncodedZickZackY = ConverterRunLengthEncoding.convert(lstZickZackSequenceY);
-    	this.modelEncoder.lstRunLengthEncodedZickZackCb = ConverterRunLengthEncoding.convert(lstZickZackSequenceCb);
-    	this.modelEncoder.lstRunLengthEncodedZickZackCr = ConverterRunLengthEncoding.convert(lstZickZackSequenceCr);
+    	List<Integer[]> lstRunLengthEncodedZickZackY = ConverterRunLengthEncoding.convert(lstZickZackSequenceY);
+    	List<Integer[]> lstRunLengthEncodedZickZackCb = ConverterRunLengthEncoding.convert(lstZickZackSequenceCb);
+    	List<Integer[]> lstRunLengthEncodedZickZackCr = ConverterRunLengthEncoding.convert(lstZickZackSequenceCr);
     	
-    	this.modelEncoder.rleHuffmanCodesY = FormatterRunLengthEncodingByCategory.format(this.modelEncoder.lstRunLengthEncodedZickZackY);
-    	this.modelEncoder.rleHuffmanCodesCb = FormatterRunLengthEncodingByCategory.format(this.modelEncoder.lstRunLengthEncodedZickZackCb);
-    	this.modelEncoder.rleHuffmanCodesCr = FormatterRunLengthEncodingByCategory.format(this.modelEncoder.lstRunLengthEncodedZickZackCr);
+    	List<List<Integer[]>> rleZickZackByCategoryY = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackY);
+    	List<List<Integer[]>> rleZickZackByCategoryCb = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCb);
+    	List<List<Integer[]>> rleZickZackByCategoryCr = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCr);
     	
     	//erstellen der huffman baeume zu den ac koeffizienten
     	
-    	if(this.modelEncoder.lstRunLengthEncodedZickZackY.size() != lstDCCoefficientY.size()){
+    	if(lstRunLengthEncodedZickZackY.size() != lstDCCoefficientY.size()){
     		throw new ExceptionInvalidParameter("die groesse der dc und ac koeffizienten sind nicht gleich");
     	}
     	
@@ -455,13 +362,13 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer[]> combinedRleHuffmanCodesCb = new LinkedList<Integer[]>();
     	List<Integer[]> combinedRleHuffmanCodesCr = new LinkedList<Integer[]>();
     	
-    	for(List<Integer[]> temp : this.modelEncoder.rleHuffmanCodesY ){
+    	for(List<Integer[]> temp : rleZickZackByCategoryY ){
     		combinedRleHuffmanCodesY.addAll(temp);
     	}
-    	for(List<Integer[]> temp : this.modelEncoder.rleHuffmanCodesCb ){
+    	for(List<Integer[]> temp : rleZickZackByCategoryCb ){
     		combinedRleHuffmanCodesCb.addAll(temp);
     	}
-    	for(List<Integer[]> temp : this.modelEncoder.rleHuffmanCodesCr ){
+    	for(List<Integer[]> temp : rleZickZackByCategoryCr ){
     		combinedRleHuffmanCodesCr.addAll(temp);
     	}
     	
@@ -476,38 +383,97 @@ public class JPEGImage extends Image implements Cloneable {
     	encoder.encodeJPEG(combinedRleHuffmanCodesCr);
     	CollectionSymbol collectionSymbolOfACTreeCr = encoder.getPathCollection();
     	encoder.getTree();
+    	
+    	this.fillModelOfAC(collectionSymbolOfACTreeY, collectionSymbolOfACTreeCb, collectionSymbolOfACTreeCr, lstRunLengthEncodedZickZackY, lstRunLengthEncodedZickZackCb, lstRunLengthEncodedZickZackCr);
   
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfDCTreeY);
-    	
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfACTreeY);
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfDCTreeCb);
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfACTreeCb);
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfDCTreeCr);
-    	this.getModelEncoder().getLstHuffmanSymbol().add(collectionSymbolOfACTreeCr);
-    	
 
-//    	StringBuffer bits = new StringBuffer();
-//    	
-//    	//bauen des ausgabe array fuer jeden block
-//    	for(int i = 0; i < lstDeltaDCCoefficientY.size(); i++){
-//    		bits.append(this.calculateBitsOfDCBlock(collectionSymbolOfDCTreeY, lstDeltaDCCoefficientY.get(i)));
-//    		bits.append(this.calculateBitsOfACBlock(collectionSymbolOfACTreeY, lstRunLengthEncodedZickZackY.get(i)));
-//    		if(i != 0 && (i%4) == 0){
-//    			bits.append(this.calculateBitsOfDCBlock(collectionSymbolOfDCTreeCb, lstDeltaDCCoefficientCb.get(i)));
-//    			bits.append(this.calculateBitsOfACBlock(collectionSymbolOfACTreeCb, lstRunLengthEncodedZickZackCb.get(i)));
-//    			bits.append(this.calculateBitsOfDCBlock(collectionSymbolOfDCTreeCr, lstDeltaDCCoefficientCr.get(i)));
-//    			bits.append(this.calculateBitsOfACBlock(collectionSymbolOfACTreeCr, lstRunLengthEncodedZickZackCr.get(i)));
-//    		}
-//    	}
-//    	
-//    	try {
-//			out.writeBit(bits.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-	}
+    	this.modelEncoder.getLstHuffmanSymbol().add(0,collectionSymbolOfDCTreeY);
+    	this.modelEncoder.getLstHuffmanSymbol().add(1,collectionSymbolOfACTreeY);
+    	this.modelEncoder.getLstHuffmanSymbol().add(2,collectionSymbolOfDCTreeCb);
+    	this.modelEncoder.getLstHuffmanSymbol().add(3,collectionSymbolOfACTreeCb);
+    	this.modelEncoder.getLstHuffmanSymbol().add(4,collectionSymbolOfDCTreeCr);
+    	this.modelEncoder.getLstHuffmanSymbol().add(5,collectionSymbolOfACTreeCr);
+    
+    }
 
     
+	private void fillModelOfAC(CollectionSymbol collectionSymbolOfACTreeY,
+			CollectionSymbol collectionSymbolOfACTreeCb,
+			CollectionSymbol collectionSymbolOfACTreeCr,
+			List<Integer[]> lstRunLengthEncodedZickZackY,
+			List<Integer[]> lstRunLengthEncodedZickZackCb,
+			List<Integer[]> lstRunLengthEncodedZickZackCr) {
+		
+		for(int rleIndex = 0; rleIndex < lstRunLengthEncodedZickZackY.size(); rleIndex++){
+			Integer[] key = new Integer[2];
+			ModelGroupedBlock modelGroupedBlock = this.modelEncoder.getLstModelGroupedBlock().get(rleIndex/4);
+			if(rleIndex == 0 || rleIndex % 4 == 0){
+				Integer[] currentRLEBlockCb = lstRunLengthEncodedZickZackCb.get(rleIndex / 4);
+				Integer[] currentRLEBlockCr = lstRunLengthEncodedZickZackCr.get(rleIndex / 4);				
+				for(int blockIndexCb = 0; blockIndexCb < currentRLEBlockCb.length; blockIndexCb+=2){	
+					ModelAC modelAC = new ModelAC();
+					key[0] = currentRLEBlockCb[blockIndexCb];
+					key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCb[blockIndexCb+1]);
+					modelAC.setKey(key);
+					modelAC.setCode(collectionSymbolOfACTreeCb.get(key));
+					modelAC.setValue(currentRLEBlockCb[blockIndexCb+1]);
+					modelGroupedBlock.getModelCb().getAc().add(modelAC);
+				}
+				for(int blockIndexCr = 0; blockIndexCr < currentRLEBlockCr.length; blockIndexCr+=2){
+					ModelAC modelAC = new ModelAC();
+					key[0] = currentRLEBlockCr[blockIndexCr];
+					key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCr[blockIndexCr+1]);
+					modelAC.setKey(key);
+					modelAC.setCode(collectionSymbolOfACTreeCr.get(key));
+					modelAC.setValue(currentRLEBlockCr[blockIndexCr+1]);
+					modelGroupedBlock.getModelCr().getAc().add(modelAC);
+				}
+			}
+			Integer[] currentRLEBlockY = lstRunLengthEncodedZickZackY.get(rleIndex);
+			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY.length; blockIndexY+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockY[blockIndexY];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY[blockIndexY+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
+				modelAC.setValue(currentRLEBlockY[blockIndexY+1]);
+				modelGroupedBlock.getLstModelY()[rleIndex%4].getAc().add(modelAC);
+			}
+		}
+	}
+	
+	private void fillModelOfDC(CollectionSymbol collectionSymbolOfDCTreeY,
+			CollectionSymbol collectionSymbolOfDCTreeCb,
+			CollectionSymbol collectionSymbolOfDCTreeCr,
+			List<Integer> lstDeltaDCCoefficientY,
+			List<Integer> lstDeltaDCCoefficientCb,
+			List<Integer> lstDeltaDCCoefficientCr) {
+		
+		ModelGroupedBlock groupedBlock = null;
+		
+		for(int index = 0; index < lstDeltaDCCoefficientY.size(); index++){
+			if(index == 0 || index % 4 == 0){
+				ModelGroupedBlock modelGroupedBlock = new ModelGroupedBlock();
+				ModelDC modelCbDC = new ModelDC(lstDeltaDCCoefficientCb.get(index / 4));
+				modelCbDC.setCode(collectionSymbolOfDCTreeCb.get(modelCbDC.calculateCategory()));
+				ModelDC modelCrDC = new ModelDC(lstDeltaDCCoefficientCr.get(index / 4));
+				modelCrDC.setCode(collectionSymbolOfDCTreeCr.get(modelCrDC.calculateCategory()));
+				ModelBlock modelBlockCb = new ModelBlock(modelCbDC);
+				ModelBlock modelBlockCr = new ModelBlock(modelCrDC);
+				modelGroupedBlock.setModelCb(modelBlockCb);
+				modelGroupedBlock.setModelCr(modelBlockCr);
+				this.modelEncoder.getLstModelGroupedBlock().add(modelGroupedBlock);
+				groupedBlock = modelGroupedBlock;
+			}
+			ModelDC modelDC = new ModelDC();
+			modelDC.setDelta(lstDeltaDCCoefficientY.get(index));
+			modelDC.setCode(collectionSymbolOfDCTreeY.get(modelDC.calculateCategory()));
+			ModelBlock modelBlockY = new ModelBlock(modelDC);
+			groupedBlock.getLstModelY()[index % 4] = modelBlockY;
+		}
+		
+	}
+
 	private CollectionSymbol calculateBitsOfDC(CollectionSymbol collectionSymbolOfDCTree, List<Integer> delta){
 		Map<Integer, String> buffer = new LinkedHashMap<Integer,String>();
 		for(Integer currentDelta : delta){
@@ -597,11 +563,4 @@ public class JPEGImage extends Image implements Cloneable {
         return colormodel.substring(colormodel.lastIndexOf(".") + 1, colormodel.length());
     }
 
-	public ModelEncoder getModelEncoder() {
-		return modelEncoder;
-	}
-
-	public void setModelEncoder(ModelEncoder modelEncoder) {
-		this.modelEncoder = modelEncoder;
-	}
 }

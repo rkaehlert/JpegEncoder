@@ -37,7 +37,12 @@ public class LoggerMap <T,V> implements Logger {
 		System.out.println("\n-------------------BEGINN--------------------------------- \n\n");
 		for(Map.Entry<Tree, String> entry : collectionSymbol.entrySet()){
 			Leaf leaf = (Leaf)entry.getKey();
-			System.out.println(leaf.getValue() + ":" + entry.getValue());
+			if(leaf.getValue() instanceof Integer[]){
+				Integer[] temp = (Integer[])leaf.getValue();
+				System.out.println("(" + temp[0].toString() + "," + temp[1].toString() + ")" + ":" + entry.getValue());
+			}else{
+				System.out.println(leaf.getValue() + ":" + entry.getValue());
+			}
 		}
 		System.out.println("\n-------------------ENDE--------------------------------- \n\n");
 	}

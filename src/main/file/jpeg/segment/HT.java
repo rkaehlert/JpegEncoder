@@ -11,22 +11,23 @@ import java.util.Map;
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumHTType;
 import main.file.stream.BitStream;
+import main.model.encoder.ModelHT;
 
 public class HT implements Marker {
 	
 	private byte[] information;
-	private LinkedHashMap<Integer, LinkedList<String>> symbols;
+	private LinkedHashMap<Integer, LinkedList<ModelHT>> symbols;
 	
 	public HT(){
 		this.information = new byte[3];
-		this.setSymbols(new LinkedHashMap<Integer, LinkedList<String>>());
+		this.setSymbols(new LinkedHashMap<Integer, LinkedList<ModelHT>>());
 	}
 	
-	public void addSymbol(int length, String code){
+	public void addSymbol(int length, ModelHT code){
 		if(this.validateLength(length) == true){
 			Integer key = length;
 			if(this.getSymbols().containsKey(key) == false){
-				LinkedList<String> lstBytes = new LinkedList<String>(Arrays.asList(code));
+				LinkedList<ModelHT> lstBytes = new LinkedList<ModelHT>(Arrays.asList(code));
 				this.getSymbols().put(key, lstBytes);
 			}else{
 				if(this.getSymbols().get(key).contains(code) == false){
@@ -51,11 +52,11 @@ public class HT implements Marker {
     	this.information = ht;
 	}
 
-	public LinkedHashMap<Integer, LinkedList<String>> getSymbols() {
+	public LinkedHashMap<Integer, LinkedList<ModelHT>> getSymbols() {
 		return symbols;
 	}
 
-	public void setSymbols(LinkedHashMap<Integer, LinkedList<String>> symbols) {
+	public void setSymbols(LinkedHashMap<Integer, LinkedList<ModelHT>> symbols) {
 		this.symbols = symbols;
 	}
 
@@ -65,7 +66,7 @@ public class HT implements Marker {
     	out.writeValue(1, this.getInformation()[0]);
 		out.writeValue(4, this.getInformation()[1]);
     	int index = 0;
-		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
+		for(Map.Entry<Integer, LinkedList<ModelHT>> currentEntry : this.getSymbols().entrySet()){
 			int difference = currentEntry.getKey()-index;
 			index += difference;
 			if(difference > 0){
@@ -77,25 +78,10 @@ public class HT implements Marker {
 			
     	}
 		out.write(new byte[16-index]);
-		for(Map.Entry<Integer, LinkedList<String>> currentEntry : this.getSymbols().entrySet()){
-			LinkedList<String> value = currentEntry.getValue();
-    		for(String currentByte : value){
-    			
-    			//out.write(Integer.parseInt(currentByte, 2));
-    			
-    			
-    			out.writeValue(8, Integer.valueOf(currentByte));
-//    			char[] bits = currentByte.toCharArray();
-//    			for(int i = 0; i < bits.length; i++){
-//    				if(bits[i] == '0'){
-//    					out.writeBit(0);
-//    				}else if(bits[i] == '1'){
-//    					out.writeBit(1);
-//    				}else{
-//    					System.out.println("fehler");
-//    				}
-//    			}
-//    			out.writeFillBits();
+		for(Map.Entry<Integer, LinkedList<ModelHT>> currentEntry : this.getSymbols().entrySet()){
+			LinkedList<ModelHT> value = currentEntry.getValue();
+    		for(ModelHT currentCode : value){
+    			out.write(currentCode.getValue());
     		}
     	}
 	}

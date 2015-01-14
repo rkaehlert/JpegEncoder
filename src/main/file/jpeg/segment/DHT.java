@@ -11,6 +11,7 @@ import main.file.jpeg.marker.EnumMarker;
 import main.file.jpeg.segment.enums.EnumComponentId;
 import main.file.jpeg.segment.enums.EnumHTType;
 import main.file.stream.BitStream;
+import main.model.encoder.ModelHT;
 import main.sort.SortCollectionSymbolByPathLength;
 
 public class DHT implements Marker {
@@ -43,12 +44,12 @@ public class DHT implements Marker {
 
 	public void addHT(EnumComponentId number, EnumHTType type, CollectionSymbol collectionSymbol) {
 		
-		Map<Integer, List<String>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
+		Map<Integer, List<ModelHT>> sortedByPathLength =  SortCollectionSymbolByPathLength.sort(collectionSymbol);
 		boolean first = true;
 		int index = 0;
 		
 		HT ht = null;
-		for(Map.Entry<Integer, List<String>> currentEntry : sortedByPathLength.entrySet()){
+		for(Map.Entry<Integer, List<ModelHT>> currentEntry : sortedByPathLength.entrySet()){
 			if(index % 16 == 0){
 				ht = new HT();
 				ht.setInformation(number, type);
@@ -57,7 +58,7 @@ public class DHT implements Marker {
 					first = false;
 				}
 			}
-			for(String currentValue : currentEntry.getValue()){
+			for(ModelHT currentValue : currentEntry.getValue()){
 				ht.addSymbol(currentEntry.getKey(), currentValue);
 			}
 			index++;
