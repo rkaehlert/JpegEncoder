@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import main.calculator.CalculatorDelta;
 
+import main.calculator.CalculatorDelta;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
@@ -45,6 +45,8 @@ import main.file.stream.SimpleBitWriter;
 import main.filter.FilterMatrixByFirstElementOf8x8Block;
 import main.formatter.FormatterRightGrowingTree;
 import main.formatter.FormatterRunLengthEncodingByCategory;
+import main.logger.LoggerBit;
+import main.logger.LoggerText;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
@@ -286,11 +288,19 @@ public class JPEGImage extends Image implements Cloneable {
         sos.write(out);   
         
         for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
+        	String yCode = "";
         	 for(ModelBlock blockY : modelGroupedBlock.getLstModelY()){
         		 out.write(blockY.toString());
+        		 yCode += blockY.toString();
         	 }
+        	 LoggerText.log("y block");
+    		 LoggerBit.log(yCode);
+        	 LoggerText.log("cb block");
         	 out.write(modelGroupedBlock.getModelCb().toString());
+        	 LoggerBit.log(modelGroupedBlock.getModelCb().toString());
+        	 LoggerText.log("cr block");    		 
         	 out.write(modelGroupedBlock.getModelCr().toString());
+        	 LoggerBit.log(modelGroupedBlock.getModelCr().toString());
         }
         
         new EOI().write(out);
