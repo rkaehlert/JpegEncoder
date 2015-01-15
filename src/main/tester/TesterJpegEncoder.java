@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
 import java.util.TreeMap;
-
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 import main.exception.image.ImageException;
 import main.exception.image.UnsupportedImageFormatException;
@@ -18,7 +15,6 @@ import main.filter.FilterReductionByStep;
 import main.logger.LoggerColormodel;
 import main.logger.LoggerTimer;
 import main.model.color.Colormodel;
-import main.model.color.YCbCr;
 import main.model.matrix.Coordinate;
 
 public class TesterJpegEncoder {
@@ -42,7 +38,7 @@ public class TesterJpegEncoder {
 
             timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_8.ppm"), 16, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("test_60.ppm"), 16, fillMode);
 
             image.convertToYCbCr();
             timeLogger.stop();
@@ -58,7 +54,7 @@ public class TesterJpegEncoder {
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
 
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\Robin\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
 
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {

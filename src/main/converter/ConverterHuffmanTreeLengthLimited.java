@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.encoder.huffman.EncoderHuffmanTree;
-import main.logger.LoggerMap;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
@@ -76,7 +75,6 @@ public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 				break;
 			}
 			tree = ConverterHuffmanTreeLengthLimited.convert(tree,  limit);
-			new LoggerMap().log(ConverterHuffmanTreeToCollectionSymbol.convert(tree));
 			maxReputation--;
 		}
 		return tree;

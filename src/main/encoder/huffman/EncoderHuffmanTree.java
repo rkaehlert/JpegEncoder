@@ -6,7 +6,6 @@ import java.util.List;
 import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.exception.huffmann.ExceptionEncoding;
 import main.logger.LoggerError;
-import main.logger.LoggerMap;
 import main.model.huffman.tree.Tree;
 
 public class EncoderHuffmanTree {
@@ -18,8 +17,6 @@ public class EncoderHuffmanTree {
 		this.values.clear();
 		this.values.addAll(values); 
 		this.tree = TreeFactory.create(this.values);
-	    LoggerMap<Tree,String> loggerMap = new LoggerMap<Tree,String>();
-	    loggerMap.log(this.getPathCollection());
 	}
 	
 	public CollectionSymbol getPathCollection(){

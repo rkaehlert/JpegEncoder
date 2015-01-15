@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-
 import main.exception.common.ExceptionInvalidParameter;
 import main.model.color.Colormodel;
 import main.model.color.YCbCr;
 import main.model.matrix.Coordinate;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class FilterReductionByStep extends Filter {
 	

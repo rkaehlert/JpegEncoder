@@ -50,8 +50,8 @@ public class SOF0 implements Marker {
         component.setQuantisizeTableNum((byte) quantizationTableNum);
         component.setSubSamplingFactor(subSamplingFactor);
         this.components.add(component);
-        this.calculateLength();
         component_count = (byte)this.components.size();
+        this.calculateLength();
     }
     
     @Override

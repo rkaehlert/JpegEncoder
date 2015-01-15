@@ -7,7 +7,6 @@ import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.exception.huffmann.ExceptionEqualIndexPosition;
 import main.exception.huffmann.ExceptionInvalidTreeSize;
 import main.formatter.FormatterRightGrowingTree;
-import main.logger.LoggerText;
 import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Node;
 import main.model.huffman.tree.Tree;
@@ -40,18 +39,12 @@ public class TreeFactory {
 				return null;
 			}
 			
-			LoggerText.log("die kleinsten gefundenen haeufigkeiten sind an position: " + indexOfTreeOne + " und " + indexOfTreeTwo);
-			
 			int frequency = treeOneWithLowestFrequency.getFrequency() + treeTwoWithLowestFrequency.getFrequency();
 			
 			Node node = new Node(treeOneWithLowestFrequency, treeTwoWithLowestFrequency, frequency);
 			
-			LoggerText.log("haeufigkeit des neuen knoten welcher durch die beiden knoten mit niedrigsten haeufigkeiten entstanden ist: " + frequency);
-			
 			collection.set(indexOfTreeOne, node);
 			collection.remove(indexOfTreeTwo);		
-
-			collection.print();
 			
 			return create(collection);
 		}

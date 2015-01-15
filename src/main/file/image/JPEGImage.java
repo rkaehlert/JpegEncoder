@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import main.calculator.CalculatorDelta;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
@@ -22,7 +20,6 @@ import main.converter.ConverterRGBToYCbCr;
 import main.converter.ConverterRunLengthEncoding;
 import main.converter.ConverterYCbCrToMatrixByColorchannel;
 import main.converter.datatype.ConverterStringToInteger;
-import main.converter.datatype.ConverterToBit;
 import main.converter.datatype.ConverterToByte;
 import main.converter.datatype.ConverterToDouble;
 import main.encoder.huffman.CollectionSymbol;
@@ -45,8 +42,6 @@ import main.file.stream.SimpleBitWriter;
 import main.filter.FilterMatrixByFirstElementOf8x8Block;
 import main.formatter.FormatterRightGrowingTree;
 import main.formatter.FormatterRunLengthEncodingByCategory;
-import main.logger.LoggerBit;
-import main.logger.LoggerText;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
@@ -54,9 +49,7 @@ import main.model.encoder.ModelAC;
 import main.model.encoder.ModelBlock;
 import main.model.encoder.ModelDC;
 import main.model.encoder.ModelEncoder;
-import main.model.encoder.ModelEncoderTemp;
 import main.model.encoder.ModelGroupedBlock;
-import main.model.huffman.tree.Leaf;
 import main.model.huffman.tree.Tree;
 import main.model.matrix.Coordinate;
 import main.model.quantization.JPEGQuantizationTable;
@@ -262,7 +255,7 @@ public class JPEGImage extends Image implements Cloneable {
         SOF0 sof0 = new SOF0();
         sof0.setHeight(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(height, 2));
         sof0.setWidth(ConverterToByte.convertPositiveIntToByteWithExactByteNumber(width, 2));
-        sof0.addComponent(EnumComponentId.Y, 0, EnumSubSampling.FACTOR_2);
+        sof0.addComponent(EnumComponentId.Y, 0, EnumSubSampling.NONE);
         sof0.addComponent(EnumComponentId.Cb, 1, EnumSubSampling.FACTOR_2);
         sof0.addComponent(EnumComponentId.Cr, 1, EnumSubSampling.FACTOR_2);
         sof0.write(out);
@@ -278,9 +271,6 @@ public class JPEGImage extends Image implements Cloneable {
         dht.addHT(EnumComponentId.Cr, EnumHTType.AC, this.modelEncoder.getLstHuffmanSymbol().get(5));
         dht.write(out);
         
-
-        this.modelEncoder.printHuffmanTable();
-        
     	SOS sos = new SOS();
         sos.addComponent(EnumComponentId.Y, 0, 0);
         sos.addComponent(EnumComponentId.Cb, 1, 1);
@@ -288,19 +278,7 @@ public class JPEGImage extends Image implements Cloneable {
         sos.write(out);   
         
         for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
-        	String yCode = "";
-        	 for(ModelBlock blockY : modelGroupedBlock.getLstModelY()){
-        		 out.write(blockY.toString());
-        		 yCode += blockY.toString();
-        	 }
-        	 LoggerText.log("y block");
-    		 LoggerBit.log(yCode);
-        	 LoggerText.log("cb block");
-        	 out.write(modelGroupedBlock.getModelCb().toString());
-        	 LoggerBit.log(modelGroupedBlock.getModelCb().toString());
-        	 LoggerText.log("cr block");    		 
-        	 out.write(modelGroupedBlock.getModelCr().toString());
-        	 LoggerBit.log(modelGroupedBlock.getModelCr().toString());
+        	out.write(modelGroupedBlock.toString());
         }
         
         new EOI().write(out);
@@ -416,6 +394,12 @@ public class JPEGImage extends Image implements Cloneable {
 			List<Integer[]> lstRunLengthEncodedZickZackY,
 			List<Integer[]> lstRunLengthEncodedZickZackCb,
 			List<Integer[]> lstRunLengthEncodedZickZackCr) {
+		
+//		System.out.println("test");
+//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeY);
+//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeCb);
+//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeCr);
+//		System.out.println("test");
 		
 		for(int rleIndex = 0; rleIndex < lstRunLengthEncodedZickZackY.size(); rleIndex++){
 			Integer[] key = new Integer[2];

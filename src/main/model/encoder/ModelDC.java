@@ -1,9 +1,7 @@
 package main.model.encoder;
 
 import main.calculator.UtilityCalculateBitLength;
-import main.converter.ConverterBigInteger;
 import main.converter.datatype.ConverterToBit;
-import main.exception.common.ExceptionNotYetImplemented;
 
 public class ModelDC {
 
@@ -16,10 +14,6 @@ public class ModelDC {
 	
 	public ModelDC(int delta){
 		this.delta = delta;
-	}
-	
-	public void calculateDeltaAsBit() throws ExceptionNotYetImplemented {
-		throw new ExceptionNotYetImplemented();
 	}
 	
 	public int calculateCategory() {

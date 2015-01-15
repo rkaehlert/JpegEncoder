@@ -10,7 +10,7 @@ public class LoggerMap <T,V> implements Logger {
 
 	public void log(Map<T,V> map){
 		StringBuffer returnValue = new StringBuffer();
-		returnValue.append("\n---------------------  inhalt der map: ---------------- \n\n");
+		returnValue.append("\n\n");
 		for(Map.Entry<T, V> entry : map.entrySet()) {
 			if(entry.getKey() instanceof Leaf){
 				Leaf leaf = (Leaf)entry.getKey();
@@ -29,12 +29,12 @@ public class LoggerMap <T,V> implements Logger {
 			}
 			returnValue = returnValue.append(" laenge: " + entry.getValue().toString().length() + "\n");
 		}
-		returnValue.append("\n------------------------------------- \n\n");
+		returnValue.append("\n\n");
 		LoggerText.log(returnValue.toString());
 	}
 
 	public void log(CollectionSymbol collectionSymbol) {
-		System.out.println("\n-------------------BEGINN--------------------------------- \n\n");
+		System.out.println("\n\n");
 		for(Map.Entry<Tree, String> entry : collectionSymbol.entrySet()){
 			Leaf leaf = (Leaf)entry.getKey();
 			if(leaf.getValue() instanceof Integer[]){
@@ -44,7 +44,7 @@ public class LoggerMap <T,V> implements Logger {
 				System.out.println(leaf.getValue() + ":" + entry.getValue());
 			}
 		}
-		System.out.println("\n-------------------ENDE--------------------------------- \n\n");
+		System.out.println("\n\n");
 	}
 	
 }

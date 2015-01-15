@@ -1,7 +1,5 @@
 package main.model.encoder;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModelGroupedBlock {
 

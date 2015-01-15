@@ -9,9 +9,6 @@ public class ConverterRunLengthEncoding {
 		List<Integer[]> output = new LinkedList<Integer[]>();
 		for(Integer[] current8x8Block : lstZickZackSequenceY){
 			int counter = 0;
-			current8x8Block = new Integer[]{
-					0,1,5,2,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
-			};
 			List<Integer> runLengthEncodedBlock = new LinkedList<Integer>();
 			for(int index = 1; index < current8x8Block.length; index++){
 				if(current8x8Block[index] == 0){
@@ -25,6 +22,7 @@ public class ConverterRunLengthEncoding {
 						if(eob == true){
 							runLengthEncodedBlock.add(0);
 							runLengthEncodedBlock.add(0);
+							counter = 0;
 							break;
 						}else{
 							runLengthEncodedBlock.add(counter);
