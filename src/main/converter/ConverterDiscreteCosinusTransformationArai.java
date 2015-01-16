@@ -11,21 +11,11 @@ public class ConverterDiscreteCosinusTransformationArai implements Converter {
     public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix, String channel) {
         List<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
 
-        if (channel == "Y") {
             for (Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
                 Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
                 output.add(matrix8x8);
             }
-        }
-        else if (channel == "Cb" || channel == "Cr") {
-            for (Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
-                Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
-
-                for (Array2DRowRealMatrix newmatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
-                    output.add(newmatrix);
-                }
-            }
-        }
+        
         return output;
     }
 

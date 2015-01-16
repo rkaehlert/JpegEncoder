@@ -38,23 +38,23 @@ public class TesterJpegEncoder {
 
             timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("test_112.ppm"), 16, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_16.ppm"), 16, fillMode);
 
             image.convertToYCbCr();
             timeLogger.stop();
-           // coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             System.out.println("\n");
             timeLogger.start();
 
             image.setReducedPixel(image.filter(new FilterReductionByStep(2, 2)));
 
             timeLogger.stop();
-            //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             timeLogger.log();
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
 
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
 
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {

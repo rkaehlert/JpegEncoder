@@ -42,6 +42,7 @@ import main.file.stream.SimpleBitWriter;
 import main.filter.FilterMatrixByFirstElementOf8x8Block;
 import main.formatter.FormatterRightGrowingTree;
 import main.formatter.FormatterRunLengthEncodingByCategory;
+import main.logger.LoggerMatrix;
 import main.model.color.Colormodel;
 import main.model.color.RGB;
 import main.model.color.YCbCr;
@@ -287,7 +288,8 @@ public class JPEGImage extends Image implements Cloneable {
     }
     
     public void writeData() {
-       	
+    	LoggerMatrix logger = new LoggerMatrix();
+    	
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
     	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.height, this.width);
@@ -297,6 +299,13 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel,"Y");
     	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel,"Cb");
     	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel,"Cr");
+    	
+    	System.out.println("Y");
+    	logger.log(dctYChannel);
+    	System.out.println("Cb");
+    	logger.log(dctCbChannel);
+    	System.out.println("Cr");
+    	logger.log(dctCrChannel);
     	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.JpegStdLuminance);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.JpegStdChrominance);

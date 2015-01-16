@@ -41,7 +41,7 @@ public class FilterReductionByStep extends Filter {
 				ycbcr = (YCbCr)entry.getValue();
 				
 				returnValue.get(YCbCr.ColorChannelYCbCr.Y).setEntry(coordinate.getX(), coordinate.getY(), ycbcr.getY());
-				ycbcr.getYChannel().reset();
+				//ycbcr.getYChannel().reset();
 				
 				if(!this.isValidCoordinate(coordinate)){
 					int col = (int)Math.floor(coordinate.getX() / 2);
