@@ -38,7 +38,7 @@ public class TesterJpegEncoder {
 
             timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("blue_16.ppm"), 16, fillMode);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("orange_16.ppm"), 16, fillMode);
 
             image.convertToYCbCr();
             timeLogger.stop();

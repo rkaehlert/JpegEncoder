@@ -300,13 +300,6 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel,"Cb");
     	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel,"Cr");
     	
-    	System.out.println("Y");
-    	logger.log(dctYChannel);
-    	System.out.println("Cb");
-    	logger.log(dctCbChannel);
-    	System.out.println("Cr");
-    	logger.log(dctCrChannel);
-    	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.JpegStdLuminance);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.JpegStdChrominance);
     	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.JpegStdChrominance);
