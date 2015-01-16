@@ -38,8 +38,8 @@ public class TesterJpegEncoder {
 
             timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("orange_16.ppm"), 16, fillMode);
-
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("square_16.ppm"), 16, 0);
+            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             image.convertToYCbCr();
             timeLogger.stop();
             coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);

@@ -8,7 +8,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
-    public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix, String channel) {
+    public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix) {
         List<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
 
             for (Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, 8)) {

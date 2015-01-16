@@ -45,8 +45,9 @@ public class ModelAC {
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(this.code);
-		
-		buffer.append(ConverterToBit.convert(this.value));
+		if(value != 0){		
+			buffer.append(ConverterToBit.convert(this.value));
+		}
 		return buffer.toString();
 	}
 

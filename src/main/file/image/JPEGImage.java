@@ -11,6 +11,7 @@ import java.util.Map;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
+import main.converter.ConverterDiscreteCosinusTransformation;
 import main.converter.ConverterDiscreteCosinusTransformationArai;
 import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToCollectionSymbol;
@@ -242,10 +243,10 @@ public class JPEGImage extends Image implements Cloneable {
 
         DQT dqt = new DQT();
         
-        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.JpegStdChrominance);
+        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.SonzDSCS40Crominance);
   		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
   		
-  		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.JpegStdLuminance);
+  		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.SonzDSCS40Luminance);
   		Array2DRowRealMatrix quantizationMatrixLuminance = new Array2DRowRealMatrix(jpegStdLuminance);
         
         dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixLuminance)));
@@ -278,10 +279,12 @@ public class JPEGImage extends Image implements Cloneable {
         sos.addComponent(EnumComponentId.Cr, 2, 2);
         sos.write(out);   
         
+        StringBuffer output = new StringBuffer();
         for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
-        	out.write(modelGroupedBlock.toString());
+        	output.append(modelGroupedBlock.toString());
         }
-        
+        output = new StringBuffer(output.toString().replace("11111111","1111111100000000"));
+        out.write(output.toString());
         new EOI().write(out);
         out.close();
 
@@ -292,17 +295,17 @@ public class JPEGImage extends Image implements Cloneable {
     	
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
-    	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.height, this.width);
-    	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel, this.height, this.width);
-    	Array2DRowRealMatrix pixelCrChannel = ConverterYCbCrToMatrixByColorchannel.convertCr(this.pixel, this.height, this.width);
+    	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.width, this.height);
+    	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel, this.width, this.height);
+    	Array2DRowRealMatrix pixelCrChannel = ConverterYCbCrToMatrixByColorchannel.convertCr(this.pixel, this.width, this.height);
     	
-    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel,"Y");
-    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel,"Cb");
-    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel,"Cr");
+    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel);
+    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel);
+    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel);
     	
-    	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.JpegStdLuminance);
-    	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.JpegStdChrominance);
-    	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.JpegStdChrominance);
+    	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.SonzDSCS40Luminance);
+    	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.SonzDSCS40Crominance);
+    	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.SonzDSCS40Crominance);
     	
     	List<Integer[]> lstZickZackSequenceY = ConverterMatrixToZickZackSequence.convert(quantizedYChannel);
     	List<Integer[]> lstZickZackSequenceCb = ConverterMatrixToZickZackSequence.convert(quantizedCbChannel);
@@ -322,7 +325,6 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer> lstDeltaDCCoeffizientCrByCategory = CalculatorCategoryByDelta.calculate(lstDeltaDCCoefficientCr);
     	
     	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientYByCategory));
-
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeY = encoder.getPathCollection();
     	encoder = new EncoderHuffmanTree();
@@ -333,6 +335,7 @@ public class JPEGImage extends Image implements Cloneable {
     	encoder.encode(new LinkedList<Object>(lstDeltaDCCoeffizientCrByCategory));
     	encoder.getTree();
     	CollectionSymbol collectionSymbolOfDCTreeCr = encoder.getPathCollection();
+    	
    
     	this.fillModelOfDC(collectionSymbolOfDCTreeY, collectionSymbolOfDCTreeCb, collectionSymbolOfDCTreeCr, lstDeltaDCCoefficientY, lstDeltaDCCoefficientCb, lstDeltaDCCoefficientCr);
     	

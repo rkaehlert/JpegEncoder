@@ -38,7 +38,13 @@ public class ModelDC {
 
 	@Override
 	public String toString(){
-		return this.code + ConverterToBit.convert(this.delta);
+		StringBuffer output = new StringBuffer();
+		output.append(this.code);
+		if(delta != 0){
+			output.append(ConverterToBit.convert(this.delta));
+		}
+		return output.toString();
+		
 	}
 	
 }

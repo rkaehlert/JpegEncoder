@@ -14,8 +14,8 @@ public class TesterJpegEncoder2 {
 
 	public static void main(String[] args){
 		try {
-			FileOutputStream stream = new FileOutputStream(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image2.jpeg"));
-			FileInputStream fis = new FileInputStream(new File(UtilityResourcePath.getPath("blue_8.png")));
+			FileOutputStream stream = new FileOutputStream(new File("C:\\Users\\Robin\\Desktop\\image.jpeg"));
+			FileInputStream fis = new FileInputStream(new File(UtilityResourcePath.getPath("test_112.ppm")));
 			BufferedImage bimg = ImageIO.read(fis);
 			JpegEncoder encoder = new JpegEncoder(bimg, 12, stream);
 			encoder.Compress();

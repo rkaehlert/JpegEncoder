@@ -22,7 +22,7 @@ public class ConverterYCbCrToMatrixByColorchannel {
         for (Map.Entry<Coordinate, Colormodel> currentEntry : pixel.entrySet()) {
             YCbCr ycbcr = (YCbCr) currentEntry.getValue();
             if (ycbcr.getY() != null) {
-                output.setEntry(currentEntry.getKey().getX(), currentEntry.getKey().getY(), ycbcr.getY());
+                output.setEntry(currentEntry.getKey().getY(), currentEntry.getKey().getX(), ycbcr.getY());
             }
         }
         return output;
@@ -33,7 +33,7 @@ public class ConverterYCbCrToMatrixByColorchannel {
         for (Map.Entry<Coordinate, Colormodel> currentEntry : pixel.entrySet()) {
             YCbCr ycbcr = (YCbCr) currentEntry.getValue();
             if (ycbcr.getCb() != null) {
-                output.setEntry(currentEntry.getKey().getX()/TesterJpegEncoder.subsample, currentEntry.getKey().getY()/TesterJpegEncoder.subsample, ycbcr.getCb());
+                output.setEntry(currentEntry.getKey().getY()/TesterJpegEncoder.subsample, currentEntry.getKey().getX()/TesterJpegEncoder.subsample, ycbcr.getCb());
             }
         }
         return output;
@@ -44,7 +44,7 @@ public class ConverterYCbCrToMatrixByColorchannel {
         for (Map.Entry<Coordinate, Colormodel> currentEntry : pixel.entrySet()) {
             YCbCr ycbcr = (YCbCr) currentEntry.getValue();
             if (ycbcr.getCr() != null) {
-                output.setEntry(currentEntry.getKey().getX()/TesterJpegEncoder.subsample, currentEntry.getKey().getY()/TesterJpegEncoder.subsample, ycbcr.getCr());
+                output.setEntry(currentEntry.getKey().getY()/TesterJpegEncoder.subsample, currentEntry.getKey().getX()/TesterJpegEncoder.subsample, ycbcr.getCr());
             }
         }
         return output;
