@@ -84,8 +84,6 @@ public class SimpleBitWriter implements BitStream
         }
         
         public void write(String bits){
-//    		byte[] bval = new BigInteger(bits, 2).toByteArray();
-//    		write(bval);
         	for(char bit : bits.toCharArray()){
         		if(bit == '0'){
             		writeBit(0);	

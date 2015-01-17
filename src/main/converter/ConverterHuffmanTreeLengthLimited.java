@@ -13,6 +13,8 @@ import main.validator.ValidatorEquals;
 
 public class ConverterHuffmanTreeLengthLimited implements Converter<Tree> {
 	
+	public static int LIMIT = 15;
+	
 	public static Tree convert(Tree tree, int limit){
 
 		// STEP ONE -- remove from T all its subtrees with root nodes at level L

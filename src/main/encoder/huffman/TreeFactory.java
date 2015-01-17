@@ -56,7 +56,7 @@ public class TreeFactory {
 		}
 		
 		if(collection.size() == 1){
-	        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(output, 11, 15);
+	        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(output, 11, ConverterHuffmanTreeLengthLimited.LIMIT);
 	        
 	        CollectionSymbol symbol = ConverterHuffmanTreeToCollectionSymbol.convert(lengthLimitedTree);
 	        symbol = symbol.sort();

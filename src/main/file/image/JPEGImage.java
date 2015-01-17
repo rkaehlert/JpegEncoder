@@ -280,11 +280,9 @@ public class JPEGImage extends Image implements Cloneable {
         
         StringBuffer output = new StringBuffer();
         for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
-        	output.append(modelGroupedBlock.toString());
+            out.write(modelGroupedBlock.toString());
         }
-        output = new StringBuffer(output.toString().replace("11111111","1111111100000000"));
-        out.write(output.toString());
-        out.writeOneFillBits();
+        //output = new StringBuffer(output.toString().replace("11111111","1111111100000000"));
         new EOI().write(out);
         out.close();
 
@@ -498,7 +496,7 @@ public class JPEGImage extends Image implements Cloneable {
         
         encoder.encode(liste);       
         
-        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 11, 15);
+        Tree lengthLimitedTree = ConverterHuffmanTreeLengthLimited.convert(encoder.getTree(), 11, ConverterHuffmanTreeLengthLimited.LIMIT);
         
         CollectionSymbol symbol = ConverterHuffmanTreeToCollectionSymbol.convert(lengthLimitedTree);
         symbol = symbol.sort();
