@@ -11,7 +11,6 @@ import java.util.Map;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
-import main.converter.ConverterDiscreteCosinusTransformation;
 import main.converter.ConverterDiscreteCosinusTransformationArai;
 import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToCollectionSymbol;
@@ -285,6 +284,7 @@ public class JPEGImage extends Image implements Cloneable {
         }
         output = new StringBuffer(output.toString().replace("11111111","1111111100000000"));
         out.write(output.toString());
+        out.writeOneFillBits();
         new EOI().write(out);
         out.close();
 

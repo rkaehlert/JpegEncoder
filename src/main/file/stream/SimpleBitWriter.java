@@ -16,34 +16,17 @@ import main.exception.common.ExceptionInvalidParameter;
  */
 public class SimpleBitWriter implements BitStream
 {
-
-        /** Output buffer */
         private FileOutputStream stream;
 
-        /** Buffer to store the bits */
         private int buffer;
 
-        /** Number of stored bits */
         private byte bufferLength = 0;
 
-        /**
-         * Constructor Creates a BitWriter with a standard buffer.
-         * @throws FileNotFoundException 
-         */
         public SimpleBitWriter(File file) throws FileNotFoundException
         {
                 this.stream = new FileOutputStream(file);
         }
 
-        /**
-         * Writes a byte to the buffer.
-         *
-         * @param val
-         *            an integer representing a full byte
-         *
-         * @throws EncodingException
-         *             if the value is out range
-         */
         public void write(final int val)
         {
 
@@ -59,14 +42,6 @@ public class SimpleBitWriter implements BitStream
 				}
         }
 
-        /**
-         * Writes a single bit to the buffer.
-         *
-         * @param bit
-         *            0 or 1
-         * @throws EncodingException
-         *             if the input is neither 0 nor 1.
-         */
         public void writeBit(final int bit)
         {
 
@@ -86,17 +61,6 @@ public class SimpleBitWriter implements BitStream
                 }
         }
 
-        /**
-         * Writes a positive integer to the buffer.
-         *
-         * @param length
-         *            the number of bits to write
-         * @param value
-         *            an integer value
-         *
-         * @throws EncodingException
-         *             if the length of the input is more than 31 bits.
-         */
         public void writeValue(final int length, final int value)
         {
                 if (length > 31) {
@@ -108,20 +72,10 @@ public class SimpleBitWriter implements BitStream
                 }
         }
 
-        /**
-         * Writes the byte array to the buffer. The currently used buffer will be
-         * filled with zero bits before is is written in front of the byte-array.
-         *
-         * @param bText
-         *            byte array
-         *
-         * @throws EncodingException
-         *             if the writing fails
-         */
         public void write(final byte[] bText)
         {
 
-                writeFillBits();
+                writeZeroFillBits();
 
                 int l = bText.length;
                 for (int i = 0; i < l; i++) {
@@ -143,21 +97,18 @@ public class SimpleBitWriter implements BitStream
         	}
         }
 
-        /**
-         * The currently used buffer will be filled with zero bits before is is
-         * written in the buffer.
-         *
-         * @throws EncodingException
-         *             if the writing fails
-         */
-        public void writeFillBits()
-        {
-
+        public void writeZeroFillBits(){
                 while (this.bufferLength != 0) {
-                        writeBit(0);
+                        writeBit(1);
                 }
-
                 this.buffer = 0;
+        }
+        
+        public void writeOneFillBits(){
+            while (this.bufferLength != 0) {
+                    writeBit(1);
+            }
+            this.buffer = 0;
         }
         
         public void close(){

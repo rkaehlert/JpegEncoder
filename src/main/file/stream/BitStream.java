@@ -7,7 +7,8 @@ public interface BitStream {
     public void write(final String bText);
     public void writeBit(final int bit);
     public void writeValue(final int length, final int value);
-    public void writeFillBits();
+    public void writeZeroFillBits();
+    public void writeOneFillBits();
     public void close();
 	
 }
