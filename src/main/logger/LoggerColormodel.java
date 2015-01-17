@@ -39,6 +39,7 @@ public class LoggerColormodel implements Logger
                 }
                 else if (entry.getValue() instanceof YCbCr)
                 {
+                	new LoggerCoordinate().log(entry.getKey());
                 	loggerYCbCr.log((YCbCr)entry.getValue());
             		
                 }
