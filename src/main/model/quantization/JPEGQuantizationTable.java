@@ -73,6 +73,6 @@ public class JPEGQuantizationTable {
         {12,12,12,12,12,12,12,12}};
     
 	
-	public static final int[][] DEFAULT_QT_LUMINANCE = SonzDSCS40Luminance;
-	public static final int[][] DEFAULT_QT_CHROMINANCE = SonzDSCS40Crominance;
+	public static final int[][] DEFAULT_QT_LUMINANCE = JpegStdLuminance;
+	public static final int[][] DEFAULT_QT_CHROMINANCE = JpegStdChrominance;
 }

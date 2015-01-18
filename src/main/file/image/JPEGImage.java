@@ -243,10 +243,10 @@ public class JPEGImage extends Image implements Cloneable {
 
         DQT dqt = new DQT();
         
-        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.SonzDSCS40Crominance);
+        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
   		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
   		
-  		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.SonzDSCS40Luminance);
+  		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
   		Array2DRowRealMatrix quantizationMatrixLuminance = new Array2DRowRealMatrix(jpegStdLuminance);
         
         dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixLuminance)));
@@ -305,9 +305,9 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel);
     	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel);
     	
-    	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.SonzDSCS40Luminance);
-    	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.SonzDSCS40Crominance);
-    	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.SonzDSCS40Crominance);
+    	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
+    	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
+    	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
     	
     	List<Integer[]> lstZickZackSequenceY = ConverterMatrixToZickZackSequence.convert(quantizedYChannel);
     	List<Integer[]> lstZickZackSequenceCb = ConverterMatrixToZickZackSequence.convert(quantizedCbChannel);
