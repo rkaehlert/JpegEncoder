@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import main.FormatterEscapeByByte;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
@@ -280,9 +281,12 @@ public class JPEGImage extends Image implements Cloneable {
         
         StringBuffer output = new StringBuffer();
         for(ModelGroupedBlock modelGroupedBlock : this.modelEncoder.getLstModelGroupedBlock()){
-            out.write(modelGroupedBlock.toString());
+            output.append(modelGroupedBlock.toString());
         }
-        //output = new StringBuffer(output.toString().replace("11111111","1111111100000000"));
+        
+        output = FormatterEscapeByByte.format("11111111", "1111111100000000", output);
+        
+        out.write(output.toString());
         new EOI().write(out);
         out.close();
 
