@@ -183,47 +183,49 @@ public class JPEGImage extends Image implements Cloneable {
         int randUnten = 0;
         RGB bottomRightPixel = (RGB) pixel.lastEntry().getValue();
 
-        randRechts = ((width % schrittweite) == 0) ? 0 : (schrittweite - (width % schrittweite));
-        if (0 <= randRechts) {
-            while (columnCounter < randRechts) {
-                for (int i = 0; i < height; i++) {
-                    if (fillmode == 1) {
-                        pixel.put(new Coordinate(width + columnCounter, i), pixel.get(new Coordinate(width - 1, i)));
-                    }
-                    else {
-                        pixel.put(new Coordinate(width + columnCounter, i), new RGB(fillmode, fillmode, fillmode));
-                    }
-                }
-                columnCounter++;
-            }
-        }
-
-        randUnten = ((height % schrittweite) == 0) ? 0 : (schrittweite - (height % schrittweite));
-        if (0 <= randUnten) {
-            while (rowCounter < randUnten) {
-                for (int i = 0; i < width + randRechts; i++) {
-                    if (i < width) {
-                        if (fillmode == 1) {
-                            pixel.put(new Coordinate(i, height + rowCounter), pixel.get(new Coordinate(i, height - 1)));
-                        }
-                        else {
-                            pixel.put(new Coordinate(i, height + rowCounter), new RGB(fillmode, fillmode, fillmode));
-                        }
-                    }
-                    else {
-                        if (fillmode == 1) {
-                            pixel.put(new Coordinate(i, height + rowCounter), bottomRightPixel);
-                        }
-                        else {
-                            pixel.put(new Coordinate(i, height + rowCounter), new RGB(fillmode, fillmode, fillmode));
-                        }
-
-                    }
-                }
-                rowCounter++;
-            }
-            height += randUnten;
-            width += randRechts;
+        if(schrittweite != 0){
+	        randRechts = ((width % schrittweite) == 0) ? 0 : (schrittweite - (width % schrittweite));
+	        if (0 <= randRechts) {
+	            while (columnCounter < randRechts) {
+	                for (int i = 0; i < height; i++) {
+	                    if (fillmode == 1) {
+	                        pixel.put(new Coordinate(width + columnCounter, i), pixel.get(new Coordinate(width - 1, i)));
+	                    }
+	                    else {
+	                        pixel.put(new Coordinate(width + columnCounter, i), new RGB(fillmode, fillmode, fillmode));
+	                    }
+	                }
+	                columnCounter++;
+	            }
+	        }
+	
+	        randUnten = ((height % schrittweite) == 0) ? 0 : (schrittweite - (height % schrittweite));
+	        if (0 <= randUnten) {
+	            while (rowCounter < randUnten) {
+	                for (int i = 0; i < width + randRechts; i++) {
+	                    if (i < width) {
+	                        if (fillmode == 1) {
+	                            pixel.put(new Coordinate(i, height + rowCounter), pixel.get(new Coordinate(i, height - 1)));
+	                        }
+	                        else {
+	                            pixel.put(new Coordinate(i, height + rowCounter), new RGB(fillmode, fillmode, fillmode));
+	                        }
+	                    }
+	                    else {
+	                        if (fillmode == 1) {
+	                            pixel.put(new Coordinate(i, height + rowCounter), bottomRightPixel);
+	                        }
+	                        else {
+	                            pixel.put(new Coordinate(i, height + rowCounter), new RGB(fillmode, fillmode, fillmode));
+	                        }
+	
+	                    }
+	                }
+	                rowCounter++;
+	            }
+	            height += randUnten;
+	            width += randRechts;
+	        }
         }
     }
 
