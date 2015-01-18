@@ -12,7 +12,7 @@ public class LoggerMatrix implements Logger {
 		NumberFormat formatter = new DecimalFormat("0.0000000");
 		for (int i = 0; i < matrix.getRowDimension(); i++) {
             for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                System.out.print(formatter.format(matrix.getEntry(i,j))+" ");
+                System.out.print("(" + i + "," + j + ") " + formatter.format(matrix.getEntry(i,j))+" ");
             }
             System.out.println();
         }

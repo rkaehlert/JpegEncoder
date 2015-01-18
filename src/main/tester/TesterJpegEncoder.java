@@ -36,24 +36,16 @@ public class TesterJpegEncoder {
             LoggerColormodel coordinateLogger = new LoggerColormodel();
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
-            //timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("test1.ppm"), 16, 0);
-            //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("form_32x24.ppm"), 16, 0);
+            
             image.convertToYCbCr();
-            //timeLogger.stop();
-//            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
-//            System.out.println("\n");
-//            timeLogger.start();
-
+            
             image.setReducedPixel(image.filter(new FilterReductionByStep(2, 2)));
 
-//            timeLogger.stop();
-//            coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
-//            timeLogger.log();
-
-            //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
-
+            
+           // new LoggerColormodel().log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+           
             image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
 
         }
