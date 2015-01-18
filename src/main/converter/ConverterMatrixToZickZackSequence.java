@@ -32,9 +32,9 @@ public class ConverterMatrixToZickZackSequence implements Converter {
 	}
 	
 	public static List<Integer[]> convert(List<Array2DRowRealMatrix> lstMatrix){
-		List<Integer[]> output = new LinkedList<Integer[]>();
+		LinkedList<Integer[]> output = new LinkedList<Integer[]>();
 		for(Array2DRowRealMatrix matrix : lstMatrix){
-			output.add(ConverterMatrixToZickZackSequence.convert(matrix));
+			output.addLast(ConverterMatrixToZickZackSequence.convert(matrix));
 		}
 		return output;
 	}

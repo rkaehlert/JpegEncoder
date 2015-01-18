@@ -2,18 +2,17 @@ package main.converter;
 
 import java.util.LinkedList;
 import java.util.List;
-import main.tester.TesterJpegEncoder;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class ConverterDiscreteCosinusTransformationArai implements Converter {
 
     public List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix matrix) {
-        List<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
+        LinkedList<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
 
             for (Array2DRowRealMatrix currentMatrix : ConverterMatrixToBlock.convert(matrix, 8)) {
                 Array2DRowRealMatrix matrix8x8 = this.convert8x8(currentMatrix);
-                output.add(matrix8x8);
+                output.addLast(matrix8x8);
             }
         
         return output;

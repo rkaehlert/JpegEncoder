@@ -7,18 +7,18 @@ import main.calculator.UtilityCalculateBitLength;
 
 public class FormatterRunLengthEncodingByCategory {
 
-	public static List<List<Integer[]>> format(List<Integer[]> dataToFormat){
-		List<List<Integer[]>> output = new LinkedList<List<Integer[]>>();
+	public static List<LinkedList<Integer[]>> format(List<Integer[]> dataToFormat){
+		LinkedList<LinkedList<Integer[]>> output = new LinkedList<LinkedList<Integer[]>>();
 		for(Integer[] currentData : dataToFormat){
-			List<Integer[]> lstFormattedData = new LinkedList<Integer[]>();
+			LinkedList<Integer[]> lstFormattedData = new LinkedList<Integer[]>();
 			for(int i = 0; i < currentData.length; i+=2 ){
 				Integer[] formattedData = new Integer[2];
 				formattedData[0] = currentData[i];
 				Integer value = currentData[i+1];
 				formattedData[1] = UtilityCalculateBitLength.calculate(value);
-				lstFormattedData.add(formattedData);
+				lstFormattedData.addLast(formattedData);
 			}
-			output.add(lstFormattedData);
+			output.addLast(lstFormattedData);
 		}
 		return output;
 	}

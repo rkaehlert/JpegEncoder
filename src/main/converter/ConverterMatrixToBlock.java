@@ -14,7 +14,7 @@ public class ConverterMatrixToBlock implements Converter {
 					if((i+blockSize) <= matrix.getRowDimension() && (j+blockSize) <= matrix.getColumnDimension()){
 						output.add((Array2DRowRealMatrix)matrix.getSubMatrix(i, i+blockSize-1, j, j+blockSize-1));
 					}else{
-						System.out.println("dei groesse des bildes ist nicht durch 8 teilbar. die restlichen pixel werden entfernt");
+						System.out.println("die groesse des bildes ist nicht durch 16 teilbar. die restlichen pixel werden entfernt");
 						return output;
 					}
 				}

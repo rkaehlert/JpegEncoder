@@ -26,9 +26,9 @@ public class ConverterMatrixByQuantizationTable implements Converter {
 	}
 	
 	public static List<Array2DRowRealMatrix> convert(Array2DRowRealMatrix quantizationTable, List<Array2DRowRealMatrix> matrix){
-		List<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
+		LinkedList<Array2DRowRealMatrix> output = new LinkedList<Array2DRowRealMatrix>();
 		for(Array2DRowRealMatrix currentMatrix : matrix){
-			output.add(ConverterMatrixByQuantizationTable.convert(quantizationTable, currentMatrix));
+			output.addLast(ConverterMatrixByQuantizationTable.convert(quantizationTable, currentMatrix));
 		}
 		return output;
 	}

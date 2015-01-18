@@ -350,9 +350,9 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Integer[]> lstRunLengthEncodedZickZackCb = ConverterRunLengthEncoding.convert(lstZickZackSequenceCb);
     	List<Integer[]> lstRunLengthEncodedZickZackCr = ConverterRunLengthEncoding.convert(lstZickZackSequenceCr);
     	
-    	List<List<Integer[]>> rleZickZackByCategoryY = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackY);
-    	List<List<Integer[]>> rleZickZackByCategoryCb = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCb);
-    	List<List<Integer[]>> rleZickZackByCategoryCr = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCr);
+    	List<LinkedList<Integer[]>> rleZickZackByCategoryY = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackY);
+    	List<LinkedList<Integer[]>> rleZickZackByCategoryCb = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCb);
+    	List<LinkedList<Integer[]>> rleZickZackByCategoryCr = FormatterRunLengthEncodingByCategory.format(lstRunLengthEncodedZickZackCr);
     	
     	//erstellen der huffman baeume zu den ac koeffizienten
     	
@@ -360,18 +360,24 @@ public class JPEGImage extends Image implements Cloneable {
     		throw new ExceptionInvalidParameter("die groesse der dc und ac koeffizienten sind nicht gleich");
     	}
     	
-    	List<Integer[]> combinedRleHuffmanCodesY = new LinkedList<Integer[]>();
-    	List<Integer[]> combinedRleHuffmanCodesCb = new LinkedList<Integer[]>();
-    	List<Integer[]> combinedRleHuffmanCodesCr = new LinkedList<Integer[]>();
+    	LinkedList<Integer[]> combinedRleHuffmanCodesY = new LinkedList<Integer[]>();
+    	LinkedList<Integer[]> combinedRleHuffmanCodesCb = new LinkedList<Integer[]>();
+    	LinkedList<Integer[]> combinedRleHuffmanCodesCr = new LinkedList<Integer[]>();
     	
     	for(List<Integer[]> temp : rleZickZackByCategoryY ){
-    		combinedRleHuffmanCodesY.addAll(temp);
+    		for(Integer[] currentTemp : temp){
+    			combinedRleHuffmanCodesY.addLast(currentTemp);
+    		}
     	}
     	for(List<Integer[]> temp : rleZickZackByCategoryCb ){
-    		combinedRleHuffmanCodesCb.addAll(temp);
+    		for(Integer[] currentTemp : temp){
+        		combinedRleHuffmanCodesCb.addLast(currentTemp);	
+    		}
     	}
     	for(List<Integer[]> temp : rleZickZackByCategoryCr ){
-    		combinedRleHuffmanCodesCr.addAll(temp);
+    		for(Integer[] currentTemp : temp){
+    			combinedRleHuffmanCodesCr.addLast(currentTemp);
+    		}
     	}
     	
     	encoder.encodeJPEG(combinedRleHuffmanCodesY);
