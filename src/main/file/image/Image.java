@@ -3,13 +3,13 @@ package main.file.image;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-
 import main.exception.common.ExceptionInvalidParameter;
 import main.filter.Filter;
 import main.model.color.Colormodel;
 import main.model.color.YCbCr;
 import main.model.matrix.Coordinate;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public abstract class Image {
 
@@ -25,7 +25,7 @@ public abstract class Image {
 
     public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> filter(Filter filter) {
         try {
-            return filter.filter(this.pixel, width, height);
+            return filter.filter(this.pixel, height, width);
         }
         catch (ExceptionInvalidParameter e) {
             e.printStackTrace();

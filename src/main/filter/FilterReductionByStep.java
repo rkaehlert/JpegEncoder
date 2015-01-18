@@ -25,11 +25,11 @@ public class FilterReductionByStep extends Filter {
 	}
 	
 	@Override
-	public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> filter(TreeMap<Coordinate, Colormodel> pixel, int size_x, int size_y) throws ExceptionInvalidParameter {
+	public HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> filter(TreeMap<Coordinate, Colormodel> pixel, int row_count, int column_count) throws ExceptionInvalidParameter {
 		HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix> returnValue = new HashMap<YCbCr.ColorChannelYCbCr, Array2DRowRealMatrix>();
-		returnValue.put(YCbCr.ColorChannelYCbCr.Y, new Array2DRowRealMatrix(size_x, size_y));
-		returnValue.put(YCbCr.ColorChannelYCbCr.Cb, new Array2DRowRealMatrix(size_x/2, size_y/2));
-		returnValue.put(YCbCr.ColorChannelYCbCr.Cr, new Array2DRowRealMatrix(size_x/2, size_y/2));
+		returnValue.put(YCbCr.ColorChannelYCbCr.Y, new Array2DRowRealMatrix(row_count, column_count));
+		returnValue.put(YCbCr.ColorChannelYCbCr.Cb, new Array2DRowRealMatrix(row_count/2, column_count/2));
+		returnValue.put(YCbCr.ColorChannelYCbCr.Cr, new Array2DRowRealMatrix(row_count/2, column_count/2));
 		if(pixel != null){
 			YCbCr ycbcr = null;
 			Coordinate coordinate = null;
@@ -40,7 +40,7 @@ public class FilterReductionByStep extends Filter {
 				coordinate = (Coordinate)entry.getKey();
 				ycbcr = (YCbCr)entry.getValue();
 				
-				returnValue.get(YCbCr.ColorChannelYCbCr.Y).setEntry(coordinate.getX(), coordinate.getY(), ycbcr.getY());
+				returnValue.get(YCbCr.ColorChannelYCbCr.Y).setEntry(coordinate.getY(), coordinate.getX(), ycbcr.getY());
 				//ycbcr.getYChannel().reset();
 				
 				if(!this.isValidCoordinate(coordinate)){

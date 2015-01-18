@@ -38,7 +38,7 @@ public class TesterJpegEncoder {
 
             //timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("circle_608.ppm"), 16, 0);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("test1.ppm"), 16, 0);
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             image.convertToYCbCr();
             //timeLogger.stop();
