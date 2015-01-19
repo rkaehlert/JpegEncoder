@@ -313,6 +313,42 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCbChannel);
     	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCrChannel);
     	
+    	for(Array2DRowRealMatrix matrix : dctYChannel){
+    		for(int row = 0; row < matrix.getRowDimension(); row++){
+    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+    				if(matrix.getEntry(row, col) > 255){
+    					matrix.setEntry(row, col, 255);
+    				}else if(matrix.getEntry(row, col) < 0){
+    					matrix.setEntry(row, col, 0);
+    				}
+    			}
+    		}
+    	}
+    	
+    	for(Array2DRowRealMatrix matrix : dctCbChannel){
+    		for(int row = 0; row < matrix.getRowDimension(); row++){
+    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+    				if(matrix.getEntry(row, col) > 255){
+    					matrix.setEntry(row, col, 255);
+    				}else if(matrix.getEntry(row, col) < 0){
+    					matrix.setEntry(row, col, 0);
+    				}
+    			}
+    		}
+    	}
+    	
+    	for(Array2DRowRealMatrix matrix : dctCrChannel){
+    		for(int row = 0; row < matrix.getRowDimension(); row++){
+    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+    				if(matrix.getEntry(row, col) > 150){
+    					matrix.setEntry(row, col, 255);
+    				}else if(matrix.getEntry(row, col) < 0){
+    					matrix.setEntry(row, col, 0);
+    				}
+    			}
+    		}
+    	}
+    	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
     	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
