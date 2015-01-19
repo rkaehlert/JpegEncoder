@@ -410,46 +410,96 @@ public class JPEGImage extends Image implements Cloneable {
 			List<Integer[]> lstRunLengthEncodedZickZackCb,
 			List<Integer[]> lstRunLengthEncodedZickZackCr) {
 		
-//		System.out.println("test");
-//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeY);
-//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeCb);
-//		new LoggerMap<Tree, String>().log(collectionSymbolOfACTreeCr);
-//		System.out.println("test");
+		int blockWidth = this.width/8;
+		int blockHeight = this.height/8;
 		
-		for(int rleIndex = 0; rleIndex < lstRunLengthEncodedZickZackY.size(); rleIndex++){
-			Integer[] key = new Integer[2];
-			ModelGroupedBlock modelGroupedBlock = this.modelEncoder.getLstModelGroupedBlock().get(rleIndex/4);
-			if(rleIndex == 0 || rleIndex % 4 == 0){
-				Integer[] currentRLEBlockCb = lstRunLengthEncodedZickZackCb.get(rleIndex / 4);
-				Integer[] currentRLEBlockCr = lstRunLengthEncodedZickZackCr.get(rleIndex / 4);				
-				for(int blockIndexCb = 0; blockIndexCb < currentRLEBlockCb.length; blockIndexCb+=2){	
-					ModelAC modelAC = new ModelAC();
-					key[0] = currentRLEBlockCb[blockIndexCb];
-					key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCb[blockIndexCb+1]);
-					modelAC.setKey(key);
-					modelAC.setCode(collectionSymbolOfACTreeCb.get(key));
-					modelAC.setValue(currentRLEBlockCb[blockIndexCb+1]);
-					modelGroupedBlock.getModelCb().getAc().add(modelAC);
-				}
-				for(int blockIndexCr = 0; blockIndexCr < currentRLEBlockCr.length; blockIndexCr+=2){
-					ModelAC modelAC = new ModelAC();
-					key[0] = currentRLEBlockCr[blockIndexCr];
-					key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCr[blockIndexCr+1]);
-					modelAC.setKey(key);
-					modelAC.setCode(collectionSymbolOfACTreeCr.get(key));
-					modelAC.setValue(currentRLEBlockCr[blockIndexCr+1]);
-					modelGroupedBlock.getModelCr().getAc().add(modelAC);
-				}
+		int yIndexCounter = 0;
+		int yIndex1 = -2;
+		int yIndex2 = 0;
+		int yIndex3 = 0;
+		int yIndex4 = 0;
+		
+		for(int rleIndex = 0; rleIndex < lstRunLengthEncodedZickZackY.size() / 4; rleIndex++){
+			if(yIndexCounter == blockWidth/2) {
+				yIndex1 = yIndex1 + blockWidth + 2;
+				yIndexCounter = 0;
 			}
-			Integer[] currentRLEBlockY = lstRunLengthEncodedZickZackY.get(rleIndex);
-			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY.length; blockIndexY+=2){
+			else {
+				yIndex1 += 2;
+				yIndexCounter++;
+			}
+			yIndex2 = yIndex1 + 1;
+			yIndex3 = yIndex1 + blockWidth;
+			yIndex4 = yIndex3 + 1;
+			
+			Integer[] key = new Integer[2];
+			ModelGroupedBlock modelGroupedBlock = this.modelEncoder.getLstModelGroupedBlock().get(rleIndex);
+			
+			Integer[] currentRLEBlockCb = lstRunLengthEncodedZickZackCb.get(rleIndex);
+			Integer[] currentRLEBlockCr = lstRunLengthEncodedZickZackCr.get(rleIndex);				
+			
+			for(int blockIndexCb = 0; blockIndexCb < currentRLEBlockCb.length; blockIndexCb+=2){	
 				ModelAC modelAC = new ModelAC();
-				key[0] = currentRLEBlockY[blockIndexY];
-				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY[blockIndexY+1]);
+				key[0] = currentRLEBlockCb[blockIndexCb];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCb[blockIndexCb+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeCb.get(key));
+				modelAC.setValue(currentRLEBlockCb[blockIndexCb+1]);
+				modelGroupedBlock.getModelCb().getAc().add(modelAC);
+			}
+			for(int blockIndexCr = 0; blockIndexCr < currentRLEBlockCr.length; blockIndexCr+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockCr[blockIndexCr];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockCr[blockIndexCr+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeCr.get(key));
+				modelAC.setValue(currentRLEBlockCr[blockIndexCr+1]);
+				modelGroupedBlock.getModelCr().getAc().add(modelAC);
+			}
+			
+			Integer[] currentRLEBlockY1 = lstRunLengthEncodedZickZackY.get(yIndex1);
+			Integer[] currentRLEBlockY2 = lstRunLengthEncodedZickZackY.get(yIndex2);
+			Integer[] currentRLEBlockY3 = lstRunLengthEncodedZickZackY.get(yIndex3);
+			Integer[] currentRLEBlockY4 = lstRunLengthEncodedZickZackY.get(yIndex4);
+				
+			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY1.length; blockIndexY+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockY1[blockIndexY];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY1[blockIndexY+1]);
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
-				modelAC.setValue(currentRLEBlockY[blockIndexY+1]);
-				modelGroupedBlock.getLstModelY()[rleIndex%4].getAc().add(modelAC);
+				modelAC.setValue(currentRLEBlockY1[blockIndexY+1]);
+				modelGroupedBlock.getLstModelY()[0].getAc().add(modelAC);
+			}
+				
+			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY2.length; blockIndexY+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockY2[blockIndexY];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY2[blockIndexY+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
+				modelAC.setValue(currentRLEBlockY2[blockIndexY+1]);
+				modelGroupedBlock.getLstModelY()[1].getAc().add(modelAC);
+			}
+				
+			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY3.length; blockIndexY+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockY3[blockIndexY];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY3[blockIndexY+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
+				modelAC.setValue(currentRLEBlockY3[blockIndexY+1]);
+				modelGroupedBlock.getLstModelY()[2].getAc().add(modelAC);
+			}
+				
+			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY4.length; blockIndexY+=2){
+				ModelAC modelAC = new ModelAC();
+				key[0] = currentRLEBlockY4[blockIndexY];
+				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY4[blockIndexY+1]);
+				modelAC.setKey(key);
+				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
+				modelAC.setValue(currentRLEBlockY4[blockIndexY+1]);
+				modelGroupedBlock.getLstModelY()[3].getAc().add(modelAC);
 			}
 		}
 	}
@@ -460,30 +510,66 @@ public class JPEGImage extends Image implements Cloneable {
 			List<Integer> lstDeltaDCCoefficientY,
 			List<Integer> lstDeltaDCCoefficientCb,
 			List<Integer> lstDeltaDCCoefficientCr) {
+				
+		int blockWidth = this.width/8;
+		int blockHeight = this.height/8;
 		
-		ModelGroupedBlock groupedBlock = null;
+		int yIndexCounter = 0;
+		int yIndex1 = -2;
+		int yIndex2 = 0;
+		int yIndex3 = 0;
+		int yIndex4 = 0;
 		
-		for(int index = 0; index < lstDeltaDCCoefficientY.size(); index++){
-			if(index == 0 || index % 4 == 0){
-				ModelGroupedBlock modelGroupedBlock = new ModelGroupedBlock();
-				ModelDC modelCbDC = new ModelDC(lstDeltaDCCoefficientCb.get(index / 4));
-				modelCbDC.setCode(collectionSymbolOfDCTreeCb.get(modelCbDC.calculateCategory()));
-				ModelDC modelCrDC = new ModelDC(lstDeltaDCCoefficientCr.get(index / 4));
-				modelCrDC.setCode(collectionSymbolOfDCTreeCr.get(modelCrDC.calculateCategory()));
-				ModelBlock modelBlockCb = new ModelBlock(modelCbDC);
-				ModelBlock modelBlockCr = new ModelBlock(modelCrDC);
-				modelGroupedBlock.setModelCb(modelBlockCb);
-				modelGroupedBlock.setModelCr(modelBlockCr);
-				this.modelEncoder.getLstModelGroupedBlock().add(modelGroupedBlock);
-				groupedBlock = modelGroupedBlock;
+		for(int index = 0; index < lstDeltaDCCoefficientY.size() / 4; index++){
+			if(yIndexCounter == blockWidth/2) {
+				yIndex1 = yIndex1 + blockWidth + 2;
+				yIndexCounter = 0;
 			}
-			ModelDC modelDC = new ModelDC();
-			modelDC.setDelta(lstDeltaDCCoefficientY.get(index));
-			modelDC.setCode(collectionSymbolOfDCTreeY.get(modelDC.calculateCategory()));
-			ModelBlock modelBlockY = new ModelBlock(modelDC);
-			groupedBlock.getLstModelY()[index % 4] = modelBlockY;
+			else {
+				yIndex1 += 2;
+				yIndexCounter++;
+			}
+			yIndex2 = yIndex1 + 1;
+			yIndex3 = yIndex1 + blockWidth;
+			yIndex4 = yIndex3 + 1;
+			
+			ModelGroupedBlock modelGroupedBlock = new ModelGroupedBlock();
+			ModelDC modelCbDC = new ModelDC(lstDeltaDCCoefficientCb.get(index));
+			modelCbDC.setCode(collectionSymbolOfDCTreeCb.get(modelCbDC.calculateCategory()));
+			ModelDC modelCrDC = new ModelDC(lstDeltaDCCoefficientCr.get(index));
+			modelCrDC.setCode(collectionSymbolOfDCTreeCr.get(modelCrDC.calculateCategory()));
+			ModelBlock modelBlockCb = new ModelBlock(modelCbDC);
+			ModelBlock modelBlockCr = new ModelBlock(modelCrDC);
+			modelGroupedBlock.setModelCb(modelBlockCb);
+			modelGroupedBlock.setModelCr(modelBlockCr);
+			
+			ModelDC modelDC1 = new ModelDC();
+			ModelDC modelDC2 = new ModelDC();
+			ModelDC modelDC3 = new ModelDC();
+			ModelDC modelDC4 = new ModelDC();
+				
+			modelDC1.setDelta(lstDeltaDCCoefficientY.get(yIndex1));
+			modelDC2.setDelta(lstDeltaDCCoefficientY.get(yIndex2));
+			modelDC3.setDelta(lstDeltaDCCoefficientY.get(yIndex3));
+			modelDC4.setDelta(lstDeltaDCCoefficientY.get(yIndex4));
+				
+			modelDC1.setCode(collectionSymbolOfDCTreeY.get(modelDC1.calculateCategory()));
+			modelDC2.setCode(collectionSymbolOfDCTreeY.get(modelDC2.calculateCategory()));
+			modelDC3.setCode(collectionSymbolOfDCTreeY.get(modelDC3.calculateCategory()));
+			modelDC4.setCode(collectionSymbolOfDCTreeY.get(modelDC4.calculateCategory()));
+				
+			ModelBlock modelBlockY1 = new ModelBlock(modelDC1);
+			ModelBlock modelBlockY2 = new ModelBlock(modelDC2);
+			ModelBlock modelBlockY3 = new ModelBlock(modelDC3);
+			ModelBlock modelBlockY4 = new ModelBlock(modelDC4);
+				
+			modelGroupedBlock.getLstModelY()[0] = modelBlockY1;
+			modelGroupedBlock.getLstModelY()[1] = modelBlockY2;
+			modelGroupedBlock.getLstModelY()[2] = modelBlockY3;
+			modelGroupedBlock.getLstModelY()[3] = modelBlockY4;
+			
+			this.modelEncoder.getLstModelGroupedBlock().add(modelGroupedBlock);
 		}
-		
 	}
     
     public List<Array2DRowRealMatrix> createQuantizationTable(List<Array2DRowRealMatrix> dct8x8Matrix, int[][] quantizationTable){

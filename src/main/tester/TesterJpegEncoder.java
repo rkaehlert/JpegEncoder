@@ -38,7 +38,7 @@ public class TesterJpegEncoder {
 
             //timeLogger.start();
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("test1.ppm"), 16, 0);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("square_40.ppm"), 16, 1);
             //coordinateLogger.log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
             image.convertToYCbCr();
             //timeLogger.stop();
@@ -54,7 +54,7 @@ public class TesterJpegEncoder {
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg");
 
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
 
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {
