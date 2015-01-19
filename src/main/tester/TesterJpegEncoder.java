@@ -37,7 +37,7 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("form_32x24.ppm"), 16, 0);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("form_800x608.ppm"), 16, 0);
             
             image.convertToYCbCr();
             

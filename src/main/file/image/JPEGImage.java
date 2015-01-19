@@ -245,11 +245,11 @@ public class JPEGImage extends Image implements Cloneable {
 
         DQT dqt = new DQT();
         
-        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
-  		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
-  		
   		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
   		Array2DRowRealMatrix quantizationMatrixLuminance = new Array2DRowRealMatrix(jpegStdLuminance);
+        
+        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
+  		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
         
         dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixLuminance)));
         dqt.addQT(EnumDestinationIdentifier.CBCR, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixChrominance)));
