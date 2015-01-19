@@ -12,7 +12,7 @@ import main.FormatterEscapeByByte;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
-import main.converter.ConverterDiscreteCosinusTransformationArai;
+import main.converter.ConverterDiscreteCosinusTransformation;
 import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.converter.ConverterMatrixByQuantizationTable;
@@ -245,11 +245,11 @@ public class JPEGImage extends Image implements Cloneable {
 
         DQT dqt = new DQT();
         
-        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
-  		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
-  		
   		double[][] jpegStdLuminance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
   		Array2DRowRealMatrix quantizationMatrixLuminance = new Array2DRowRealMatrix(jpegStdLuminance);
+        
+        double[][] jpegStdChrominance = ConverterToDouble.convert(JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
+  		Array2DRowRealMatrix quantizationMatrixChrominance = new Array2DRowRealMatrix(jpegStdChrominance);
         
         dqt.addQT(EnumDestinationIdentifier.Y, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixLuminance)));
         dqt.addQT(EnumDestinationIdentifier.CBCR, ConverterToByte.convert(new ConverterMatrixToZickZackSequence().convert(quantizationMatrixChrominance)));
@@ -300,12 +300,18 @@ public class JPEGImage extends Image implements Cloneable {
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
     	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.width, this.height);
+    	//LoggerMatrix.log(pixelYChannel);
+    	
     	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel, this.width, this.height);
+    	//LoggerMatrix.log(pixelCbChannel);
+    	
     	Array2DRowRealMatrix pixelCrChannel = ConverterYCbCrToMatrixByColorchannel.convertCr(this.pixel, this.width, this.height);
     	
-    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel);
-    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel);
-    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel);
+    	//LoggerMatrix.log(pixelYChannel);
+    	
+    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformation().convert(pixelYChannel);
+    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCbChannel);
+    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCrChannel);
     	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
