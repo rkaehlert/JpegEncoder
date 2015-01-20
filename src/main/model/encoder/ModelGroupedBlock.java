@@ -6,6 +6,8 @@ import main.logger.LoggerModelGroupedBlock;
 
 public class ModelGroupedBlock {
 
+	int id = 0;
+	
 	private ModelBlock[] lstModelY = new ModelBlock[4];
 	private ModelBlock modelCb;
 	private ModelBlock modelCr;
@@ -38,11 +40,20 @@ public class ModelGroupedBlock {
 		StringBuffer output = new StringBuffer();
 		LoggerModelGroupedBlock.log(this);
 		for(ModelBlock modelBlockY : lstModelY){
+			System.out.println("logge block:"+  modelBlockY.getId());
 			output.append(modelBlockY.toString());
 		}
 		output.append(modelCb.toString());
 		output.append(modelCr.toString());
 		return output.toString();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

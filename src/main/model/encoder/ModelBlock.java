@@ -1,12 +1,13 @@
 package main.model.encoder;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class ModelBlock {
 
+	int id = 0;
+	
 	private ModelDC dc;
-	private List<ModelAC> ac = new LinkedList<ModelAC>();
+	private LinkedList<ModelAC> ac = new LinkedList<ModelAC>();
 	
 	public ModelBlock(){
 		
@@ -23,11 +24,11 @@ public class ModelBlock {
 		this.dc = dc;
 	}
 
-	public List<ModelAC> getAc() {
+	public LinkedList<ModelAC> getAc() {
 		return ac;
 	}
 
-	public void setAc(List<ModelAC> ac) {
+	public void setAc(LinkedList<ModelAC> ac) {
 		this.ac = ac;
 	}
 	
@@ -39,6 +40,14 @@ public class ModelBlock {
 			buffer.append(modelAC.toString());
 		}
 		return buffer.toString();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

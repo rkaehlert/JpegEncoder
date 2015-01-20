@@ -5,6 +5,8 @@ import main.converter.datatype.ConverterToBit;
 
 public class ModelDC {
 
+	int id = 0;
+	
 	private String code;
 	private int delta;
 	
@@ -45,6 +47,14 @@ public class ModelDC {
 		}
 		return output.toString();
 		
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

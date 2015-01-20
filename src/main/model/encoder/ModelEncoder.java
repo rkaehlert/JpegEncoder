@@ -1,6 +1,5 @@
 package main.model.encoder;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,13 +11,13 @@ public class ModelEncoder {
 
 	private List<CollectionSymbol> lstHuffmanSymbol = new LinkedList<CollectionSymbol>();
 	
-	private List<ModelGroupedBlock> lstModelGroupedBlock = new ArrayList<ModelGroupedBlock>();
+	private LinkedList<ModelGroupedBlock> lstModelGroupedBlock = new LinkedList<ModelGroupedBlock>();
 
-	public List<ModelGroupedBlock> getLstModelGroupedBlock() {
+	public LinkedList<ModelGroupedBlock> getLstModelGroupedBlock() {
 		return lstModelGroupedBlock;
 	}
 
-	public void setLstModelGroupedBlock(List<ModelGroupedBlock> lstModelGroupedBlock) {
+	public void setLstModelGroupedBlock(LinkedList<ModelGroupedBlock> lstModelGroupedBlock) {
 		this.lstModelGroupedBlock = lstModelGroupedBlock;
 	}
 

@@ -46,7 +46,7 @@ public class TesterJpegEncoder {
             
            // new LoggerColormodel().log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
            
-            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\robin\\Desktop\\image.jpeg")));
+            image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
 
         }
         catch (UnsupportedImageFormatException | ImageException | IOException ex) {

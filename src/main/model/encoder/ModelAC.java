@@ -6,6 +6,8 @@ import main.exception.common.ExceptionNotYetImplemented;
 
 public class ModelAC {
 
+	int id = 0;
+	
 	private String code;
 	private Integer[] key;
 	private Integer value;
@@ -57,6 +59,14 @@ public class ModelAC {
 
 	public void setValue(Integer value) {
 		this.value = value;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	

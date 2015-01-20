@@ -44,7 +44,7 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr> {
         }
         return returnValue;
     }
-
+    
     public static YCbCr getYCbCr( int red, int green, int blue )
     {
     	
@@ -57,6 +57,5 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr> {
         yCbCr.setCb(new ColorChannel<Integer>((int)(0.5 + ( blue - yCbCr.getY() ) * 0.5)));
         yCbCr.setCr(new ColorChannel<Integer>((int)(0.5 + ( red  - yCbCr.getY()) * 0.625)));
         return yCbCr;
-    }
-
+    }    
 }

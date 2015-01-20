@@ -313,41 +313,42 @@ public class JPEGImage extends Image implements Cloneable {
     	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCbChannel);
     	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCrChannel);
     	
-    	for(Array2DRowRealMatrix matrix : dctYChannel){
-    		for(int row = 0; row < matrix.getRowDimension(); row++){
-    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-    				if(matrix.getEntry(row, col) > 255){
-    					matrix.setEntry(row, col, 255);
-    				}else if(matrix.getEntry(row, col) < 0){
-    					matrix.setEntry(row, col, 0);
-    				}
-    			}
-    		}
-    	}
-    	
-    	for(Array2DRowRealMatrix matrix : dctCbChannel){
-    		for(int row = 0; row < matrix.getRowDimension(); row++){
-    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-    				if(matrix.getEntry(row, col) > 255){
-    					matrix.setEntry(row, col, 255);
-    				}else if(matrix.getEntry(row, col) < 0){
-    					matrix.setEntry(row, col, 0);
-    				}
-    			}
-    		}
-    	}
-    	
-    	for(Array2DRowRealMatrix matrix : dctCrChannel){
-    		for(int row = 0; row < matrix.getRowDimension(); row++){
-    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-    				if(matrix.getEntry(row, col) > 150){
-    					matrix.setEntry(row, col, 255);
-    				}else if(matrix.getEntry(row, col) < 0){
-    					matrix.setEntry(row, col, 0);
-    				}
-    			}
-    		}
-    	}
+//    	for(Array2DRowRealMatrix matrix : dctYChannel){
+//    		for(int row = 0; row < matrix.getRowDimension(); row++){
+//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+//    				if(matrix.getEntry(row, col) > 255){
+//    					matrix.setEntry(row, col, 255);
+//    				}else if(matrix.getEntry(row, col) < 0){
+//    					matrix.setEntry(row, col, 0);
+//    				}
+//    			}
+//    		}
+//    	}
+////    	
+//    	
+//    	for(Array2DRowRealMatrix matrix : dctCbChannel){
+//    		for(int row = 0; row < matrix.getRowDimension(); row++){
+//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+//    				if(matrix.getEntry(row, col) > 255){
+//    					matrix.setEntry(row, col, 255);
+//    				}else if(matrix.getEntry(row, col) < 0){
+//    					matrix.setEntry(row, col, 0);
+//    				}
+//    			}
+//    		}
+//    	}
+//    	
+//    	for(Array2DRowRealMatrix matrix : dctCrChannel){
+//    		for(int row = 0; row < matrix.getRowDimension(); row++){
+//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
+//    				if(matrix.getEntry(row, col) > 255){
+//    					matrix.setEntry(row, col, 255);
+//    				}else if(matrix.getEntry(row, col) < 0){
+//    					matrix.setEntry(row, col, 0);
+//    				}
+//    			}
+//    		}
+//    	}
     	
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
@@ -487,7 +488,7 @@ public class JPEGImage extends Image implements Cloneable {
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeCb.get(key));
 				modelAC.setValue(currentRLEBlockCb[blockIndexCb+1]);
-				modelGroupedBlock.getModelCb().getAc().add(modelAC);
+				modelGroupedBlock.getModelCb().getAc().addLast(modelAC);
 			}
 			for(int blockIndexCr = 0; blockIndexCr < currentRLEBlockCr.length; blockIndexCr+=2){
 				ModelAC modelAC = new ModelAC();
@@ -496,7 +497,7 @@ public class JPEGImage extends Image implements Cloneable {
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeCr.get(key));
 				modelAC.setValue(currentRLEBlockCr[blockIndexCr+1]);
-				modelGroupedBlock.getModelCr().getAc().add(modelAC);
+				modelGroupedBlock.getModelCr().getAc().addLast(modelAC);
 			}
 			
 			Integer[] currentRLEBlockY1 = lstRunLengthEncodedZickZackY.get(yIndex1);
@@ -511,7 +512,8 @@ public class JPEGImage extends Image implements Cloneable {
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
 				modelAC.setValue(currentRLEBlockY1[blockIndexY+1]);
-				modelGroupedBlock.getLstModelY()[0].getAc().add(modelAC);
+				modelAC.setId(yIndex1);
+				modelGroupedBlock.getLstModelY()[0].getAc().addLast(modelAC);
 			}
 				
 			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY2.length; blockIndexY+=2){
@@ -521,7 +523,8 @@ public class JPEGImage extends Image implements Cloneable {
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
 				modelAC.setValue(currentRLEBlockY2[blockIndexY+1]);
-				modelGroupedBlock.getLstModelY()[1].getAc().add(modelAC);
+				modelAC.setId(yIndex2);
+				modelGroupedBlock.getLstModelY()[1].getAc().addLast(modelAC);
 			}
 				
 			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY3.length; blockIndexY+=2){
@@ -530,8 +533,9 @@ public class JPEGImage extends Image implements Cloneable {
 				key[1] = UtilityCalculateBitLength.calculate(currentRLEBlockY3[blockIndexY+1]);
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
+				modelAC.setId(yIndex3);
 				modelAC.setValue(currentRLEBlockY3[blockIndexY+1]);
-				modelGroupedBlock.getLstModelY()[2].getAc().add(modelAC);
+				modelGroupedBlock.getLstModelY()[2].getAc().addLast(modelAC);
 			}
 				
 			for(int blockIndexY = 0; blockIndexY < currentRLEBlockY4.length; blockIndexY+=2){
@@ -541,7 +545,8 @@ public class JPEGImage extends Image implements Cloneable {
 				modelAC.setKey(key);
 				modelAC.setCode(collectionSymbolOfACTreeY.get(key));
 				modelAC.setValue(currentRLEBlockY4[blockIndexY+1]);
-				modelGroupedBlock.getLstModelY()[3].getAc().add(modelAC);
+				modelAC.setId(yIndex4);
+				modelGroupedBlock.getLstModelY()[3].getAc().addLast(modelAC);
 			}
 		}
 	}
@@ -576,12 +581,17 @@ public class JPEGImage extends Image implements Cloneable {
 			yIndex4 = yIndex3 + 1;
 			
 			ModelGroupedBlock modelGroupedBlock = new ModelGroupedBlock();
+			modelGroupedBlock.setId(index);
 			ModelDC modelCbDC = new ModelDC(lstDeltaDCCoefficientCb.get(index));
+			modelCbDC.setId(index);
 			modelCbDC.setCode(collectionSymbolOfDCTreeCb.get(modelCbDC.calculateCategory()));
 			ModelDC modelCrDC = new ModelDC(lstDeltaDCCoefficientCr.get(index));
 			modelCrDC.setCode(collectionSymbolOfDCTreeCr.get(modelCrDC.calculateCategory()));
+			modelCrDC.setId(index);
 			ModelBlock modelBlockCb = new ModelBlock(modelCbDC);
+			modelBlockCb.setId(index);
 			ModelBlock modelBlockCr = new ModelBlock(modelCrDC);
+			modelBlockCr.setId(index);
 			modelGroupedBlock.setModelCb(modelBlockCb);
 			modelGroupedBlock.setModelCr(modelBlockCr);
 			
@@ -600,17 +610,26 @@ public class JPEGImage extends Image implements Cloneable {
 			modelDC3.setCode(collectionSymbolOfDCTreeY.get(modelDC3.calculateCategory()));
 			modelDC4.setCode(collectionSymbolOfDCTreeY.get(modelDC4.calculateCategory()));
 				
+			modelDC1.setId(yIndex1);
+			modelDC2.setId(yIndex2);
+			modelDC3.setId(yIndex3);
+			modelDC4.setId(yIndex4);
+			
 			ModelBlock modelBlockY1 = new ModelBlock(modelDC1);
+			modelBlockY1.setId(yIndex1);
 			ModelBlock modelBlockY2 = new ModelBlock(modelDC2);
+			modelBlockY2.setId(yIndex2);
 			ModelBlock modelBlockY3 = new ModelBlock(modelDC3);
+			modelBlockY3.setId(yIndex3);
 			ModelBlock modelBlockY4 = new ModelBlock(modelDC4);
-				
+			modelBlockY4.setId(yIndex4);	
+			
 			modelGroupedBlock.getLstModelY()[0] = modelBlockY1;
 			modelGroupedBlock.getLstModelY()[1] = modelBlockY2;
 			modelGroupedBlock.getLstModelY()[2] = modelBlockY3;
 			modelGroupedBlock.getLstModelY()[3] = modelBlockY4;
 			
-			this.modelEncoder.getLstModelGroupedBlock().add(modelGroupedBlock);
+			this.modelEncoder.getLstModelGroupedBlock().addLast(modelGroupedBlock);
 		}
 	}
     
