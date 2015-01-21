@@ -10,12 +10,17 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 public class ConverterMatrixByQuantizationTable implements Converter {
 
+	public static double QUANTISATION_FACTOR = 1;
+	
 	public static Array2DRowRealMatrix convert(Array2DRowRealMatrix quantizationTable, Array2DRowRealMatrix matrix){
 		Array2DRowRealMatrix output = null;
 		if(quantizationTable.getColumnDimension() == matrix.getColumnDimension() && quantizationTable.getRowDimension() == matrix.getRowDimension()){
 			output = new Array2DRowRealMatrix(quantizationTable.getRowDimension(), quantizationTable.getColumnDimension());
 			for(int row = 0; row < quantizationTable.getRowDimension(); row++){
 				double[] quantizationRow = quantizationTable.getRow(row);
+				for(int index = 0; index < quantizationRow.length; index++){
+					quantizationRow[index] = (int)(quantizationRow[index] * QUANTISATION_FACTOR);
+				}
 				double[] matrixRow = matrix.getRow(row);
 				output.setRow(row, UtilityArrayDivision.divide(matrixRow, quantizationRow));
 			}
