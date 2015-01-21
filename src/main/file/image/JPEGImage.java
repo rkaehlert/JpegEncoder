@@ -12,7 +12,7 @@ import main.FormatterEscapeByByte;
 import main.calculator.CalculatorCategoryByDelta;
 import main.calculator.CalculatorDelta;
 import main.calculator.UtilityCalculateBitLength;
-import main.converter.ConverterDiscreteCosinusTransformation;
+import main.converter.ConverterDiscreteCosinusTransformationArai;
 import main.converter.ConverterHuffmanTreeLengthLimited;
 import main.converter.ConverterHuffmanTreeToCollectionSymbol;
 import main.converter.ConverterMatrixByQuantizationTable;
@@ -78,7 +78,7 @@ public class JPEGImage extends Image implements Cloneable {
     public JPEGImage(String src, int schrittweite, int fillmode) throws UnsupportedImageFormatException, ImageException, IOException {
         this();
         readPPMImageFromFile(src);
-        addBorderBasedOnStepSize(schrittweite, fillmode);
+       // addBorderBasedOnStepSize(schrittweite, fillmode);
     }
 
     private void readPPMImageFromFile(String sourceFile) throws UnsupportedImageFormatException, ImageException, IOException {
@@ -185,7 +185,7 @@ public class JPEGImage extends Image implements Cloneable {
 
         if(schrittweite != 0){
 	        randRechts = ((width % schrittweite) == 0) ? 0 : (schrittweite - (width % schrittweite));
-	        if (0 <= randRechts) {
+	        if (0 <= randRechts && randRechts != 0) {
 	            while (columnCounter < randRechts) {
 	                for (int i = 0; i < height; i++) {
 	                    if (fillmode == 1) {
@@ -200,7 +200,7 @@ public class JPEGImage extends Image implements Cloneable {
 	        }
 	
 	        randUnten = ((height % schrittweite) == 0) ? 0 : (schrittweite - (height % schrittweite));
-	        if (0 <= randUnten) {
+	        if (0 <= randUnten && randUnten != 0) {
 	            while (rowCounter < randUnten) {
 	                for (int i = 0; i < width + randRechts; i++) {
 	                    if (i < width) {
@@ -300,7 +300,7 @@ public class JPEGImage extends Image implements Cloneable {
     	EncoderHuffmanTree encoder = new EncoderHuffmanTree();
     	
     	Array2DRowRealMatrix pixelYChannel = ConverterYCbCrToMatrixByColorchannel.convertY(this.pixel, this.width, this.height);
-    	//LoggerMatrix.log(pixelYChannel);
+    	LoggerMatrix.log(pixelYChannel);
     	
     	Array2DRowRealMatrix pixelCbChannel = ConverterYCbCrToMatrixByColorchannel.convertCb(this.pixel, this.width, this.height);
     	//LoggerMatrix.log(pixelCbChannel);
@@ -309,47 +309,11 @@ public class JPEGImage extends Image implements Cloneable {
     	
     	//LoggerMatrix.log(pixelYChannel);
     	
-    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformation().convert(pixelYChannel);
-    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCbChannel);
-    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformation().convert(pixelCrChannel);
-    	
-//    	for(Array2DRowRealMatrix matrix : dctYChannel){
-//    		for(int row = 0; row < matrix.getRowDimension(); row++){
-//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-//    				if(matrix.getEntry(row, col) > 255){
-//    					matrix.setEntry(row, col, 255);
-//    				}else if(matrix.getEntry(row, col) < 0){
-//    					matrix.setEntry(row, col, 0);
-//    				}
-//    			}
-//    		}
-//    	}
-////    	
-//    	
-//    	for(Array2DRowRealMatrix matrix : dctCbChannel){
-//    		for(int row = 0; row < matrix.getRowDimension(); row++){
-//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-//    				if(matrix.getEntry(row, col) > 255){
-//    					matrix.setEntry(row, col, 255);
-//    				}else if(matrix.getEntry(row, col) < 0){
-//    					matrix.setEntry(row, col, 0);
-//    				}
-//    			}
-//    		}
-//    	}
-//    	
-//    	for(Array2DRowRealMatrix matrix : dctCrChannel){
-//    		for(int row = 0; row < matrix.getRowDimension(); row++){
-//    			for(int col = 0; col < matrix.getColumnDimension(); col++){
-//    				if(matrix.getEntry(row, col) > 255){
-//    					matrix.setEntry(row, col, 255);
-//    				}else if(matrix.getEntry(row, col) < 0){
-//    					matrix.setEntry(row, col, 0);
-//    				}
-//    			}
-//    		}
-//    	}
-    	
+    	   	
+    	List<Array2DRowRealMatrix> dctYChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelYChannel);
+    	List<Array2DRowRealMatrix> dctCbChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCbChannel);
+    	List<Array2DRowRealMatrix> dctCrChannel = new ConverterDiscreteCosinusTransformationArai().convert(pixelCrChannel);
+
     	List<Array2DRowRealMatrix> quantizedYChannel = this.createQuantizationTable(dctYChannel, JPEGQuantizationTable.DEFAULT_QT_LUMINANCE);
     	List<Array2DRowRealMatrix> quantizedCbChannel = this.createQuantizationTable(dctCbChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
     	List<Array2DRowRealMatrix> quantizedCrChannel = this.createQuantizationTable(dctCrChannel, JPEGQuantizationTable.DEFAULT_QT_CHROMINANCE);
