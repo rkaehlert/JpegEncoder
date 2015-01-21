@@ -27,12 +27,12 @@ public class ConverterRGBToYCbCr implements Converter<YCbCr> {
 //                    ycbcr.setCb(new ColorChannel<Integer>(128 + (int)((-0.1687 * rgb.getRed()) + (-0.3312 * rgb.getGreen()) + (0.5 * rgb.getBlue()))));
 //                    ycbcr.setCr(new ColorChannel<Integer>(128 + (int)((0.5 * rgb.getRed()) + (-0.4186 * rgb.getGreen()) + (-0.0813 * rgb.getBlue()))));
                     
-                    ycbcr.setY(new ColorChannel<Integer>((int)((0.299 * rgb.getRed()) + (0.587 * rgb.getGreen()) + (0.114 * rgb.getBlue()))-128));
-                    ycbcr.setCb(new ColorChannel<Integer>((int)((-0.1687 * rgb.getRed()) + (-0.3312 * rgb.getGreen()) + (0.5 * rgb.getBlue())-128)));
-                    ycbcr.setCr(new ColorChannel<Integer>((int)((0.5 * rgb.getRed()) + (-0.4186 * rgb.getGreen()) + (-0.0813 * rgb.getBlue()))-128));
+//                    ycbcr.setY(new ColorChannel<Integer>((int)((0.299 * rgb.getRed()) + (0.587 * rgb.getGreen()) + (0.114 * rgb.getBlue()))-128));
+//                    ycbcr.setCb(new ColorChannel<Integer>((int)((-0.1687 * rgb.getRed()) + (-0.3312 * rgb.getGreen()) + (0.5 * rgb.getBlue())-128)));
+//                    ycbcr.setCr(new ColorChannel<Integer>((int)((0.5 * rgb.getRed()) + (-0.4186 * rgb.getGreen()) + (-0.0813 * rgb.getBlue()))-128));
                     
                     
-//                    ycbcr = ConverterRGBToYCbCr.getYCbCr(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
+                    ycbcr = ConverterRGBToYCbCr.getYCbCr(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
                     
                     ycbcr.getYChannel().setReduced(REDUCED_Y_CHANNEL);
                     ycbcr.getCrChannel().setReduced(REDUCED_CR_CHANNEL);
