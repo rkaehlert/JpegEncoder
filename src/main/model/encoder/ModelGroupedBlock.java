@@ -1,6 +1,5 @@
 package main.model.encoder;
 
-import main.logger.LoggerModelGroupedBlock;
 
 
 
@@ -38,9 +37,8 @@ public class ModelGroupedBlock {
 	
 	public String toString(){
 		StringBuffer output = new StringBuffer();
-		LoggerModelGroupedBlock.log(this);
+		//LoggerModelGroupedBlock.log(this);
 		for(ModelBlock modelBlockY : lstModelY){
-			System.out.println("logge block:"+  modelBlockY.getId());
 			output.append(modelBlockY.toString());
 		}
 		output.append(modelCb.toString());

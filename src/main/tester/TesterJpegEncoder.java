@@ -37,14 +37,14 @@ public class TesterJpegEncoder {
             TreeMap<Coordinate, Colormodel> filteredPixel;
 
 
-            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("form_800x608.ppm"), 16, 0);
+            JPEGImage image = new JPEGImage(UtilityResourcePath.getPath("form_80x80.ppm"), 16, 1);
                         
             image.convertToYCbCr();
             
             image.setReducedPixel(image.filter(new FilterReductionByStep(2, 2)));
 
             
-           // new LoggerColormodel().log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
+            //new LoggerColormodel().log(image.getPixel(), image.getColormodel(), image.getWidth(), image.getHeight(), true);
            
             image.writeToFile(new SimpleBitWriter(new File("C:\\Users\\xSmorpheusSx\\Desktop\\image.jpeg")));
 
